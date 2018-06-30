@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:400,700');
+@import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
+
+$font-title : 'Comfortaa', cursive;
+$font-sans-serif : 'Open Sans', sans-serif;
+
+@mixin text-title {
+  font-size: 2rem;
+  font-family: 'Open Sans', sans-serif;
+}
+
+@mixin text-normal {
+  font-size: 1rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+$grey : #F2F7FF;
+$selected : #D1375B;
+$mirage : #191A2A;
+
+.draggable-region{
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  -webkit-app-region: drag
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  float: left;
+  width: 100%;
+  padding: 3rem 2rem;
+  .title {
+    font-size: 2rem;
+    font-family: $font-title;
+    padding-bottom: 1rem;
+    color: white;
+  }
+  [contenteditable] {
+    color: #666;
+    caret-color: red;
+  }
+  .task-list {
+    position: relative;
+    overflow: hidden;
+    .task-list-item {
+      position: relative;
+      overflow: hidden;
+      padding: 1rem;
+      color: white;
+      font-family: $font-sans-serif;
+      .item-time {
+        font-weight: 500;
+        display: inline-block;
+      }
+      .item-title {
+        display: inline-block;
+        font-weight: 300;
+      }
+    }
+  }
+  .add-task {
+    background: transparent;
+    padding: 1rem;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    &::placeholder {
+      color : $selected;
+    }
+    &:focus {
+      &::placeholder {
+        color : transparent;
+      }
+    }
+  }
+}
