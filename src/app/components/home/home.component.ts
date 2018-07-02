@@ -23,11 +23,8 @@ export class HomeComponent implements OnInit {
      * Update the current task items from the list
      */
     getCurrentList() {
-        // We'll try/catch it in case the file doesn't exist yet, which will be the case on the first application run.
-        // `fs.readFileSync` will return a JSON string which we then parse into a Javascript object
         try {
             this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
-            console.log( this.data );
         } catch (error) {
             // if there was some kind of error, return the passed in defaults instead.
             console.log( 'there seems to be an issue getting the current data' );
@@ -38,11 +35,10 @@ export class HomeComponent implements OnInit {
         if ( !task ) {
             return false;
         }
+        clearInterval( this.currentInterval );
         this.currentTaskID = task.id;
         if ( task.isActive ) {
             task.isActive = false;
-            clearInterval( this.currentInterval );
-            console.log( this.data );
             this.updateData();
         } else {
             task.isActive = true;
@@ -50,11 +46,20 @@ export class HomeComponent implements OnInit {
             task.startTime = this.currentTaskStartTime;
             this.currentInterval = setInterval( () => this.updateTask(task), 1000 );
         }
-
     }
 
     updateTask( task ) {
-        task.time --;
+        task.elapsed ++;
+        if ( task.elapsed === task.time ) {
+            clearInterval( this.currentInterval );
+            task.isComplete = true;
+        }
+        if ( task.elapsed > task.time ) {
+            task.elapsed = task.time;
+            clearInterval( this.currentInterval );
+        }
+        task.progress = ( (task.elapsed)/( task.time) ) * 100;
+        this.updateData();
     }
 
     clearTask() {
@@ -64,6 +69,26 @@ export class HomeComponent implements OnInit {
 
     updateData() {
         this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
+    }
+
+    markItemComplete( task ) {
+        task.isTicked = true;
+        this.updateData();
+    }
+
+    sanitizeData() {
+        for ( let todo of this.data ) {
+            if ( todo.elapsed === null || todo.elapsed === undefined ) {
+                todo.elapsed = 0;
+                console.log( todo.elapsed );
+            } else if ( todo.elapsed > todo.time ) {
+                todo.elapsed = todo.time;
+            } else if ( todo.elapsed < 0 ) {
+                todo.elapsed = 0;
+            } else {
+                // Do nothing
+            }
+        }
     }
 
     addTask( inputString: String ) {
@@ -78,7 +103,7 @@ export class HomeComponent implements OnInit {
         this.data.push({
             id: taskID,
             time : parseInt( time, 10 ),
-            remaining: parseInt( time, 10 ),
+            elapsed: 0,
             name : task
         });
         this.updateData();
@@ -86,6 +111,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.getCurrentList();
+        this.sanitizeData();
         this.updateData();
   }
 

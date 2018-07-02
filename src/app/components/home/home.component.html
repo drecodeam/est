@@ -5,11 +5,18 @@
     <div class="task-list">
         <div class="task-list-item"
              *ngFor="let item of data"
-             data-id="{{item.id}}"
+             [id]="item.id"
              (click)="activateTask(item)"
+             [class.ticked] = "!!item.isTicked"
         >
-            <div class="item-time">{{item.time}}m |</div>
+            <div class="item-time">{{item.time - item.elapsed}}m |</div>
             <div class="item-title">{{item.name}}</div>
+            <div class="done-icon"
+                 *ngIf="item.isComplete == true"
+                 (click)="markItemComplete( item )">
+                <i class="ion ion-ios-checkmark-circle"></i>
+            </div>
+            <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
     </div>
     <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+add a new text" #todo>

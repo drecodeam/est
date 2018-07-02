@@ -1,22 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:300,400,700');
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
 
 $font-title : 'Comfortaa', cursive;
 $font-sans-serif : 'Open Sans', sans-serif;
 
-@mixin text-title {
-  font-size: 2rem;
-  font-family: 'Open Sans', sans-serif;
-}
-
-@mixin text-normal {
-  font-size: 1rem;
-  font-family: 'IBM Plex Sans', sans-serif;
-}
-
 $grey : #F2F7FF;
 $selected : #D1375B;
-$mirage : #191A2A;
+$mirage : #0F041E;
 
 .draggable-region{
   position: relative;
@@ -46,19 +36,71 @@ $mirage : #191A2A;
   .task-list {
     position: relative;
     overflow: hidden;
+    font-family: $font-sans-serif;
     .task-list-item {
       position: relative;
       overflow: hidden;
       padding: 1rem;
       color: white;
       font-family: $font-sans-serif;
+      transition: 0.4s all ease-in-out;
+      border-radius: 6px;
+      line-height: 1.5rem;
+      .done-icon {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        padding-right: 0.5rem;
+        font-size: 1.25rem;
+        vertical-align: top;
+        line-height: 1.5rem;
+        float: right;
+        transition: 0.4s all ease-in-out;
+        opacity: 0.5;
+        &:hover {
+          opacity: 1;
+          transform: scale(1.2);
+        }
+      }
       .item-time {
-        font-weight: 500;
+        font-weight: 400;
         display: inline-block;
       }
       .item-title {
         display: inline-block;
         font-weight: 300;
+        opacity: 0.8;
+        padding-left: 0.25rem;
+      }
+      .item-progress-bar {
+        margin-top: 1rem;
+        position: relative;
+        overflow: hidden;
+        height: 3px;
+        background: linear-gradient(270deg, #F97C24, #D9497D);
+        width: 20%;
+        border-radius: 2px;
+        transition: 1s all ease-in-out;
+      }
+      &.ticked {
+        text-decoration: line-through;
+        opacity: 0.5;
+        .item-time {
+          text-decoration: line-through;
+        }
+        .item-title {
+          text-decoration: line-through;
+        }
+        .done-icon {
+          display: none;
+        }
+        .item-progress-bar {
+          display: none;
+        }
+      }
+      &:hover {
+        cursor: pointer;
+        background: lighten( $mirage, 10% );
       }
     }
   }
@@ -79,4 +121,11 @@ $mirage : #191A2A;
       }
     }
   }
+}
+
+.clear-tasks {
+  color: white;
+  text-align: center;
+  margin-top: 2rem
+;
 }
