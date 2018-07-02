@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
     filePath = this.electronService.remote.app.getAppPath() + '/list.json';
     data = [];
     fs = this.electronService.fs;
+    currentTaskID;
+    currentTaskStartTime;
+    currentInterval;
 
     /**
      * Update the current task items from the list
@@ -31,6 +34,38 @@ export class HomeComponent implements OnInit {
         }
     }
 
+    activateTask( task) {
+        if ( !task ) {
+            return false;
+        }
+        this.currentTaskID = task.id;
+        if ( task.isActive ) {
+            task.isActive = false;
+            clearInterval( this.currentInterval );
+            console.log( this.data );
+            this.updateData();
+        } else {
+            task.isActive = true;
+            this.currentTaskStartTime = new Date();
+            task.startTime = this.currentTaskStartTime;
+            this.currentInterval = setInterval( () => this.updateTask(task), 1000 );
+        }
+
+    }
+
+    updateTask( task ) {
+        task.time --;
+    }
+
+    clearTask() {
+        this.data = [];
+        this.updateData();
+    }
+
+    updateData() {
+        this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
+    }
+
     addTask( inputString: String ) {
         if ( !inputString ) {
             return false;
@@ -39,19 +74,19 @@ export class HomeComponent implements OnInit {
         const breakDownString = inputString.split( '|' );
         let time = breakDownString[0];
         time = time.split( 'm' )[0];
-        console.log( breakDownString );
         const task = breakDownString[1];
         this.data.push({
             id: taskID,
-            time : time,
+            time : parseInt( time, 10 ),
+            remaining: parseInt( time, 10 ),
             name : task
         });
-        this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
+        this.updateData();
     }
 
     ngOnInit() {
         this.getCurrentList();
-        this.electronService.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
+        this.updateData();
   }
 
 }

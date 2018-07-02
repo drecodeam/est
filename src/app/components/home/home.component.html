@@ -3,10 +3,15 @@
     <div class="draggable-region"></div>
     <div class="title">Today</div>
     <div class="task-list">
-        <div class="task-list-item" *ngFor="let item of data">
+        <div class="task-list-item"
+             *ngFor="let item of data"
+             data-id="{{item.id}}"
+             (click)="activateTask(item)"
+        >
             <div class="item-time">{{item.time}}m |</div>
             <div class="item-title">{{item.name}}</div>
         </div>
     </div>
     <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+add a new text" #todo>
+    <div class="clear-tasks" (click)="clearTask()">Clear Tasks</div>
 </div>
