@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
     addTaskInput;
     hideOnboarding = false;
+    showOnboarding = false;
 
 
     /**
@@ -161,12 +162,15 @@ export class HomeComponent implements OnInit {
     }
 
     closeOnboarding() {
-        this.hideOnboarding = true;
+        this.showOnboarding = false;
     }
 
     ngOnInit() {
         this.getCurrentList();
         this.sanitizeData();
         this.updateData();
+        setTimeout(() => {
+            this.showOnboarding = true;
+        }, 1000);
     }
 }
