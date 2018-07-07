@@ -21,7 +21,7 @@ $magenta : #9013FE;
 
 .help {
   font-family: $font-sans-serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
   text-align: center;
   color: white;
 }
@@ -31,11 +31,12 @@ $magenta : #9013FE;
   overflow: hidden;
   float: left;
   width: 100%;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem;
+  min-height: 80vh;
   .title {
     font-size: 2rem;
     font-family: $font-title;
-    padding-bottom: 1rem;
+    padding: 1rem;
     color: white;
   }
   [contenteditable] {
@@ -73,16 +74,17 @@ $magenta : #9013FE;
       }
       .active-icon {
         background: linear-gradient(270deg, #F97C24, #D9497D);
-        height: 1rem;
-        width: 1rem;
+        height: 0.5rem;
+        width: 0.5rem;
         border-radius: 50%;
         position: relative;
         display: inline-block;
         float: right;
-        margin-top: 0.5rem;
+        margin-top: 0.75rem;
         opacity: 0;
         transition: 0.4s all ease-in-out;
         transform: scale(0);
+        display: none;
       }
       .item-time {
         font-weight: 400;
@@ -102,7 +104,7 @@ $magenta : #9013FE;
         background: linear-gradient(270deg, #F97C24, #D9497D);
         width: 0;
         border-radius: 2px;
-        transition: 1s all ease-in-out;
+        transition: 1s all linear;
       }
       &.ticked {
         text-decoration: line-through;
@@ -131,6 +133,7 @@ $magenta : #9013FE;
       }
       &:hover {
         cursor: pointer;
+        background: $mirage;
         .active-icon {
           opacity: 1;
           transform: scale(1);
@@ -147,13 +150,23 @@ $magenta : #9013FE;
     font-size: 1rem;
     color: white;
     width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.4s all ease-in-out;
     &::placeholder {
-      color : $selected;
+      color : $magenta;
+      font-family: $font-sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
     }
     &:focus {
+      background: $mirage;
       &::placeholder {
         color : transparent;
       }
+    }
+    &:hover {
+      background: $mirage;
     }
   }
 }
@@ -212,7 +225,7 @@ $magenta : #9013FE;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-    transition: 1s all ease-in-out;
+    transition: 0.4s all ease-in-out;
     &:hover {
       box-shadow: 0 10px 30px darken( $magenta, 10% );
     }

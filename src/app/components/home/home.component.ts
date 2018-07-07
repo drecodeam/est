@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval( () => this.updateTaskUI(task), 1000 );
+            this.currentInterval = setInterval( () => this.updateTaskUI(task), 60000 );
         }
     }
 
@@ -118,18 +118,20 @@ export class HomeComponent implements OnInit {
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
      */
-    sanitizeData() {
-        for ( let todo of this.data.list ) {
+    sanitizeData()  {
+        this.data.list.forEach( (todo, index, list) => {
             if ( todo.elapsed === null || todo.elapsed === undefined ) {
                 todo.elapsed = 0;
             } else if ( todo.elapsed > todo.time ) {
                 todo.elapsed = todo.time;
             } else if ( todo.elapsed < 0 ) {
                 todo.elapsed = 0;
+            } else if ( todo.isTicked ) {
+                list.splice( index, 1 );
             } else {
                 // Do nothing
             }
-        }
+        });
     }
 
     /**
@@ -161,16 +163,23 @@ export class HomeComponent implements OnInit {
         this.updateData();
     }
 
+    /**
+     * Close onboarding and save it in settings
+     */
     closeOnboarding() {
         this.showOnboarding = false;
+        this.data.hideOnboarding = true;
+        this.updateData();
     }
 
     ngOnInit() {
         this.getCurrentList();
         this.sanitizeData();
         this.updateData();
-        setTimeout(() => {
-            this.showOnboarding = true;
-        }, 1000);
+        if ( !this.data.hideOnboarding ) {
+            setTimeout(() => {
+                this.showOnboarding = true;
+            }, 1000);
+        };
     }
 }
