@@ -23,7 +23,8 @@
     "icon": "dist",
     "target": [
       "portable"
-    ]
+    ],
+    "publish": ["github"]
   },
   "mac": {
     "icon": "dist",

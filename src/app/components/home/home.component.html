@@ -4,13 +4,14 @@
     <div class="title">Today</div>
     <div class="task-list">
         <div class="task-list-item"
-             *ngFor="let item of data"
+             *ngFor="let item of data.list"
              [id]="item.id"
              (click)="activateTask(item)"
              [class.ticked] = "!!item.isTicked"
         >
             <div class="item-time">{{item.time - item.elapsed}}m |</div>
             <div class="item-title">{{item.name}}</div>
+            <div class="active-icon" *ngIf="!item.isComplete == true"></div>
             <div class="done-icon"
                  *ngIf="item.isComplete == true"
                  (click)="markItemComplete( item )">
@@ -19,6 +20,15 @@
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
     </div>
-    <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+add a new text" #todo>
-    <div class="clear-tasks" (click)="clearTask()">Clear Tasks</div>
+    <input type="text" class="add-task" [ngModel]="addTaskInput" (keyup.enter)="addTask(todo.value)" placeholder="+add a new text" #todo>
+    <div class="help drift-open-chat">👋Feedback</div>
+</div>
+
+<div class="onboarding" [class.hide]="!!hideOnboarding">
+    <div class="onboarding-title">Let's get started</div>
+    <div class="onboarding-desc">Add your task in the same format. Click on a task to start tracking time.</div>
+    <div class="onboarding-sample-todo">
+        5m | Getting started with Stors
+    </div>
+    <div class="onboarding-cta" (click)="closeOnboarding()">Add your first task</div>
 </div>

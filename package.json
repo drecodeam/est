@@ -1,6 +1,6 @@
 {
   "name": "Stors",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple task manager for a day",
   "homepage": "https://insert.black",
   "author": {
@@ -29,11 +29,13 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
-    "electron:mac": "npm run build:prod && npx electron-builder build --mac",
+    "electron:mac": "npm run build:prod && npx electron-builder build --mac --publish always",
     "test": "ng test",
     "e2e": "ng e2e"
   },
   "dependencies": {
+    "analytics-node": "^3.3.0",
+    "auto-launch": "^5.0.5",
     "intercom-client": "^2.9.4"
   },
   "devDependencies": {
