@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
 
-    filePath = this.electronService.remote.app.getAppPath() + '/list.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     data;
     fs = this.electronService.fs;
     currentTaskID;
@@ -24,6 +24,17 @@ export class HomeComponent implements OnInit {
     hideOnboarding = false;
     showOnboarding = false;
 
+    initiateData() {
+        this.data = {
+            hideOnboarding : false,
+            list: []
+        };
+        try {
+            this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
+        } catch ( error ) {
+            console.log( error );
+        }
+    }
 
     /**
      * Update the current task items from the list
@@ -31,14 +42,14 @@ export class HomeComponent implements OnInit {
     getCurrentList() {
         try {
             this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
-            console.log( this.data );
             if ( !this.data ) {
-                this.data = {};
-                this.data.list = [];
+                return false;
             }
+            return true;
         } catch (error) {
             // if there was some kind of error, return the passed in defaults instead.
             console.log( 'there seems to be an issue getting the current data' );
+            return false;
         }
     }
 
@@ -115,6 +126,21 @@ export class HomeComponent implements OnInit {
     }
 
     /**
+     * Mark the item as complete
+     * @param task
+     */
+    deleteItem( task ) {
+        this.data.list.forEach( (todo, index, list) => {
+            if ( task.id === todo.id ) {
+                list.splice( index, 1 );
+            }
+        });
+        this.updateData();
+    }
+
+
+
+    /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
      */
@@ -173,8 +199,11 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getCurrentList();
-        this.sanitizeData();
+        if ( this.getCurrentList() ){
+            this.sanitizeData();
+        } else {
+            this.initiateData();
+        }
         this.updateData();
         if ( !this.data.hideOnboarding ) {
             setTimeout(() => {

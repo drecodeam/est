@@ -7,15 +7,20 @@
              [id]="item.id"
              (click)="activateTask(item)"
              [class.ticked] = "!!item.isTicked"
+             [class.active] = "(item.id === currentTaskID)"
         >
-            <div class="item-time">{{item.time - item.elapsed}}m |</div>
+            <div class="item-time">{{item.time - item.elapsed}}m</div>
+            <div class="item-separator"> | </div>
             <div class="item-title">{{item.name}}</div>
-            <div class="active-icon" *ngIf="!item.isComplete == true"></div>
             <div class="done-icon"
-                 *ngIf="item.isComplete == true"
                  (click)="markItemComplete( item )">
-                <i class="ion ion-ios-checkmark-circle"></i>
+                <i class="ion ion-ios-checkmark-circle-outline"></i>
             </div>
+            <div class="delete-icon"
+                 (click)="deleteItem( item )">
+                <i class="ion ion-md-trash"></i>
+            </div>
+            <!--<div class="item-progress-bar-animated" [style.width.%]="item.progress" *ngIf="item.id === currentTaskID"></div>-->
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
     </div>

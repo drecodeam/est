@@ -3,17 +3,12 @@
   "version": "0.1.1",
   "description": "A simple task manager for a day",
   "homepage": "https://insert.black",
+  "repository": "https://github.com/drecodeam/stors",
   "author": {
     "name": "Drecode Feil",
     "email": "drecodeam@gmail.com"
   },
-  "keywords": [
-    "angular",
-    "angular 6",
-    "electron",
-    "typescript",
-    "sass"
-  ],
+  "keywords": [],
   "main": "main.js",
   "private": true,
   "scripts": {
@@ -36,7 +31,7 @@
   "dependencies": {
     "analytics-node": "^3.3.0",
     "auto-launch": "^5.0.5",
-    "intercom-client": "^2.9.4"
+    "electron-updater": "^2.23.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
