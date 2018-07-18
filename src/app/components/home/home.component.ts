@@ -140,6 +140,7 @@ export class HomeComponent implements OnInit {
     markItemComplete( task ) {
         task.isTicked = true;
         this.totalTime = this.totalTime - ( task.time - task.elapsed );
+
         this.updateEta();
         this.updateData();
     }
@@ -161,6 +162,8 @@ export class HomeComponent implements OnInit {
 
     updateEta() {
         const time = this.totalTime;
+        this.totalHrs = Math.floor( this.totalTime/60 );
+        this.totalMins = this.totalTime % 60;
         const date = new Date( new Date().getTime() + time * 60000 );
         this.formatAMPM( date );
     }
@@ -182,8 +185,6 @@ export class HomeComponent implements OnInit {
                 list.splice( index, 1 );
             } else {
                 this.totalTime += ( todo.time - todo.elapsed );
-                this.totalHrs = Math.floor( this.totalTime/60 );
-                this.totalMins = this.totalTime % 60;
                 this.updateEta();
             }
         });
