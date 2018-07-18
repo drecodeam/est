@@ -96,6 +96,7 @@ export class HomeComponent implements OnInit {
         this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
         task.elapsed ++;
         this.totalTime--;
+        this.updateEta();
         if ( task.elapsed === task.time ) {
             clearInterval( this.currentInterval );
             task.isComplete = true;
