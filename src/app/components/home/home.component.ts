@@ -21,6 +21,10 @@ export class HomeComponent implements OnInit {
     currentInterval;
     touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
     addTaskInput;
+    totalTime = 0;
+    totalHrs;
+    totalMins;
+    eta: any;
     hideOnboarding = false;
     showOnboarding = false;
 
@@ -42,6 +46,7 @@ export class HomeComponent implements OnInit {
     getCurrentList() {
         try {
             this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
+            console.log( this.data );
             if ( !this.data ) {
                 return false;
             }
@@ -66,6 +71,7 @@ export class HomeComponent implements OnInit {
         this.currentTaskID = task.id;
         if ( task.isActive ) {
             task.isActive = false;
+            this.currentTaskID = 0;
             this.updateData();
         } else {
             task.isActive = true;
@@ -89,6 +95,7 @@ export class HomeComponent implements OnInit {
         });
         this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
         task.elapsed ++;
+        this.totalTime--;
         if ( task.elapsed === task.time ) {
             clearInterval( this.currentInterval );
             task.isComplete = true;
@@ -105,7 +112,7 @@ export class HomeComponent implements OnInit {
      * Clear all the tasks
      */
     clearTask() {
-        this.data = [];
+        this.data = '';
         this.updateData();
     }
 
@@ -116,12 +123,24 @@ export class HomeComponent implements OnInit {
         this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
     }
 
+    formatAMPM(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        this.eta= hours + ':' + minutes + ' ' + ampm;
+    }
+
     /**
      * Mark the item as complete
      * @param task
      */
     markItemComplete( task ) {
         task.isTicked = true;
+        this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        this.updateEta();
         this.updateData();
     }
 
@@ -135,9 +154,16 @@ export class HomeComponent implements OnInit {
                 list.splice( index, 1 );
             }
         });
+        this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        this.updateEta();
         this.updateData();
     }
 
+    updateEta() {
+        const time = this.totalTime;
+        const date = new Date( new Date().getTime() + time * 60000 );
+        this.formatAMPM( date );
+    }
 
 
     /**
@@ -155,7 +181,10 @@ export class HomeComponent implements OnInit {
             } else if ( todo.isTicked ) {
                 list.splice( index, 1 );
             } else {
-                // Do nothing
+                this.totalTime += ( todo.time - todo.elapsed );
+                this.totalHrs = Math.floor( this.totalTime/60 );
+                this.totalMins = this.totalTime % 60;
+                this.updateEta();
             }
         });
     }
@@ -199,7 +228,7 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if ( this.getCurrentList() ){
+        if ( this.getCurrentList() ) {
             this.sanitizeData();
         } else {
             this.initiateData();

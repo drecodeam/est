@@ -8,6 +8,7 @@ $grey : #F2F7FF;
 $selected : #D1375B;
 $mirage : #0F041E;
 $magenta : #9013FE;
+$maya-blye : #72BFF9;
 
 .draggable-region {
   position: relative;
@@ -40,7 +41,25 @@ $magenta : #9013FE;
   font-family: $font-title;
   padding: 1rem;
   color: white;
+  float: left;
+  max-width: 50%;
 }
+
+.total-time {
+  float: right;
+  position: relative;
+  overflow: hidden;
+  max-width: 50%;
+  color: white;
+  font-family: $font-sans-serif;
+  margin-top: 1.5rem;
+  color: $maya-blye;
+  .hrs,
+  .eta {
+    display: inline-block;
+  }
+}
+
 [contenteditable] {
   color: #666;
   caret-color: red;
@@ -49,6 +68,8 @@ $magenta : #9013FE;
   position: relative;
   overflow: hidden;
   font-family: $font-sans-serif;
+  clear: both;
+  width: 100%;
   .task-list-item {
     position: relative;
     overflow: hidden;

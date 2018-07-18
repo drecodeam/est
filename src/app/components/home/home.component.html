@@ -1,6 +1,10 @@
 <div class="draggable-region"></div>
 <div class="container">
     <div class="title">Today</div>
+    <div class="total-time">
+        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
+        <div class="eta">{{eta}}</div>
+    </div>
     <div class="task-list">
         <div class="task-list-item"
              *ngFor="let item of data.list"
