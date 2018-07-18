@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit {
     getCurrentList() {
         try {
             this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
-            console.log( this.data );
             if ( !this.data ) {
                 return false;
             }
@@ -110,7 +109,8 @@ export class HomeComponent implements OnInit {
     }
 
     /**
-     * Clear all the tasks
+     * Clear all the tasks.
+     * Only used in development purpose for releasing a new build
      */
     clearTask() {
         this.data = '';
@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
         hours = hours % 12;
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0' + minutes : minutes;
-        this.eta= hours + ':' + minutes + ' ' + ampm;
+        this.eta = hours + ':' + minutes + ' ' + ampm;
     }
 
     /**
@@ -141,7 +141,7 @@ export class HomeComponent implements OnInit {
     markItemComplete( task ) {
         task.isTicked = true;
         this.totalTime = this.totalTime - ( task.time - task.elapsed );
-
+        this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
     }
@@ -161,6 +161,9 @@ export class HomeComponent implements OnInit {
         this.updateData();
     }
 
+    /**
+     * Update the ETA on the top right
+     */
     updateEta() {
         const time = this.totalTime;
         this.totalHrs = Math.floor( this.totalTime/60 );
@@ -217,6 +220,8 @@ export class HomeComponent implements OnInit {
             elapsed: 0,
             name : task
         });
+        this.sanitizeData();
+        this.updateEta();
         this.updateData();
     }
 
@@ -240,6 +245,6 @@ export class HomeComponent implements OnInit {
             setTimeout(() => {
                 this.showOnboarding = true;
             }, 1000);
-        };
+        }
     }
 }
