@@ -141,7 +141,7 @@ export class HomeComponent implements OnInit {
     markItemComplete( task ) {
         task.isTicked = true;
         this.totalTime = this.totalTime - ( task.time - task.elapsed );
-        this.currentTaskID = 0;
+        this.currentTaskID = 0; 
         this.updateEta();
         this.updateData();
     }
@@ -156,9 +156,11 @@ export class HomeComponent implements OnInit {
                 list.splice( index, 1 );
             }
         });
-        this.totalTime = this.totalTime - ( task.time - task.elapsed );
-        this.updateEta();
-        this.updateData();
+        if ( !task.isTicked ) {
+            this.totalTime = this.totalTime - ( task.time - task.elapsed );
+            this.updateEta();
+            this.updateData();
+        }
     }
 
     /**
