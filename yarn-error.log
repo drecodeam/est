@@ -1,0 +1,118 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn release
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.11.2
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "Stors",
+    "version": "0.1.1",
+    "description": "A simple task manager for a day",
+    "homepage": "https://insert.black",
+    "repository": "https://github.com/drecodeam/stors",
+    "author": {
+      "name": "Drecode Feil",
+      "email": "drecodeam@gmail.com"
+    },
+    "keywords": [],
+    "main": "main.js",
+    "private": true,
+    "scripts": {
+      "postinstall": "npx electron-builder install-app-deps",
+      "ng": "ng",
+      "start": "npm-run-all -p ng:serve electron:serve",
+      "build": "npm run electron:tsc && ng build",
+      "build:dev": "npm run build -- -c dev",
+      "build:prod": "npm run build -- -c production",
+      "ng:serve": "ng serve -o",
+      "electron:tsc": "tsc main.ts",
+      "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:tsc && electron . --serve",
+      "electron:local": "npm run build:prod && electron .",
+      "electron:linux": "npm run build:prod && npx electron-builder build --linux",
+      "electron:windows": "npm run build:prod && npx electron-builder build --windows",
+      "electron:mac": "npm run build:prod && npx electron-builder build --mac ",
+      "test": "ng test",
+      "e2e": "ng e2e"
+    },
+    "dependencies": {
+      "analytics-node": "^3.3.0",
+      "auto-launch": "^5.0.5",
+      "buffer": "^5.1.0",
+      "electron-updater": "^2.23.3",
+      "events": "^3.0.0",
+      "raven-js": "^3.26.4",
+      "stream": "0.0.2",
+      "timers": "^0.1.1"
+    },
+    "devDependencies": {
+      "@angular-devkit/build-angular": "0.6.3",
+      "@angular/cli": "6.0.3",
+      "@angular/common": "6.0.3",
+      "@angular/compiler": "6.0.3",
+      "@angular/compiler-cli": "6.0.3",
+      "@angular/core": "6.0.3",
+      "@angular/forms": "6.0.3",
+      "@angular/http": "6.0.3",
+      "@angular/language-service": "6.0.3",
+      "@angular/platform-browser": "6.0.3",
+      "@angular/platform-browser-dynamic": "6.0.3",
+      "@angular/router": "6.0.3",
+      "@ngx-translate/core": "10.0.1",
+      "@ngx-translate/http-loader": "3.0.1",
+      "@types/jasmine": "2.8.7",
+      "@types/jasminewd2": "2.0.3",
+      "@types/node": "8.9.4",
+      "airtable": "^0.5.6",
+      "codelyzer": "4.2.1",
+      "core-js": "2.5.6",
+      "electron": "2.0.2",
+      "electron-builder": "20.14.7",
+      "electron-reload": "1.2.2",
+      "jasmine-core": "3.1.0",
+      "jasmine-spec-reporter": "4.2.1",
+      "karma": "2.0.2",
+      "karma-chrome-launcher": "2.2.0",
+      "karma-coverage-istanbul-reporter": "2.0.0",
+      "karma-jasmine": "1.1.2",
+      "karma-jasmine-html-reporter": "1.1.0",
+      "npm-run-all": "4.1.3",
+      "npx": "10.2.0",
+      "protractor": "5.3.2",
+      "rxjs": "6.1.0",
+      "ts-node": "6.0.3",
+      "tslint": "5.10.0",
+      "typescript": "2.7.2",
+      "wait-on": "2.1.0",
+      "webdriver-manager": "12.0.6",
+      "zone.js": "0.8.26"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command "release" not found.
+      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:87307:17
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:116:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:23451:28)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:95:12
+      at runCommand (/usr/local/lib/node_modules/yarn/lib/cli.js:87312:22)
+      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:87412:14)

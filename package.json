@@ -1,9 +1,12 @@
 {
   "name": "Stors",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple task manager for a day",
   "homepage": "https://insert.black",
   "repository": "https://github.com/drecodeam/stors",
+  "browser": {
+    "child_process": false
+  },
   "author": {
     "name": "Drecode Feil",
     "email": "drecodeam@gmail.com"
@@ -24,14 +27,21 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
-    "electron:mac": "npm run build:prod && npx electron-builder build --mac ",
+    "electron:mac": "npm run build:prod && npx electron-builder build --mac --p",
+    "release:mac": "npm run build:prod && npx electron-builder build --mac --p always",
     "test": "ng test",
     "e2e": "ng e2e"
   },
   "dependencies": {
     "analytics-node": "^3.3.0",
     "auto-launch": "^5.0.5",
-    "electron-updater": "^2.23.3"
+    "buffer": "^5.1.0",
+    "electron-log": "^2.2.16",
+    "electron-updater": "^3.0.3",
+    "events": "^3.0.0",
+    "raven-js": "^3.26.4",
+    "stream": "0.0.2",
+    "timers": "^0.1.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",
@@ -48,13 +58,14 @@
     "@angular/router": "6.0.3",
     "@ngx-translate/core": "10.0.1",
     "@ngx-translate/http-loader": "3.0.1",
+    "@types/es6-collections": "^0.5.31",
     "@types/jasmine": "2.8.7",
     "@types/jasminewd2": "2.0.3",
     "@types/node": "8.9.4",
     "airtable": "^0.5.6",
     "codelyzer": "4.2.1",
     "core-js": "2.5.6",
-    "electron": "2.0.2",
+    "electron": "^2.0.2",
     "electron-builder": "20.14.7",
     "electron-reload": "1.2.2",
     "jasmine-core": "3.1.0",

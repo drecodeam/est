@@ -1,11 +1,11 @@
 <div class="draggable-region"></div>
 <div class="container">
     <div class="title">Today</div>
-    <div class="total-time">
+    <div class="total-time" *ngIf="!!status.showTime">
         <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
         <div class="eta">{{eta}}</div>
     </div>
-    <div class="task-list">
+    <div class="task-list" *ngIf="!status.showEmptyState">
         <div class="task-list-item"
              *ngFor="let item of data.list"
              [id]="item.id"
@@ -27,6 +27,9 @@
             <!--<div class="item-progress-bar-animated" [style.width.%]="item.progress" *ngIf="item.id === currentTaskID"></div>-->
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
+    </div>
+    <div class="empty-state" *ngIf="!!status.showEmptyState">
+        showing an empty state
     </div>
     <input type="text" class="add-task" [ngModel]="addTaskInput" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ElectronService } from '../../providers/electron.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -11,7 +12,6 @@ export class HomeComponent implements OnInit {
   constructor(
       private electronService: ElectronService
   ) {}
-
 
     filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     data;
@@ -25,6 +25,11 @@ export class HomeComponent implements OnInit {
     totalHrs;
     totalMins;
     eta: any;
+    status = {
+        showOnboarding: false,
+        showTime: false,
+        showEmptyState: false
+    };
     hideOnboarding = false;
     showOnboarding = false;
 
@@ -121,9 +126,18 @@ export class HomeComponent implements OnInit {
      * Sync data onto the file
      */
     updateData() {
+        if ( this.data.list.length <= 0 ) {
+            this.status.showEmptyState = true;
+        } else {
+            this.status.showEmptyState = false;
+        }
         this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
     }
 
+    /**
+     *
+     * @param date
+     */
     formatAMPM(date) {
         let hours = date.getHours();
         let minutes = date.getMinutes();
@@ -141,13 +155,13 @@ export class HomeComponent implements OnInit {
     markItemComplete( task ) {
         task.isTicked = true;
         this.totalTime = this.totalTime - ( task.time - task.elapsed );
-        this.currentTaskID = 0; 
+        this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
     }
 
     /**
-     * Mark the item as complete
+     * Mark the item as complsete
      * @param task
      */
     deleteItem( task ) {
@@ -168,6 +182,11 @@ export class HomeComponent implements OnInit {
      */
     updateEta() {
         const time = this.totalTime;
+        if ( this.totalTime > 0 ) {
+            this.status.showTime = true;
+        } else {
+            this.status.showTime = false;
+        }
         this.totalHrs = Math.floor( this.totalTime/60 );
         this.totalMins = this.totalTime % 60;
         const date = new Date( new Date().getTime() + time * 60000 );

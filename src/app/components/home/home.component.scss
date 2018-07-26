@@ -64,6 +64,7 @@ $maya-blye : #72BFF9;
   color: #666;
   caret-color: red;
 }
+
 .task-list {
   position: relative;
   overflow: hidden;
@@ -183,6 +184,7 @@ $maya-blye : #72BFF9;
     }
   }
 }
+
 .add-task {
   background: transparent;
   padding: 1rem;
@@ -211,12 +213,14 @@ $maya-blye : #72BFF9;
     background: $mirage;
   }
 }
+
 .clear-tasks {
   color: white;
   text-align: center;
   margin-top: 2rem
 ;
 }
+
 .onboarding {
   overflow: hidden;
   background: $magenta;
