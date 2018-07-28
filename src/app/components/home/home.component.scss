@@ -189,6 +189,9 @@ $maya-blye: #72BFF9;
   width: 100%;
   clear: both;
   background: rgba(black, 0.1);
+  .item-progress-bar {
+    height: 5px;
+  }
   .task-title {
     font-size: 2.5rem;
     font-weight: 300;
@@ -199,6 +202,7 @@ $maya-blye: #72BFF9;
     font-size: 1rem;
     color: white;
     padding-top: 1rem;
+    font-family: $font-sans-serif;
   }
 }
 

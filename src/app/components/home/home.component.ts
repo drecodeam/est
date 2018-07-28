@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval( () => this.updateTaskUI(task), 60000 );
+            this.currentInterval = setInterval( () => this.updateTaskUI(task), 600 );
         }
     }
 
