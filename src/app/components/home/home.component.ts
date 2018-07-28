@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
     currentTaskID;
     currentTaskStartTime;
     currentInterval;
+    currentActiveTask;
     touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
     addTaskInput;
     totalTime = 0;
@@ -30,7 +31,6 @@ export class HomeComponent implements OnInit {
         showTime: false,
         showEmptyState: false
     };
-    hideOnboarding = false;
     showOnboarding = false;
 
     initiateData() {
@@ -67,17 +67,19 @@ export class HomeComponent implements OnInit {
      * @param task
      * @returns {boolean}
      */
-    activateTask(task) {
+    activateTask( task ) {
         if ( !task ) {
             return false;
         }
         clearInterval( this.currentInterval );
         this.currentTaskID = task.id;
+
         if ( task.isActive ) {
             task.isActive = false;
             this.currentTaskID = 0;
             this.updateData();
         } else {
+            this.currentActiveTask = task;
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
@@ -192,7 +194,6 @@ export class HomeComponent implements OnInit {
         const date = new Date( new Date().getTime() + time * 60000 );
         this.formatAMPM( date );
     }
-
 
     /**
      * Sanitize the list whenever the app loads.

@@ -1,8 +1,6 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import {autoUpdater} from 'electron-updater';
-
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -21,6 +19,10 @@ function createWindow() {
         height: 800,
         titleBarStyle: 'hidden'
     });
+
+    console.log( 'reached here' );
+
+
 
     if (serve) {
         require('electron-reload')(__dirname, {
@@ -68,10 +70,6 @@ try {
         if (win === null) {
             createWindow();
         }
-        const log = require("electron-log");
-        log.transports.file.level = "debug";
-        autoUpdater.logger = log;
-        autoUpdater.checkForUpdatesAndNotify();
     });
 
 } catch (e) {

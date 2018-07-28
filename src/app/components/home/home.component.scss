@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:300,400,500,700');
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
 
-$font-title : 'Comfortaa', cursive;
-$font-sans-serif : 'Open Sans', sans-serif;
+$font-title: 'Comfortaa', cursive;
+$font-sans-serif: 'Open Sans', sans-serif;
 
-$grey : #F2F7FF;
-$selected : #D1375B;
-$mirage : #0F041E;
-$magenta : #9013FE;
-$maya-blye : #72BFF9;
+$grey: #F2F7FF;
+$selected: #D1375B;
+$mirage: #0F041E;
+$magenta: #9013FE;
+$maya-blye: #72BFF9;
 
 .draggable-region {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 20px;
+  height: 40px;
   -webkit-app-region: drag;
   z-index: 10;
 }
@@ -32,12 +32,14 @@ $maya-blye : #72BFF9;
   overflow: hidden;
   float: left;
   width: 100%;
-  padding: 2rem 2rem;
   min-height: 80vh;
+  .title-container {
+    padding: 2rem;
+  }
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-family: $font-title;
   padding: 1rem;
   color: white;
@@ -60,24 +62,19 @@ $maya-blye : #72BFF9;
   }
 }
 
-[contenteditable] {
-  color: #666;
-  caret-color: red;
-}
-
 .task-list {
   position: relative;
   overflow: hidden;
   font-family: $font-sans-serif;
   clear: both;
   width: 100%;
+  padding: 2rem;
   .task-list-item {
     position: relative;
     overflow: hidden;
     padding: 1rem;
     color: white;
     font-family: $font-sans-serif;
-    transition: 0.4s all ease-in-out;
     border-radius: 6px;
     line-height: 1.5rem;
     opacity: 0.2;
@@ -114,7 +111,6 @@ $maya-blye : #72BFF9;
         transform: scale(1.1);
       }
     }
-
     .item-time {
       font-weight: 400;
       display: inline-block;
@@ -130,19 +126,9 @@ $maya-blye : #72BFF9;
       opacity: 0.8;
       padding-left: 0.25rem;
     }
-    .item-progress-bar {
-      margin-top: 1rem;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(270deg, #F97C24, #D9497D);
-      width: 0;
-      border-radius: 2px;
-      transition: 1s all linear;
-      height: 1px;
-    }
+
     &.ticked {
       text-decoration: line-through;
-      opacity: 0.25;
       .active-icon {
         display: none;
       }
@@ -185,6 +171,37 @@ $maya-blye : #72BFF9;
   }
 }
 
+.item-progress-bar {
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(270deg, #F97C24, #D9497D);
+  width: 0;
+  border-radius: 2px;
+  transition: 1s all linear;
+  height: 1px;
+}
+
+.current-active-task {
+  position: relative;
+  overflow: hidden;
+  padding: 3rem 2rem;
+  width: 100%;
+  clear: both;
+  background: rgba(black, 0.1);
+  .task-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: white;
+    font-family: $font-sans-serif;
+  }
+  .task-time-remaining {
+    font-size: 1rem;
+    color: white;
+    padding-top: 1rem;
+  }
+}
+
 .add-task {
   background: transparent;
   padding: 1rem;
@@ -198,7 +215,7 @@ $maya-blye : #72BFF9;
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
   &::placeholder {
-    color : $magenta;
+    color: $magenta;
     font-family: $font-sans-serif;
     font-size: 1rem;
     font-weight: 400;
@@ -206,7 +223,7 @@ $maya-blye : #72BFF9;
   &:focus {
     background: $mirage;
     &::placeholder {
-      color : transparent;
+      color: transparent;
     }
   }
   &:hover {
@@ -217,8 +234,7 @@ $maya-blye : #72BFF9;
 .clear-tasks {
   color: white;
   text-align: center;
-  margin-top: 2rem
-;
+  margin-top: 2rem;
 }
 
 .onboarding {
@@ -232,7 +248,7 @@ $maya-blye : #72BFF9;
   width: 100%;
   transition: 0.6s all ease-in-out;
   bottom: -350px;
-  box-shadow: 0 -10px 20px rgba( darken($magenta,10% ), 0.1 );
+  box-shadow: 0 -10px 20px rgba(darken($magenta, 10%), 0.1);
   .onboarding-title {
     font-family: $font-title;
     font-size: 1.25rem;
@@ -248,7 +264,7 @@ $maya-blye : #72BFF9;
   }
   .onboarding-sample-todo {
     padding: 1rem;
-    background: darken( $magenta, 5% );
+    background: darken($magenta, 5%);
     border-radius: 4px;
     font-family: $font-sans-serif;
     font-size: 1rem;
@@ -270,7 +286,7 @@ $maya-blye : #72BFF9;
     cursor: pointer;
     transition: 0.4s all ease-in-out;
     &:hover {
-      box-shadow: 0 10px 30px darken( $magenta, 10% );
+      box-shadow: 0 10px 30px darken($magenta, 10%);
     }
   }
   &.show {

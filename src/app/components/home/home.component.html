@@ -1,9 +1,27 @@
 <div class="draggable-region"></div>
 <div class="container">
-    <div class="title">Today</div>
-    <div class="total-time" *ngIf="!!status.showTime">
-        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
-        <div class="eta">{{eta}}</div>
+    <div class="current-active-task">
+        <div class="task-title">{{currentActiveTask.name}}</div>
+        <div class="task-time-remaining">{{currentActiveTask.time - currentActiveTask.elapsed}} mins remaining</div>
+        <div class="item-progress-bar" [style.width.%]="currentActiveTask.progress"></div>
+        <div class="task-toolbar">
+            <div class="done-icon"
+                 (click)="markItemComplete( currentActiveTask )">
+                <i class="ion ion-ios-checkmark-circle-outline"></i>
+            </div>
+            <div class="delete-icon"
+                 (click)="deleteItem( currentActiveTask )">
+                <i class="ion ion-md-trash"></i>
+            </div>
+
+        </div>
+    </div>
+    <div class="title-container">
+        <div class="title">Today</div>
+        <div class="total-time" *ngIf="!!status.showTime">
+            <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
+            <div class="eta">{{eta}}</div>
+        </div>
     </div>
     <div class="task-list" *ngIf="!status.showEmptyState">
         <div class="task-list-item"
