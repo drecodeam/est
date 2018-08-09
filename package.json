@@ -27,7 +27,7 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && npx electron-builder build --linux",
     "electron:windows": "npm run build:prod && npx electron-builder build --windows",
-    "electron:mac": "npm run build:prod && npx electron-builder build --mac --p",
+    "electron:mac": "npm run build:prod && npx electron-builder build --mac",
     "release:mac": "npm run build:prod && npx electron-builder build --mac --p always",
     "test": "ng test",
     "e2e": "ng e2e"

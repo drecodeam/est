@@ -1,7 +1,7 @@
 import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-const { autoUpdater } = require('electron-updater');
+// const { autoUpdater } = require('electron-updater');
 const { menubar } = require('menubar');
 
 
@@ -12,7 +12,7 @@ serve = args.some(val => val === '--serve');
 function createWindow() {
     // this will check if there is a newer version of the app available and
     // display the user a notification that the user has to restart the app in order to get the newer version
-    autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.checkForUpdatesAndNotify();
 
 
     const electronScreen = screen;
