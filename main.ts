@@ -2,7 +2,7 @@ import {app, BrowserWindow, screen} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 // const { autoUpdater } = require('electron-updater');
-const { menubar } = require('menubar');
+// const { menubar } = require('menubar');
 
 
 let win, serve;
