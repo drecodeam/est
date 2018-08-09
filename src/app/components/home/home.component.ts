@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
     filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     data;
     fs = this.electronService.fs;
+    window = this.electronService.remote.getCurrentWindow();
     currentTaskID;
+    currentTask;
     currentTaskStartTime;
     currentInterval;
     touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
@@ -69,11 +71,12 @@ export class HomeComponent implements OnInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        if ( !task ) {
+        if ( !task || task.isTicked ) {
             return false;
         }
         clearInterval( this.currentInterval );
         this.currentTaskID = task.id;
+        this.currentTask = task;
         if ( task.isActive ) {
             task.isActive = false;
             this.currentTaskID = 0;
@@ -267,6 +270,7 @@ export class HomeComponent implements OnInit {
             this.initiateData();
         }
         this.updateData();
+        this.window.setSize( 350, 500, true);
         if ( !this.data.hideOnboarding ) {
             setTimeout(() => {
                 this.showOnboarding = true;

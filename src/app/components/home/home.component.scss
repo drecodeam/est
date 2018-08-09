@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans:300,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:400,700');
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
 
-$font-title : 'Comfortaa', cursive;
+$font-title : 'Hammersmith One', sans-serif;
 $font-sans-serif : 'Open Sans', sans-serif;
 
 $grey : #F2F7FF;
@@ -15,7 +15,7 @@ $maya-blye : #72BFF9;
   top: 0;
   left: 0;
   right: 0;
-  height: 20px;
+  height: 40px;
   -webkit-app-region: drag;
   z-index: 10;
 }
@@ -32,8 +32,69 @@ $maya-blye : #72BFF9;
   overflow: hidden;
   float: left;
   width: 100%;
-  padding: 2rem 2rem;
   min-height: 80vh;
+}
+
+.active-task {
+  /* Rectangle: */
+  background-image: linear-gradient(-270deg, #F97C24 0%, #D9497D 100%);
+  padding: 3rem 2rem;
+  position: relative;
+  overflow: hidden;
+  .task-title {
+    font-family: $font-title;
+    font-size: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    max-height: 3em;
+  }
+  .task-time-remaining {
+    color: white;
+    font-size: 1rem;
+    font-family: $font-sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+  .toolbar {
+    padding: 1rem 0;
+  }
+  .mark-as-done {
+    width: 140px;
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background: white;
+    color: black;
+    text-align: center;
+    float: left;
+    margin-right: 1rem;
+    i {
+      display: inline-block;
+      padding-right: 0.5rem;
+    }
+    .text {
+      font-family: $font-sans-serif;
+      display: inline-block;
+    }
+  }
+  .add-button {
+    position: relative;
+    overflow: hidden;
+    padding: 0.5rem;
+    border-radius: 4px;
+    opacity: 0.5;
+    width: 50px;
+    float: left;
+    margin-right: 1rem;
+    font-family: $font-sans-serif;
+    color: white;
+    transition: 0.4s all ease-in-out;
+    &:hover {
+      background: rgba(0,0,0,0.2);
+    }
+  }
 }
 
 .title {
@@ -46,14 +107,12 @@ $maya-blye : #72BFF9;
 }
 
 .total-time {
-  float: right;
+  padding: 2rem;
+  width: 100%;
   position: relative;
   overflow: hidden;
-  max-width: 50%;
   color: white;
   font-family: $font-sans-serif;
-  margin-top: 1.5rem;
-  color: $maya-blye;
   .hrs,
   .eta {
     display: inline-block;
@@ -74,16 +133,16 @@ $maya-blye : #72BFF9;
   .task-list-item {
     position: relative;
     overflow: hidden;
-    padding: 1rem;
-    color: white;
+    padding: 1.5rem 2rem;
+    color: #f1f1f1;
     font-family: $font-sans-serif;
     transition: 0.2s all ease-in-out;
     border-radius: 6px;
     line-height: 1.5rem;
-    opacity: 0.2;
+    border-bottom: 1px solid rgba( 0,0,0,0.2);
     .done-icon {
       position: absolute;
-      right: 2rem;
+      right: 3rem;
       top: 0.7rem;
       overflow: hidden;
       font-size: 1.25rem;
@@ -99,7 +158,7 @@ $maya-blye : #72BFF9;
     }
     .delete-icon {
       position: absolute;
-      right: 0rem;
+      right: 1rem;
       top: 0.7rem;
       overflow: hidden;
       font-size: 1.25rem;
@@ -114,7 +173,6 @@ $maya-blye : #72BFF9;
         transform: scale(1.1);
       }
     }
-
     .item-time {
       font-weight: 400;
       display: inline-block;
@@ -131,8 +189,8 @@ $maya-blye : #72BFF9;
       padding-left: 0.25rem;
     }
     .item-progress-bar {
-      margin-top: 1rem;
-      position: relative;
+      bottom: 0;
+      position: absolute;
       overflow: hidden;
       background: linear-gradient(270deg, #F97C24, #D9497D);
       width: 0;
@@ -161,7 +219,7 @@ $maya-blye : #72BFF9;
     }
     &:hover {
       cursor: pointer;
-      opacity: 1;
+      background: darken( $mirage, 0.1 );
       .done-icon {
         opacity: 1;
       }
@@ -173,7 +231,7 @@ $maya-blye : #72BFF9;
       }
     }
     &.active {
-      opacity: 1;
+      background: darken( $mirage, 0.1 );
       .item-progress-bar {
         opacity: 1;
         height: 3px;
@@ -187,7 +245,7 @@ $maya-blye : #72BFF9;
 
 .add-task {
   background: transparent;
-  padding: 1rem;
+  padding: 1rem 2rem;
   outline: none;
   box-shadow: none;
   border: none;
@@ -198,7 +256,7 @@ $maya-blye : #72BFF9;
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
   &::placeholder {
-    color : $magenta;
+    color : white;
     font-family: $font-sans-serif;
     font-size: 1rem;
     font-weight: 400;

@@ -20,10 +20,10 @@ function createWindow() {
 
     // Create the browser window.
     win = new BrowserWindow({
-        x: 200,
-        y: 200  ,
+        x: 400,
+        y: 100  ,
         width: 400,
-        height: 800,
+        height: 500,
         titleBarStyle: 'hidden'
     });
 

@@ -1,10 +1,9 @@
 <div class="draggable-region"></div>
 <div class="container">
-    <div class="title">Today</div>
-    <div class="total-time" *ngIf="!!status.showTime">
-        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
-        <div class="eta">{{eta}}</div>
+    <div class="empty-state" *ngIf="!!status.showEmptyState">
+        showing an empty state
     </div>
+    <input type="text" class="add-task" [ngModel]="addTaskInput" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
     <div class="task-list" *ngIf="!status.showEmptyState">
         <div class="task-list-item"
              *ngFor="let item of data.list"
@@ -28,17 +27,10 @@
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
     </div>
-    <div class="empty-state" *ngIf="!!status.showEmptyState">
-        showing an empty state
+    <div class="total-time" *ngIf="!!status.showTime">
+        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
+        <div class="eta">{{eta}}</div>
     </div>
-    <input type="text" class="add-task" [ngModel]="addTaskInput" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
 </div>
 <div class="help drift-open-chat">👋 Feedback</div>
-<div class="onboarding" [class.show]="!!showOnboarding">
-    <div class="onboarding-title">Let's get started</div>
-    <div class="onboarding-desc">Add your task in the same format. Click on a task to start tracking time.</div>
-    <div class="onboarding-sample-todo">
-        5m | Getting started with Stors
-    </div>
-    <div class="onboarding-cta" (click)="closeOnboarding()">Add your first task</div>
-</div>
+
