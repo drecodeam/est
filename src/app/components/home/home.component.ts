@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
     };
     hideOnboarding = false;
     showOnboarding = false;
+    notification;
 
     initiateData() {
         this.data = {
@@ -253,6 +254,10 @@ export class HomeComponent implements OnInit {
         this.showOnboarding = false;
         this.data.hideOnboarding = true;
         this.updateData();
+    }
+
+    isElectron = () => {
+        return window && window.process && window.process.type;
     }
 
     ngOnInit() {
