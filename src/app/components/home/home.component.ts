@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ElectronService } from '../../providers/electron.service';
 
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,6 +17,7 @@ export class HomeComponent implements OnInit {
     filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     data;
     fs = this.electronService.fs;
+    app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
     currentTaskID;
     currentTask;
@@ -63,6 +65,14 @@ export class HomeComponent implements OnInit {
             console.log( 'there seems to be an issue getting the current data' );
             return false;
         }
+    }
+
+    defineGlobalShortcut() {
+        // const globalShortcut = this.electronService.remote.globalShortcut;
+        // globalShortcut.register('Command+U', () => {
+        //     this.electronService.remote.getCurrentWindow().show();
+        // });
+        // console.log(globalShortcut.isRegistered('Command+U'));
     }
 
     /**
@@ -142,7 +152,7 @@ export class HomeComponent implements OnInit {
      *
      * @param date
      */
-    formatAMPM(date) {
+    formatAMPM( date ) {
         let hours = date.getHours();
         let minutes = date.getMinutes();
         const ampm = hours >= 12 ? 'pm' : 'am';
@@ -191,12 +201,11 @@ export class HomeComponent implements OnInit {
         } else {
             this.status.showTime = false;
         }
-        this.totalHrs = Math.floor( this.totalTime/60 );
+        this.totalHrs = Math.floor( this.totalTime / 60 );
         this.totalMins = this.totalTime % 60;
         const date = new Date( new Date().getTime() + time * 60000 );
         this.formatAMPM( date );
     }
-
 
     /**
      * Sanitize the list whenever the app loads.
@@ -261,7 +270,7 @@ export class HomeComponent implements OnInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    }
+    };
 
     ngOnInit() {
         if ( this.getCurrentList() ) {
@@ -269,12 +278,8 @@ export class HomeComponent implements OnInit {
         } else {
             this.initiateData();
         }
+        this.defineGlobalShortcut();
         this.updateData();
         this.window.setSize( 350, 500, true);
-        if ( !this.data.hideOnboarding ) {
-            setTimeout(() => {
-                this.showOnboarding = true;
-            }, 1000);
-        }
     }
 }

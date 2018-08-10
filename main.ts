@@ -1,4 +1,4 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, screen, globalShortcut } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 // const { autoUpdater } = require('electron-updater');
@@ -10,11 +10,6 @@ const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
-    // this will check if there is a newer version of the app available and
-    // display the user a notification that the user has to restart the app in order to get the newer version
-    // autoUpdater.checkForUpdatesAndNotify();
-
-
     const electronScreen = screen;
     const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
@@ -25,6 +20,10 @@ function createWindow() {
         width: 400,
         height: 500,
         titleBarStyle: 'hidden'
+    });
+
+    globalShortcut.register('Command+U', () => {
+        win.show();
     });
 
     if (serve) {
@@ -40,9 +39,6 @@ function createWindow() {
         }));
     }
 
-
-    win.webContents.openDevTools();
-
     // Emitted when the window is closed.
     win.on('closed', () => {
         // Dereference the window object, usually you would store window
@@ -57,7 +53,9 @@ try {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
-    app.on('ready', createWindow);
+    app.on('ready', () => {
+        createWindow();
+    });
 
     // Quit when all windows are closed.
     app.on('window-all-closed', () => {
