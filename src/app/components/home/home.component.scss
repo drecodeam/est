@@ -9,6 +9,7 @@ $selected : #D1375B;
 $mirage : #0F041E;
 $magenta : #9013FE;
 $maya-blye : #72BFF9;
+$pelorous : #32ADBD;
 
 .draggable-region {
   position: relative;
@@ -35,68 +36,6 @@ $maya-blye : #72BFF9;
   min-height: 80vh;
 }
 
-.active-task {
-  /* Rectangle: */
-  background-image: linear-gradient(-270deg, #F97C24 0%, #D9497D 100%);
-  padding: 3rem 2rem;
-  position: relative;
-  overflow: hidden;
-  .task-title {
-    font-family: $font-title;
-    font-size: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    color: white;
-    max-height: 3em;
-  }
-  .task-time-remaining {
-    color: white;
-    font-size: 1rem;
-    font-family: $font-sans-serif;
-    position: relative;
-    overflow: hidden;
-  }
-  .toolbar {
-    padding: 1rem 0;
-  }
-  .mark-as-done {
-    width: 140px;
-    position: relative;
-    overflow: hidden;
-    padding: 0.5rem;
-    border-radius: 4px;
-    background: white;
-    color: black;
-    text-align: center;
-    float: left;
-    margin-right: 1rem;
-    i {
-      display: inline-block;
-      padding-right: 0.5rem;
-    }
-    .text {
-      font-family: $font-sans-serif;
-      display: inline-block;
-    }
-  }
-  .add-button {
-    position: relative;
-    overflow: hidden;
-    padding: 0.5rem;
-    border-radius: 4px;
-    opacity: 0.5;
-    width: 50px;
-    float: left;
-    margin-right: 1rem;
-    font-family: $font-sans-serif;
-    color: white;
-    transition: 0.4s all ease-in-out;
-    &:hover {
-      background: rgba(0,0,0,0.2);
-    }
-  }
-}
-
 .title {
   font-size: 2rem;
   font-family: $font-title;
@@ -111,10 +50,16 @@ $maya-blye : #72BFF9;
   width: 100%;
   position: relative;
   overflow: hidden;
-  color: white;
   font-family: $font-sans-serif;
+  color: $pelorous;
+  .message {
+    font-weight: 600;
+    display: inline-block;
+    padding-right: 0.5rem;
+  }
   .hrs,
   .eta {
+    font-weight: 100;
     display: inline-block;
   }
 }
@@ -137,9 +82,7 @@ $maya-blye : #72BFF9;
     color: #f1f1f1;
     font-family: $font-sans-serif;
     transition: 0.2s all ease-in-out;
-    border-radius: 6px;
     line-height: 1.5rem;
-    border-bottom: 1px solid rgba( 0,0,0,0.2);
     .done-icon {
       position: absolute;
       right: 3rem;
@@ -192,11 +135,12 @@ $maya-blye : #72BFF9;
       bottom: 0;
       position: absolute;
       overflow: hidden;
-      background: linear-gradient(270deg, #F97C24, #D9497D);
+      background: $pelorous;
       width: 0;
       border-radius: 2px;
       transition: 1s all linear;
       height: 1px;
+      opacity: 0.2;
     }
     &.ticked {
       text-decoration: line-through;
@@ -217,7 +161,8 @@ $maya-blye : #72BFF9;
         display: none;
       }
     }
-    &:hover {
+    &:hover,
+    &.selected {
       cursor: pointer;
       background: darken( $mirage, 0.1 );
       .done-icon {
@@ -226,15 +171,13 @@ $maya-blye : #72BFF9;
       .delete-icon {
         opacity: 1;
       }
-      .item-progress-bar {
-        //opacity: 0.5;
-      }
     }
     &.active {
-      background: darken( $mirage, 0.1 );
+      background: $mirage;
       .item-progress-bar {
         opacity: 1;
-        height: 3px;
+        height: 2px;
+        background: linear-gradient(270deg, #F97C24, #D9497D);
       }
       .item-separator {
         animation: animate-progress 2s linear infinite;

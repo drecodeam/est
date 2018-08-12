@@ -37,6 +37,7 @@
     "auto-launch": "^5.0.5",
     "buffer": "^5.1.0",
     "events": "^3.0.0",
+    "mousetrap": "^1.6.2",
     "raven-js": "^3.26.4",
     "stream": "0.0.2",
     "timers": "^0.1.1"

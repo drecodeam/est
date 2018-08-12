@@ -28,6 +28,7 @@
         </div>
     </div>
     <div class="total-time" *ngIf="!!status.showTime">
+        <div class="message">ETA: </div>
         <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
         <div class="eta">{{eta}}</div>
     </div>

@@ -1,34 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { ElectronService } from '../../providers/electron.service';
+import {Component, OnInit, AfterViewInit, HostListener, ElementRef, Renderer2} from '@angular/core';
+import {ElectronService} from '../../providers/electron.service';
+import {el} from '../../../../node_modules/@angular/platform-browser/testing/src/browser_util';
 
+export enum KEY_CODE {
+    RIGHT_ARROW = 39,
+    LEFT_ARROW = 37,
+    DOWN_ARROW = 40,
+    UP_ARROW = 38,
+    N_KEY = 78,
+    SPACE_KEY = 32
+}
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
-  constructor(
-      private electronService: ElectronService
-  ) {}
+    constructor(
+        private electronService: ElectronService,
+        private el: ElementRef,
+        private renderer: Renderer2
+    ) {
+    }
 
+    // COMMONLY USED ELECTRON SERVICE REFERENCES
     filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
-    data;
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
+    touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
+
+    data;
     currentTaskID;
     currentTask;
     currentTaskStartTime;
     currentInterval;
-    touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
     addTaskInput;
     totalTime = 0;
+    pointerFirstTask: HTMLInputElement;
+    pointerCurrentTask;
     totalHrs;
     totalMins;
     eta: any;
+    firstTaskNavigate = false;
     status = {
         showOnboarding: false,
         showTime: false,
@@ -36,17 +53,77 @@ export class HomeComponent implements OnInit {
     };
     hideOnboarding = false;
     showOnboarding = false;
-    notification;
 
+    @HostListener('document:keydown', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        this.handleShortcuts( event );
+    }
+
+    handleShortcuts( event: KeyboardEvent ) {
+        this.pointerCurrentTask.classList.remove('selected');
+        if (event.keyCode === KEY_CODE.DOWN_ARROW) {
+            if ( !this.firstTaskNavigate ) {
+                this.firstTaskNavigate = true;
+                this.pointerCurrentTask.classList.add( 'selected' );
+            } else {
+                if (this.pointerCurrentTask.nextElementSibling) {
+                    this.pointerCurrentTask = this.pointerCurrentTask.nextElementSibling;
+                    this.pointerCurrentTask.classList.add('selected');
+                }
+            }
+        }
+        if (event.keyCode === KEY_CODE.UP_ARROW) {
+            if ( !this.firstTaskNavigate ) {
+                this.firstTaskNavigate = true;
+                this.pointerCurrentTask.classList.add( 'selected' );
+            } else {
+                if ( this.pointerCurrentTask.previousElementSibling ) {
+                    this.pointerCurrentTask = this.pointerCurrentTask.previousElementSibling;
+                    this.pointerCurrentTask.classList.add('selected');
+                }
+            }
+        }
+        if (event.keyCode === KEY_CODE.SPACE_KEY ) {
+            const currentTask = this.findTaskByID( this.pointerCurrentTask.id );
+            this.activateTask( currentTask );
+        }
+
+        if ( event.keyCode === KEY_CODE.N_KEY ) {
+            const input = document.querySelector('.add-task' );
+            input.focus();
+        }
+    }
+
+    findTaskByID( id ) {
+        if ( !id ) {
+            console.warn( 'tried calling function findTaskByID without giving ID' );
+            return false;
+        }
+        console.log( typeof id );
+        id = parseInt( id, 10 );
+        let task;
+        this.data.list.forEach((todo, index, list) => {
+            console.log( typeof todo.id );
+            if ( id === todo.id ) {
+                console.log( 'matched' );
+                task = todo;
+            }
+        });
+        return task;
+    }h
+
+    /**
+     * Create a new file if it does not exist
+     */
     initiateData() {
         this.data = {
-            hideOnboarding : false,
+            hideOnboarding: false,
             list: []
         };
         try {
             this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
-        } catch ( error ) {
-            console.log( error );
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -55,24 +132,16 @@ export class HomeComponent implements OnInit {
      */
     getCurrentList() {
         try {
-            this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
-            if ( !this.data ) {
+            this.data = JSON.parse(this.fs.readFileSync(this.filePath).toString());
+            if (!this.data) {
                 return false;
             }
             return true;
         } catch (error) {
             // if there was some kind of error, return the passed in defaults instead.
-            console.log( 'there seems to be an issue getting the current data' );
+            console.log('there seems to be an issue getting the current data');
             return false;
         }
-    }
-
-    defineGlobalShortcut() {
-        // const globalShortcut = this.electronService.remote.globalShortcut;
-        // globalShortcut.register('Command+U', () => {
-        //     this.electronService.remote.getCurrentWindow().show();
-        // });
-        // console.log(globalShortcut.isRegistered('Command+U'));
     }
 
     /**
@@ -81,13 +150,13 @@ export class HomeComponent implements OnInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        if ( !task || task.isTicked ) {
+        if (!task || task.isTicked) {
             return false;
         }
-        clearInterval( this.currentInterval );
+        clearInterval(this.currentInterval);
         this.currentTaskID = task.id;
         this.currentTask = task;
-        if ( task.isActive ) {
+        if (task.isActive) {
             task.isActive = false;
             this.currentTaskID = 0;
             this.updateData();
@@ -95,7 +164,8 @@ export class HomeComponent implements OnInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval( () => this.updateTaskUI(task), 60000 );
+            this.updateTaskUI( task );
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
     }
 
@@ -105,25 +175,28 @@ export class HomeComponent implements OnInit {
      */
     updateTaskUI(task) {
         const timeLeft = task.time - task.elapsed;
-        const label = new this.touchBarButton ({
+        const label = new this.touchBarButton({
             label: timeLeft + 'm | ' + task.name
         });
         const touchhBar = new this.electronService.remote.TouchBar({
-            items : [label]
+            items: [label]
         });
         this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
-        task.elapsed ++;
+        task.elapsed++;
         this.totalTime--;
         this.updateEta();
-        if ( task.elapsed === task.time ) {
-            clearInterval( this.currentInterval );
+        if (task.elapsed === task.time) {
+            clearInterval(this.currentInterval);
             task.isComplete = true;
         }
-        if ( task.elapsed > task.time ) {
+        if (task.elapsed > task.time) {
             task.elapsed = task.time;
-            clearInterval( this.currentInterval );
+            clearInterval(this.currentInterval);
         }
-        task.progress = ( (task.elapsed)/( task.time) ) * 100;
+        task.progress = ((task.elapsed) / (task.time)) * 100;
+        if ( task.progress <= 1 ) {
+            task.progress = 1;
+        }
         this.updateData();
     }
 
@@ -140,7 +213,7 @@ export class HomeComponent implements OnInit {
      * Sync data onto the file
      */
     updateData() {
-        if ( this.data.list.length <= 0 ) {
+        if (this.data.list.length <= 0) {
             this.status.showEmptyState = true;
         } else {
             this.status.showEmptyState = false;
@@ -152,7 +225,7 @@ export class HomeComponent implements OnInit {
      *
      * @param date
      */
-    formatAMPM( date ) {
+    formatAMPM(date) {
         let hours = date.getHours();
         let minutes = date.getMinutes();
         const ampm = hours >= 12 ? 'pm' : 'am';
@@ -166,9 +239,9 @@ export class HomeComponent implements OnInit {
      * Mark the item as complete
      * @param task
      */
-    markItemComplete( task ) {
+    markItemComplete(task) {
         task.isTicked = true;
-        this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        this.totalTime = this.totalTime - (task.time - task.elapsed);
         this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
@@ -178,14 +251,14 @@ export class HomeComponent implements OnInit {
      * Mark the item as complsete
      * @param task
      */
-    deleteItem( task ) {
-        this.data.list.forEach( (todo, index, list) => {
-            if ( task.id === todo.id ) {
-                list.splice( index, 1 );
+    deleteItem(task) {
+        this.data.list.forEach((todo, index, list) => {
+            if (task.id === todo.id) {
+                list.splice(index, 1);
             }
         });
-        if ( !task.isTicked ) {
-            this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        if (!task.isTicked) {
+            this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
         }
@@ -196,33 +269,33 @@ export class HomeComponent implements OnInit {
      */
     updateEta() {
         const time = this.totalTime;
-        if ( this.totalTime > 0 ) {
+        if (this.totalTime > 0) {
             this.status.showTime = true;
         } else {
             this.status.showTime = false;
         }
-        this.totalHrs = Math.floor( this.totalTime / 60 );
+        this.totalHrs = Math.floor(this.totalTime / 60);
         this.totalMins = this.totalTime % 60;
-        const date = new Date( new Date().getTime() + time * 60000 );
-        this.formatAMPM( date );
+        const date = new Date(new Date().getTime() + time * 60000);
+        this.formatAMPM(date);
     }
 
     /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
      */
-    sanitizeData()  {
-        this.data.list.forEach( (todo, index, list) => {
-            if ( todo.elapsed === null || todo.elapsed === undefined ) {
+    sanitizeData() {
+        this.data.list.forEach((todo, index, list) => {
+            if (todo.elapsed === null || todo.elapsed === undefined) {
                 todo.elapsed = 0;
-            } else if ( todo.elapsed > todo.time ) {
+            } else if (todo.elapsed > todo.time) {
                 todo.elapsed = todo.time;
-            } else if ( todo.elapsed < 0 ) {
+            } else if (todo.elapsed < 0) {
                 todo.elapsed = 0;
-            } else if ( todo.isTicked ) {
-                list.splice( index, 1 );
+            } else if (todo.isTicked) {
+                list.splice(index, 1);
             } else {
-                this.totalTime += ( todo.time - todo.elapsed );
+                this.totalTime += (todo.time - todo.elapsed);
                 this.updateEta();
             }
         });
@@ -233,26 +306,26 @@ export class HomeComponent implements OnInit {
      * @param {String} inputString
      * @returns {boolean}
      */
-    addTask( inputString: String ) {
-        if ( !inputString ) {
+    addTask(inputString: String) {
+        if (!inputString) {
             return false;
         }
 
         const taskID = new Date().getUTCMilliseconds();
-        const breakDownString = inputString.split( '|' );
+        const breakDownString = inputString.split('|');
         let timeString = breakDownString[0];
-        timeString = timeString.split( 'm' )[0];
-        const time = parseInt( timeString, 10 );
-        if ( isNaN(time)  || time === 0 ) {
+        timeString = timeString.split('m')[0];
+        const time = parseInt(timeString, 10);
+        if (isNaN(time) || time === 0) {
             return false;
         }
         this.addTaskInput = '';
         const task = breakDownString[1];
         this.data.list.push({
             id: taskID,
-            time : time,
+            time: time,
             elapsed: 0,
-            name : task
+            name: task
         });
         this.sanitizeData();
         this.updateEta();
@@ -272,14 +345,19 @@ export class HomeComponent implements OnInit {
         return window && window.process && window.process.type;
     };
 
+    ngAfterViewInit() {
+        this.pointerFirstTask = document.querySelector('.task-list-item');
+        this.pointerCurrentTask = this.pointerFirstTask;
+    }
+
     ngOnInit() {
-        if ( this.getCurrentList() ) {
+        if (this.getCurrentList()) {
             this.sanitizeData();
         } else {
             this.initiateData();
         }
-        this.defineGlobalShortcut();
+
         this.updateData();
-        this.window.setSize( 350, 500, true);
+        this.window.setSize(350, 500, true);
     }
 }
