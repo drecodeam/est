@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         if ( event.keyCode === KEY_CODE.N_KEY ) {
-            const input = document.querySelector('.add-task' );
+            const input: HTMLInputElement = document.querySelector('.add-task' );
             input.focus();
         }
     }
