@@ -1,9 +1,6 @@
-<div class="draggable-region"></div>
+<!--<div class="draggable-region"></div>-->
 <div class="container">
-    <div class="empty-state" *ngIf="!!status.showEmptyState">
-        showing an empty state
-    </div>
-    <input type="text" class="add-task" [ngModel]="addTaskInput" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
+    <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
     <div class="task-list" *ngIf="!status.showEmptyState">
         <div class="task-list-item"
              *ngFor="let item of data.list"

@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, HostListener, ElementRef, Renderer2} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Renderer2} from '@angular/core';
 import {ElectronService} from '../../providers/electron.service';
 import {el} from '../../../../node_modules/@angular/platform-browser/testing/src/browser_util';
 
@@ -8,7 +8,8 @@ export enum KEY_CODE {
     DOWN_ARROW = 40,
     UP_ARROW = 38,
     N_KEY = 78,
-    SPACE_KEY = 32
+    SPACE_KEY = 32,
+    ESCAPE_KEY = 27
 }
 
 
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     currentTask;
     currentTaskStartTime;
     currentInterval;
-    addTaskInput;
+    addTaskInput: HTMLInputElement;
     totalTime = 0;
     pointerFirstTask: HTMLInputElement;
     pointerCurrentTask;
@@ -54,12 +55,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
     hideOnboarding = false;
     showOnboarding = false;
 
-    @HostListener('document:keydown', ['$event'])
+    @HostListener('document:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
         this.handleShortcuts( event );
     }
 
+    /**
+     * Handle keyboard shortcuts
+     * @param event
+     */
     handleShortcuts( event: KeyboardEvent ) {
+        if ( this.addTaskInput === document.activeElement ) {
+            if ( event.keyCode === KEY_CODE.ESCAPE_KEY ) {
+                if ( this.addTaskInput === document.activeElement ) {
+                    this.addTaskInput.blur();
+                }
+            }
+            return false;
+        }
         this.pointerCurrentTask.classList.remove('selected');
         if (event.keyCode === KEY_CODE.DOWN_ARROW) {
             if ( !this.firstTaskNavigate ) {
@@ -89,28 +102,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         if ( event.keyCode === KEY_CODE.N_KEY ) {
-            const input: HTMLInputElement = document.querySelector('.add-task' );
-            input.focus();
+            this.addTaskInput.value = null;
+            this.addTaskInput.focus();
         }
+
     }
 
+    /**
+     * Find a task object given it's ID
+     * @param id
+     */
     findTaskByID( id ) {
         if ( !id ) {
             console.warn( 'tried calling function findTaskByID without giving ID' );
             return false;
         }
-        console.log( typeof id );
         id = parseInt( id, 10 );
         let task;
         this.data.list.forEach((todo, index, list) => {
-            console.log( typeof todo.id );
             if ( id === todo.id ) {
-                console.log( 'matched' );
                 task = todo;
             }
         });
         return task;
-    }h
+    }
 
     /**
      * Create a new file if it does not exist
@@ -134,9 +149,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
         try {
             this.data = JSON.parse(this.fs.readFileSync(this.filePath).toString());
             if (!this.data) {
-                return false;
+                this.data = {
+                    hideOnboarding: false,
+                    list: []
+                };
+                this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
             }
-            return true;
+            return this.data;
         } catch (error) {
             // if there was some kind of error, return the passed in defaults instead.
             console.log('there seems to be an issue getting the current data');
@@ -178,25 +197,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const label = new this.touchBarButton({
             label: timeLeft + 'm | ' + task.name
         });
-        const touchhBar = new this.electronService.remote.TouchBar({
-            items: [label]
-        });
-        this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
-        task.elapsed++;
-        this.totalTime--;
-        this.updateEta();
-        if (task.elapsed === task.time) {
+        // const touchhBar = new this.electronService.remote.TouchBar({
+        //     items: [label]
+        // });
+        // this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
+        if ( task.elapsed === task.time ) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
+            return;
         }
         if (task.elapsed > task.time) {
             task.elapsed = task.time;
             clearInterval(this.currentInterval);
         }
+        task.elapsed++;
+        this.totalTime--;
+        this.updateEta();
         task.progress = ((task.elapsed) / (task.time)) * 100;
-        if ( task.progress <= 1 ) {
-            task.progress = 1;
-        }
         this.updateData();
     }
 
@@ -261,6 +278,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
+            setTimeout( () => {this.updateUI(); }, 1);
         }
     }
 
@@ -268,15 +286,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Update the ETA on the top right
      */
     updateEta() {
-        const time = this.totalTime;
-        if (this.totalTime > 0) {
-            this.status.showTime = true;
-        } else {
-            this.status.showTime = false;
-        }
+        this.status.showTime = ( this.totalTime > 0 );
         this.totalHrs = Math.floor(this.totalTime / 60);
         this.totalMins = this.totalTime % 60;
-        const date = new Date(new Date().getTime() + time * 60000);
+        const date = new Date(new Date().getTime() + this.totalTime* 60000);
         this.formatAMPM(date);
     }
 
@@ -285,6 +298,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Basically remove bogus entries, empty entries, completed entries etc
      */
     sanitizeData() {
+        this.totalTime = 0;
         this.data.list.forEach((todo, index, list) => {
             if (todo.elapsed === null || todo.elapsed === undefined) {
                 todo.elapsed = 0;
@@ -319,7 +333,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (isNaN(time) || time === 0) {
             return false;
         }
-        this.addTaskInput = '';
+        this.addTaskInput.value = '';
         const task = breakDownString[1];
         this.data.list.push({
             id: taskID,
@@ -330,6 +344,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.sanitizeData();
         this.updateEta();
         this.updateData();
+        setTimeout( () => {this.updateUI(); }, 1);
+
+    }
+
+    updateUI() {
+        const taskList: HTMLElement = document.querySelector('.task-list' );
+        const etaElement: HTMLElement = document.querySelector('.total-time' );
+        if ( etaElement ) {
+            const windowHeight = taskList.offsetHeight + this.addTaskInput.offsetHeight + etaElement.offsetHeight;
+            console.log( windowHeight );
+            this.window.setSize(350, windowHeight, true);
+        } else {
+            const windowHeight = this.addTaskInput.offsetHeight;
+            console.log( windowHeight );
+            this.window.setSize(350, windowHeight, true);
+
+        }
     }
 
     /**
@@ -343,21 +374,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    };
+    }
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
+        this.addTaskInput = document.querySelector('.add-task' );
+        this.updateUI();
     }
 
     ngOnInit() {
-        if (this.getCurrentList()) {
-            this.sanitizeData();
-        } else {
-            this.initiateData();
-        }
-
+        this.getCurrentList();
+        this.sanitizeData();
         this.updateData();
-        this.window.setSize(350, 500, true);
     }
 }

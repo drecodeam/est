@@ -19,7 +19,10 @@ function createWindow() {
         y: 100  ,
         width: 400,
         height: 500,
-        titleBarStyle: 'hidden'
+        frame: false,
+        resizable: false,
+        movable: true,
+        title: 'Stors'
     });
 
     globalShortcut.register('Command+U', () => {
