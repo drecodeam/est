@@ -9,7 +9,7 @@
              [class.ticked] = "!!item.isTicked"
              [class.active] = "(item.id === currentTaskID)"
         >
-            <div class="item-time">{{item.time - item.elapsed}}m</div>
+            <div class="item-time">{{item.displayTime}}</div>
             <div class="item-separator"> | </div>
             <div class="item-title">{{item.name}}</div>
             <div class="done-icon"

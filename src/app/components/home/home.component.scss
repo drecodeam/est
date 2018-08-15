@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:300,400,700');
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
 
 $font-title : 'Hammersmith One', sans-serif;
@@ -6,7 +6,7 @@ $font-sans-serif : 'Open Sans', sans-serif;
 
 $grey : #F2F7FF;
 $selected : #D1375B;
-$mirage : #0F041E;
+$mirage : #1A142F;
 $magenta : #9013FE;
 $maya-blye : #72BFF9;
 $pelorous : #32ADBD;
@@ -47,21 +47,22 @@ $pelorous : #32ADBD;
 }
 
 .total-time {
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   width: 100%;
   position: relative;
   overflow: hidden;
   font-family: $font-sans-serif;
-  color: white;
-  background: $pelorous;
+  color: $pelorous;
+  background: transparent;
   .message {
-    font-weight: 600;
+    font-weight: 400;
     display: inline-block;
     padding-right: 0.5rem;
+    letter-spacing: 1px;
   }
   .hrs,
   .eta {
-    font-weight: 100;
+    font-weight: 300;
     display: inline-block;
   }
 }
@@ -119,7 +120,7 @@ $pelorous : #32ADBD;
       }
     }
     .item-time {
-      font-weight: 400;
+      font-weight: 300;
       display: inline-block;
     }
     .item-separator {
@@ -134,15 +135,15 @@ $pelorous : #32ADBD;
       padding-left: 0.25rem;
     }
     .item-progress-bar {
-      bottom: 0;
+      bottom: 15%;
       position: absolute;
       overflow: hidden;
       background: $pelorous;
       width: 0;
       border-radius: 2px;
-      transition: 1s all linear;
+      transition: 0.4s all ease-in-out;
       height: 1px;
-      opacity: 0.2;
+      opacity: 1;
     }
     &.ticked {
       text-decoration: line-through;
@@ -175,10 +176,11 @@ $pelorous : #32ADBD;
       }
     }
     &.active {
-      background: $mirage;
+      opacity: 1;
       .item-progress-bar {
         opacity: 1;
-        height: 2px;
+        height: 3px;
+        border-radius: 0;
         background: linear-gradient(270deg, #F97C24, #D9497D);
       }
       .item-separator {

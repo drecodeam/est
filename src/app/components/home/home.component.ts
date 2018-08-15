@@ -7,8 +7,12 @@ export enum KEY_CODE {
     UP_ARROW = 38,
     N_KEY = 78,
     SPACE_KEY = 32,
-    ESCAPE_KEY = 27
+    ESCAPE_KEY = 27,
+    ENTER_KEY = 13
 }
+
+
+
 
 
 @Component({
@@ -52,9 +56,104 @@ export class HomeComponent implements OnInit, AfterViewInit {
     hideOnboarding = false;
     showOnboarding = false;
 
+    timeUnits =  {
+        seconds : {
+            patterns: ['second', 'sec', 's'],
+            value: 1,
+            formats: {
+                'chrono': '',
+                'micro':  's',
+                'short':  'sec',
+                'long':   'second'
+            }
+        },
+        minutes: {
+            patterns: ['minute', 'min', 'm(?!s)'],
+            value: 60,
+            formats: {
+                'chrono': ':',
+                'micro':  'm',
+                'short':  'min',
+                'long':   'minute'
+            }
+        },
+        hours: {
+            patterns: ['hour', 'hr', 'h'],
+            value: 3600,
+            formats: {
+                'chrono': ':',
+                'micro':  'h',
+                'short':  'hr',
+                'long':   'hour'
+            }
+        },
+        days: {
+            patterns: ['day', 'dy', 'd'],
+            value: 86400,
+            formats: {
+                'chrono': ':',
+                'micro':  'd',
+                'short':  'day',
+                'long':   'day'
+            }
+        },
+        weeks: {
+            patterns: ['week', 'wk', 'w'],
+            value: 604800,
+            formats: {
+                'chrono': ':',
+                'micro':  'w',
+                'short':  'wk',
+                'long':   'week'
+            }
+        },
+        months: {
+            patterns: ['month', 'mon', 'mo', 'mth'],
+            value: 2628000,
+            formats: {
+                'chrono': ':',
+                'micro':  'm',
+                'short':  'mth',
+                'long':   'month'
+            }
+        },
+        years: {
+            patterns: ['year', 'yr', 'y'],
+            value: 31536000,
+            formats: {
+                'chrono': ':',
+                'micro':  'y',
+                'short':  'yr',
+                'long':   'year'
+            }
+        }
+    };
+
     @HostListener('document:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
         this.handleShortcuts( event );
+    }
+
+    parseTime( text) {
+        let parsedTime = 0;
+        const parsed = {
+            time: 0,
+            text: ''
+        };
+        // returns calculated values separated by spaces
+        Object.entries(this.timeUnits).forEach( ( [ key, unit] ) => {
+            unit.patterns.forEach( (pattern) => {
+                const regex = new RegExp('((?:\\d+\\.\\d+)|\\d+)\\s?(' + pattern + 's?(?=\\s|\\d|\\b))', 'gi');
+                text = text.replace(regex, function(str, p1, p2) {
+                    parsedTime += parseInt(p1, 10 ) * unit.value;
+                    return '';
+                });
+            });
+        });
+        console.log( text);
+        parsed.time = parsedTime;
+        parsed.text = text;
+        return parsed;
     }
 
     /**
@@ -62,6 +161,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param event
      */
     handleShortcuts( event: KeyboardEvent ) {
+        this.pointerCurrentTask = ( this.pointerCurrentTask ) ? this.pointerCurrentTask : this.pointerFirstTask;
         if ( this.addTaskInput === document.activeElement ) {
             if ( event.keyCode === KEY_CODE.ESCAPE_KEY ) {
                 if ( this.addTaskInput === document.activeElement ) {
@@ -95,16 +195,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 }
             }
         }
-        if (event.keyCode === KEY_CODE.SPACE_KEY ) {
+        if (event.keyCode === KEY_CODE.SPACE_KEY || event.keyCode === KEY_CODE.ENTER_KEY ) {
             const currentTask = this.findTaskByID( this.pointerCurrentTask.id );
             this.activateTask( currentTask );
         }
-
         if ( event.keyCode === KEY_CODE.N_KEY ) {
             this.addTaskInput.value = null;
             this.addTaskInput.focus();
         }
-
     }
 
     /**
@@ -172,6 +270,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     }
 
+    getDisplayTime( minutes ) {
+        minutes = parseInt( minutes, 10 );
+        const totalHrs = Math.floor(minutes / 60);
+        const totalMins = minutes % 60;
+
+        if ( totalHrs > 0 ) {
+            return ( totalHrs + 'h ' + totalMins + 'm' );
+        } else {
+            return ( totalMins + 'm' );
+        }
+
+    }
+
     /**
      * Update the UI of the active task
      * @param task
@@ -195,6 +306,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             clearInterval(this.currentInterval);
         }
         task.elapsed++;
+        task.totalTime = this.getDisplayTime( task.time - task.elapsed );
         this.totalTime--;
         this.updateEta();
         task.progress = ((task.elapsed) / (task.time)) * 100;
@@ -273,7 +385,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.status.showTime = ( this.totalTime > 0 );
         this.totalHrs = Math.floor(this.totalTime / 60);
         this.totalMins = this.totalTime % 60;
-        const date = new Date(new Date().getTime() + this.totalTime* 60000);
+        const date = new Date(new Date().getTime() + this.totalTime * 60000);
         this.formatAMPM(date);
     }
 
@@ -296,6 +408,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.totalTime += (todo.time - todo.elapsed);
                 this.updateEta();
             }
+            todo.displayTime = this.getDisplayTime( todo.time - todo.elapsed );
         });
     }
 
@@ -311,17 +424,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
         const taskID = new Date().getUTCMilliseconds();
         const breakDownString = inputString.split('|');
-        let timeString = breakDownString[0];
-        timeString = timeString.split('m')[0];
-        const time = parseInt(timeString, 10);
-        if (isNaN(time) || time === 0) {
+        const parsedString = this.parseTime( inputString );
+        if ( isNaN( parsedString.time) ) {
             return false;
         }
+        const time = Math.floor( parsedString.time / 60 );
+        const task = parsedString.text;
         this.addTaskInput.value = '';
-        const task = breakDownString[1];
         this.data.list.push({
             id: taskID,
             time: time,
+            displayTime : this.getDisplayTime( time ),
             elapsed: 0,
             name: task
         });
@@ -371,5 +484,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.getCurrentList();
         this.sanitizeData();
         this.updateData();
+        console.log( this.parseTime( '24m is something awesome' ) );
     }
 }
