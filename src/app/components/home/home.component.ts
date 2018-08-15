@@ -150,7 +150,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 });
             });
         });
-        console.log( text);
         parsed.time = parsedTime;
         parsed.text = text;
         return parsed;
@@ -266,7 +265,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
             this.updateTaskUI( task );
-            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 1000);
         }
     }
 
@@ -274,12 +273,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         minutes = parseInt( minutes, 10 );
         const totalHrs = Math.floor(minutes / 60);
         const totalMins = minutes % 60;
+        let displayTime = '';
 
-        if ( totalHrs > 0 ) {
-            return ( totalHrs + 'h ' + totalMins + 'm' );
-        } else {
-            return ( totalMins + 'm' );
-        }
+        displayTime += ( totalHrs > 0 ) ? totalHrs + 'h' : '';
+        displayTime += ( totalMins > 0 ) ? ' ' + totalMins + 'm' : '';
+
+        return displayTime;
 
     }
 
@@ -288,10 +287,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param task
      */
     updateTaskUI(task) {
-        const timeLeft = task.time - task.elapsed;
-        const label = new this.touchBarButton({
-            label: timeLeft + 'm | ' + task.name
-        });
+        // const label = new this.touchBarButton({
+        //     label: timeLeft + 'm | ' + task.name
+        // });
         // const touchhBar = new this.electronService.remote.TouchBar({
         //     items: [label]
         // });
@@ -306,7 +304,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             clearInterval(this.currentInterval);
         }
         task.elapsed++;
-        task.totalTime = this.getDisplayTime( task.time - task.elapsed );
+        task.displayTime = this.getDisplayTime( task.time - task.elapsed );
         this.totalTime--;
         this.updateEta();
         task.progress = ((task.elapsed) / (task.time)) * 100;
