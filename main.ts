@@ -17,16 +17,18 @@ function createWindow() {
     win = new BrowserWindow({
         x: 400,
         y: 100  ,
-        width: 400,
+        width: 350,
         height: 500,
         frame: false,
         resizable: false,
         movable: true,
         title: 'Stors'
-    });
+    }); 
 
     globalShortcut.register('Command+U', () => {
+        win.setVisibleOnAllWorkspaces(true);
         win.show();
+        win.setVisibleOnAllWorkspaces(false);
     });
 
     if (serve) {
