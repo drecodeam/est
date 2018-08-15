@@ -47,12 +47,13 @@ $pelorous : #32ADBD;
 }
 
 .total-time {
-  padding: 2rem;
+  padding: 1rem 2rem;
   width: 100%;
   position: relative;
   overflow: hidden;
   font-family: $font-sans-serif;
-  color: $pelorous;
+  color: white;
+  background: $pelorous;
   .message {
     font-weight: 600;
     display: inline-block;

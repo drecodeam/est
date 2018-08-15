@@ -3,8 +3,6 @@ import {ElectronService} from '../../providers/electron.service';
 import {el} from '../../../../node_modules/@angular/platform-browser/testing/src/browser_util';
 
 export enum KEY_CODE {
-    RIGHT_ARROW = 39,
-    LEFT_ARROW = 37,
     DOWN_ARROW = 40,
     UP_ARROW = 38,
     N_KEY = 78,
@@ -22,8 +20,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     constructor(
         private electronService: ElectronService,
-        private el: ElementRef,
-        private renderer: Renderer2
+        private el: ElementRef
     ) {
     }
 
@@ -69,6 +66,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             if ( event.keyCode === KEY_CODE.ESCAPE_KEY ) {
                 if ( this.addTaskInput === document.activeElement ) {
                     this.addTaskInput.blur();
+                    this.pointerCurrentTask = this.pointerFirstTask;
+                    this.firstTaskNavigate = false;
                 }
             }
             return false;
@@ -125,21 +124,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             }
         });
         return task;
-    }
-
-    /**
-     * Create a new file if it does not exist
-     */
-    initiateData() {
-        this.data = {
-            hideOnboarding: false,
-            list: []
-        };
-        try {
-            this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     /**
