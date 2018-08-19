@@ -11,14 +11,18 @@ $magenta : #9013FE;
 $maya-blye : #72BFF9;
 $pelorous : #32ADBD;
 
-.draggable-region {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 40px;
-  -webkit-app-region: drag;
-  z-index: 10;
+.onboarding-container {
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+  .title {
+    position: relative;
+    overflow: hidden;
+    font-family: $font-sans-serif;
+    letter-spacing: 1px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
 }
 
 .help {

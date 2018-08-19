@@ -1,6 +1,5 @@
 import {Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Renderer2} from '@angular/core';
 import {ElectronService} from '../../providers/electron.service';
-import {el} from '../../../../node_modules/@angular/platform-browser/testing/src/browser_util';
 
 export enum KEY_CODE {
     DOWN_ARROW = 40,
@@ -10,10 +9,6 @@ export enum KEY_CODE {
     ESCAPE_KEY = 27,
     ENTER_KEY = 13
 }
-
-
-
-
 
 @Component({
     selector: 'app-home',
@@ -265,7 +260,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
             this.updateTaskUI( task );
-            this.currentInterval = setInterval(() => this.updateTaskUI(task), 1000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
     }
 

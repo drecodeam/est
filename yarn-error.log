@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn install mousetrap --save
+  /usr/local/bin/node /usr/local/bin/yarn start
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "Stors",
-    "version": "0.1.2",
+    "version": "0.2.2",
     "description": "A simple task manager for a day",
     "homepage": "https://insert.black",
     "repository": "https://github.com/drecodeam/stors",
@@ -53,6 +53,7 @@ npm manifest:
       "auto-launch": "^5.0.5",
       "buffer": "^5.1.0",
       "events": "^3.0.0",
+      "mousetrap": "^1.6.2",
       "raven-js": "^3.26.4",
       "stream": "0.0.2",
       "timers": "^0.1.1"
@@ -326,6 +327,10 @@ Lockfile:
     dependencies:
       component-type "^1.2.1"
       join-component "^1.1.0"
+  
+  "@types/es6-collections@^0.5.31":
+    version "0.5.31"
+    resolved "https://registry.yarnpkg.com/@types/es6-collections/-/es6-collections-0.5.31.tgz#faad21c930cd0ea7f71f51b9e5b555796c5ab23f"
   
   "@types/jasmine@*":
     version "2.8.8"
@@ -1341,7 +1346,7 @@ Lockfile:
       fs-extra-p "^4.6.0"
       sax "^1.2.4"
   
-  builder-util-runtime@^4.2.1, builder-util-runtime@^4.4.1, builder-util-runtime@~4.4.1:
+  builder-util-runtime@^4.2.1, builder-util-runtime@^4.4.1:
     version "4.4.1"
     resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.4.1.tgz#2770d03241e51fde46acacc7ed3ed8a9f45f02cb"
     dependencies:
@@ -2537,14 +2542,6 @@ Lockfile:
       semver "^5.3.0"
       sumchecker "^1.2.0"
   
-  electron-is-dev@^0.3.0:
-    version "0.3.0"
-    resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
-  
-  electron-log@^2.2.16:
-    version "2.2.16"
-    resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-2.2.16.tgz#c44ffdea51ae90cbe851d25e7cd1bab56fdb328f"
-  
   electron-osx-sign@0.4.10:
     version "0.4.10"
     resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.10.tgz#be4f3b89b2a75a1dc5f1e7249081ab2929ca3a26"
@@ -2578,23 +2575,9 @@ Lockfile:
     version "1.3.52"
     resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.52.tgz#d2d9f1270ba4a3b967b831c40ef71fb4d9ab5ce0"
   
-  electron-updater@^3.0.3:
-    version "3.0.3"
-    resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-3.0.3.tgz#67f7edd578d260f9351ccd46ff23c2789c2a5a4f"
-    dependencies:
-      bluebird-lst "^1.0.5"
-      builder-util-runtime "~4.4.1"
-      electron-is-dev "^0.3.0"
-      fs-extra-p "^4.6.1"
-      js-yaml "^3.12.0"
-      lazy-val "^1.0.3"
-      lodash.isequal "^4.5.0"
-      semver "^5.5.0"
-      source-map-support "^0.5.6"
-  
-  electron@2.0.2:
-    version "2.0.2"
-    resolved "https://registry.yarnpkg.com/electron/-/electron-2.0.2.tgz#b77e05f83419cc5ec921a2d21f35b55e4bfc3d68"
+  electron@^2.0.2:
+    version "2.0.7"
+    resolved "https://registry.yarnpkg.com/electron/-/electron-2.0.7.tgz#f7ce410433298e319032ce31f0e6ffd709ff052c"
     dependencies:
       "@types/node" "^8.0.24"
       electron-download "^3.0.1"
@@ -4861,10 +4844,6 @@ Lockfile:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   
-  lodash.isequal@^4.5.0:
-    version "4.5.0"
-    resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
-  
   lodash.isstring@^4.0.1:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
@@ -5280,6 +5259,10 @@ Lockfile:
   moment@2.x.x:
     version "2.22.2"
     resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+  
+  mousetrap@^1.6.2:
+    version "1.6.2"
+    resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
   
   move-concurrently@^1.0.1, move-concurrently@~1.0.1:
     version "1.0.1"
@@ -9015,10 +8998,17 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"
 
 Trace: 
-  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add mousetrap" instead.
-      at new MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
-      at Object.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:21987:13)
-      at Generator.next (<anonymous>)
-      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/local/lib/node_modules/yarn/lib/cli.js:109:13
-      at <anonymous>
+  Error: Command failed.
+  Exit code: 1
+  Command: sh
+  Arguments: -c npm-run-all -p ng:serve electron:serve
+  Directory: /Users/ankur/Documents/stors
+  Output:
+  
+      at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
+      at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
+      at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

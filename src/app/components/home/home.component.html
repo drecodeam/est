@@ -1,5 +1,11 @@
 <!--<div class="draggable-region"></div>-->
 <div class="container">
+    <div class="onboarding-container">
+        <div class="title">ADDING A TASK</div>
+        <div class="breaking-rectangle"></div>
+        <div class="description">Just add your task description and the time it would take to complete it</div>
+        <div class="eg">eg: 30 mins Standup, Meeting with Sarah 1hr 15m, 45 m Demo of our new product</div>
+    </div>
     <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
     <div class="task-list" *ngIf="!status.showEmptyState">
         <div class="task-list-item"
@@ -25,7 +31,7 @@
         </div>
     </div>
     <div class="total-time" *ngIf="!!status.showTime">
-        <div class="message">ETA: </div>
+        <div class="message">ET: </div>
         <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
         <div class="eta">{{eta}}</div>
     </div>

@@ -7,7 +7,7 @@ import * as url from 'url';
 
 let win, serve;
 const args = process.argv.slice(1);
-serve = args.some(val => val === '--serve');
+serve = args.some(val => val === '--pserve');
 
 function createWindow() {
     const electronScreen = screen;
@@ -23,7 +23,7 @@ function createWindow() {
         resizable: false,
         movable: true,
         title: 'Stors'
-    }); 
+    });
 
     globalShortcut.register('Command+U', () => {
         win.setVisibleOnAllWorkspaces(true);
