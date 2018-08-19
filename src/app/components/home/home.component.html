@@ -1,13 +1,17 @@
-<!--<div class="draggable-region"></div>-->
 <div class="container">
-    <div class="onboarding-container">
+    <div class="onboarding-container" *ngIf="!!status.showOnboarding">
         <div class="title">ADDING A TASK</div>
-        <div class="breaking-rectangle"></div>
-        <div class="description">Just add your task description and the time it would take to complete it</div>
-        <div class="eg">eg: 30 mins Standup, Meeting with Sarah 1hr 15m, 45 m Demo of our new product</div>
+        <div class="description">Just add what you want to do and how much time it would take</div>
+        <div class="eg">example:  30 mins Standup <br /> Meeting with Sarah 1hr 15m <br /> 45m Demo of our new product</div>
     </div>
+
     <input type="text" class="add-task" (keyup.enter)="addTask(todo.value)" placeholder="+ Add a new task" #todo>
-    <div class="task-list" *ngIf="!status.showEmptyState">
+    <div class="input-error" *ngIf="!!inputError">
+        <div class="error-main">Include task duration in the input</div>
+        <div class="error-sub">example: 1h 6m, 1 hour 15 minutes, 25 mins. Just add time in this format anywhere in the description and stors would pick it up</div>
+    </div>
+
+    <div class="task-list" *ngIf="!status.showOnboarding">
         <div class="task-list-item"
              *ngFor="let item of data.list"
              [id]="item.id"
@@ -30,8 +34,8 @@
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
         </div>
     </div>
-    <div class="total-time" *ngIf="!!status.showTime">
-        <div class="message">ET: </div>
+    <div class="total-time" *ngIf="!status.showOnboarding">
+        <div class="message">ETA: </div>
         <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
         <div class="eta">{{eta}}</div>
     </div>

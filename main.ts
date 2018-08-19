@@ -7,7 +7,7 @@ import * as url from 'url';
 
 let win, serve;
 const args = process.argv.slice(1);
-serve = args.some(val => val === '--pserve');
+serve = args.some(val => val === '--serve');
 
 function createWindow() {
     const electronScreen = screen;

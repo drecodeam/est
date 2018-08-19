@@ -43,14 +43,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     totalMins;
     eta: any;
     firstTaskNavigate = false;
+    inputError = false;
     status = {
-        showOnboarding: false,
-        showTime: false,
-        showEmptyState: false
+        showOnboarding: true
     };
-    hideOnboarding = false;
-    showOnboarding = false;
-
     timeUnits =  {
         seconds : {
             patterns: ['second', 'sec', 's'],
@@ -264,6 +260,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     }
 
+    /**
+     * Get the time to be completion displayed
+     * @param minutes
+     */
     getDisplayTime( minutes ) {
         minutes = parseInt( minutes, 10 );
         const totalHrs = Math.floor(minutes / 60);
@@ -320,9 +320,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
      */
     updateData() {
         if (this.data.list.length <= 0) {
-            this.status.showEmptyState = true;
+            this.status.showOnboarding = true;
         } else {
-            this.status.showEmptyState = false;
+            this.status.showOnboarding = false;
         }
         this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
     }
@@ -375,7 +375,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Update the ETA on the top right
      */
     updateEta() {
-        this.status.showTime = ( this.totalTime > 0 );
         this.totalHrs = Math.floor(this.totalTime / 60);
         this.totalMins = this.totalTime % 60;
         const date = new Date(new Date().getTime() + this.totalTime * 60000);
@@ -416,9 +415,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         const taskID = new Date().getUTCMilliseconds();
-        const breakDownString = inputString.split('|');
         const parsedString = this.parseTime( inputString );
-        if ( isNaN( parsedString.time) ) {
+        if ( isNaN( parsedString.time) || parsedString.time <= 0) {
+            this.status.showOnboarding = false;
+            this.inputError = true;
             return false;
         }
         const time = Math.floor( parsedString.time / 60 );
@@ -429,37 +429,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             time: time,
             displayTime : this.getDisplayTime( time ),
             elapsed: 0,
-            name: task
+            name: task,
+            isTicked: false
         });
         this.sanitizeData();
         this.updateEta();
         this.updateData();
+        this.inputError = false;
         setTimeout( () => {this.updateUI(); }, 1);
 
     }
 
     updateUI() {
-        const taskList: HTMLElement = document.querySelector('.task-list' );
-        const etaElement: HTMLElement = document.querySelector('.total-time' );
-        if ( etaElement ) {
-            const windowHeight = taskList.offsetHeight + this.addTaskInput.offsetHeight + etaElement.offsetHeight;
-            console.log( windowHeight );
-            this.window.setSize(350, windowHeight, true);
-        } else {
-            const windowHeight = this.addTaskInput.offsetHeight;
-            console.log( windowHeight );
-            this.window.setSize(350, windowHeight, true);
-
-        }
-    }
-
-    /**
-     * Close onboarding and save it in settings
-     */
-    closeOnboarding() {
-        this.showOnboarding = false;
-        this.data.hideOnboarding = true;
-        this.updateData();
+        const containerElement: HTMLElement = document.querySelector('.container' );
+        const windowHeight = containerElement.offsetHeight;
+        this.window.setSize(350, windowHeight, false);
     }
 
     isElectron = () => {
@@ -477,6 +461,5 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.getCurrentList();
         this.sanitizeData();
         this.updateData();
-        console.log( this.parseTime( '24m is something awesome' ) );
     }
 }

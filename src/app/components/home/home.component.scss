@@ -10,18 +10,44 @@ $mirage : #1A142F;
 $magenta : #9013FE;
 $maya-blye : #72BFF9;
 $pelorous : #32ADBD;
+$haiti : #170139;
 
 .onboarding-container {
   position: relative;
   overflow: hidden;
   padding: 2rem;
+  background: $haiti;
+  background: linear-gradient(270deg, darken( #F97C24, 10% ), darken( #D9497D, 10%));
   .title {
     position: relative;
     overflow: hidden;
     font-family: $font-sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 700;
+    color: $grey;
+  }
+  .description {
+    padding-top: 4px;
+    position: relative;
+    overflow: hidden;
+    font-family: $font-sans-serif;
+    color: $grey;
+    opacity: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .eg {
+    padding-top: 8px;
+    position: relative;
+    overflow: hidden;
+    line-height: 1.5;
+    font-family: $font-sans-serif;
+    color: $grey;
+    opacity: 0.7;
+    font-size: 14px;
+    font-style: italic;
   }
 }
 
@@ -37,17 +63,7 @@ $pelorous : #32ADBD;
   overflow: hidden;
   float: left;
   width: 100%;
-  min-height: 80vh;
   -webkit-app-region: drag;
-}
-
-.title {
-  font-size: 2rem;
-  font-family: $font-title;
-  padding: 1rem;
-  color: white;
-  float: left;
-  max-width: 50%;
 }
 
 .total-time {
@@ -222,21 +238,36 @@ $pelorous : #32ADBD;
     background: $mirage;
   }
 }
-
-.clear-tasks {
-  color: white;
-  text-align: center;
-  margin-top: 2rem;
+.input-error {
+ background: $selected;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  .error-main {
+    color: white;
+    font-family: $font-sans-serif;
+    font-size: 14px;
+  }
+  .error-sub {
+    color: white;
+    font-family: $font-sans-serif;
+    font-size: 14px;
+    padding-top: 4px;
+    opacity: 0.5;
+    font-style: italic;
+  }
 }
 
-@keyframes animate-progress {
+@keyframes onboarding-progress-bar {
   0% {
-    opacity: 1;
+    width: 0;
+    opacity: 0
   }
-  50% {
-    opacity: 0;
+  10% {
+    width: 10%;
+    opacity: 1;
   }
   100% {
-    opacity: 1;
+    width: 100%;
   }
 }
