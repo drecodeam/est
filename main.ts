@@ -1,7 +1,8 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, screen, globalShortcut } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import {autoUpdater} from 'electron-updater';
+// const { autoUpdater } = require('electron-updater');
+// const { menubar } = require('menubar');
 
 
 let win, serve;
@@ -9,17 +10,25 @@ const args = process.argv.slice(1);
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
-
     const electronScreen = screen;
     const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
     // Create the browser window.
     win = new BrowserWindow({
-        x: 0,
-        y: 0,
-        width: 400,
-        height: 800,
-        titleBarStyle: 'hidden'
+        x: 400,
+        y: 100  ,
+        width: 350,
+        height: 500,
+        frame: false,
+        resizable: false,
+        movable: true,
+        title: 'Stors'
+    });
+
+    globalShortcut.register('Command+U', () => {
+        win.setVisibleOnAllWorkspaces(true);
+        win.show();
+        win.setVisibleOnAllWorkspaces(false);
     });
 
     if (serve) {
@@ -35,8 +44,6 @@ function createWindow() {
         }));
     }
 
-    // win.webContents.openDevTools();
-
     // Emitted when the window is closed.
     win.on('closed', () => {
         // Dereference the window object, usually you would store window
@@ -51,7 +58,9 @@ try {
     // This method will be called when Electron has finished
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
-    app.on('ready', createWindow);
+    app.on('ready', () => {
+        createWindow();
+    });
 
     // Quit when all windows are closed.
     app.on('window-all-closed', () => {
@@ -63,15 +72,9 @@ try {
     });
 
     app.on('activate', () => {
-        // On OS X it's common to re-create a window in the app when the
-        // dock icon is clicked and there are no other windows open.
         if (win === null) {
             createWindow();
         }
-        const log = require("electron-log");
-        log.transports.file.level = "debug";
-        autoUpdater.logger = log;
-        autoUpdater.checkForUpdatesAndNotify();
     });
 
 } catch (e) {

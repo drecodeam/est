@@ -1,48 +1,217 @@
-import { Component, OnInit } from '@angular/core';
-import { ElectronService } from '../../providers/electron.service';
+import {Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Renderer2} from '@angular/core';
+import {ElectronService} from '../../providers/electron.service';
 
+export enum KEY_CODE {
+    DOWN_ARROW = 40,
+    UP_ARROW = 38,
+    N_KEY = 78,
+    SPACE_KEY = 32,
+    ESCAPE_KEY = 27,
+    ENTER_KEY = 13
+}
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
 
-  constructor(
-      private electronService: ElectronService
-  ) {}
+    constructor(
+        private electronService: ElectronService,
+        private el: ElementRef
+    ) {
+    }
 
+    // COMMONLY USED ELECTRON SERVICE REFERENCES
     filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
-    data;
     fs = this.electronService.fs;
+    app = this.electronService.remote.app;
+    window = this.electronService.remote.getCurrentWindow();
+    touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
+
+    data;
     currentTaskID;
+    currentTask;
     currentTaskStartTime;
     currentInterval;
-    touchBarButton = this.electronService.remote.TouchBar.TouchBarButton;
-    addTaskInput;
+    addTaskInput: HTMLInputElement;
     totalTime = 0;
+    pointerFirstTask: HTMLInputElement;
+    pointerCurrentTask;
     totalHrs;
     totalMins;
     eta: any;
+    firstTaskNavigate = false;
+    inputError = false;
     status = {
-        showOnboarding: false,
-        showTime: false,
-        showEmptyState: false
+        showOnboarding: true
     };
-    hideOnboarding = false;
-    showOnboarding = false;
-
-    initiateData() {
-        this.data = {
-            hideOnboarding : false,
-            list: []
-        };
-        try {
-            this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
-        } catch ( error ) {
-            console.log( error );
+    timeUnits =  {
+        seconds : {
+            patterns: ['second', 'sec', 's'],
+            value: 1,
+            formats: {
+                'chrono': '',
+                'micro':  's',
+                'short':  'sec',
+                'long':   'second'
+            }
+        },
+        minutes: {
+            patterns: ['minute', 'min', 'm(?!s)'],
+            value: 60,
+            formats: {
+                'chrono': ':',
+                'micro':  'm',
+                'short':  'min',
+                'long':   'minute'
+            }
+        },
+        hours: {
+            patterns: ['hour', 'hr', 'h'],
+            value: 3600,
+            formats: {
+                'chrono': ':',
+                'micro':  'h',
+                'short':  'hr',
+                'long':   'hour'
+            }
+        },
+        days: {
+            patterns: ['day', 'dy', 'd'],
+            value: 86400,
+            formats: {
+                'chrono': ':',
+                'micro':  'd',
+                'short':  'day',
+                'long':   'day'
+            }
+        },
+        weeks: {
+            patterns: ['week', 'wk', 'w'],
+            value: 604800,
+            formats: {
+                'chrono': ':',
+                'micro':  'w',
+                'short':  'wk',
+                'long':   'week'
+            }
+        },
+        months: {
+            patterns: ['month', 'mon', 'mo', 'mth'],
+            value: 2628000,
+            formats: {
+                'chrono': ':',
+                'micro':  'm',
+                'short':  'mth',
+                'long':   'month'
+            }
+        },
+        years: {
+            patterns: ['year', 'yr', 'y'],
+            value: 31536000,
+            formats: {
+                'chrono': ':',
+                'micro':  'y',
+                'short':  'yr',
+                'long':   'year'
+            }
         }
+    };
+
+    @HostListener('document:keyup', ['$event'])
+    keyEvent(event: KeyboardEvent) {
+        this.handleShortcuts( event );
+    }
+
+    parseTime( text) {
+        let parsedTime = 0;
+        const parsed = {
+            time: 0,
+            text: ''
+        };
+        // returns calculated values separated by spaces
+        Object.entries(this.timeUnits).forEach( ( [ key, unit] ) => {
+            unit.patterns.forEach( (pattern) => {
+                const regex = new RegExp('((?:\\d+\\.\\d+)|\\d+)\\s?(' + pattern + 's?(?=\\s|\\d|\\b))', 'gi');
+                text = text.replace(regex, function(str, p1, p2) {
+                    parsedTime += parseInt(p1, 10 ) * unit.value;
+                    return '';
+                });
+            });
+        });
+        parsed.time = parsedTime;
+        parsed.text = text;
+        return parsed;
+    }
+
+    /**
+     * Handle keyboard shortcuts
+     * @param event
+     */
+    handleShortcuts( event: KeyboardEvent ) {
+        this.pointerCurrentTask = ( this.pointerCurrentTask ) ? this.pointerCurrentTask : this.pointerFirstTask;
+        if ( this.addTaskInput === document.activeElement ) {
+            if ( event.keyCode === KEY_CODE.ESCAPE_KEY ) {
+                if ( this.addTaskInput === document.activeElement ) {
+                    this.addTaskInput.blur();
+                    this.pointerCurrentTask = this.pointerFirstTask;
+                    this.firstTaskNavigate = false;
+                }
+            }
+            return false;
+        }
+        this.pointerCurrentTask.classList.remove('selected');
+        if (event.keyCode === KEY_CODE.DOWN_ARROW) {
+            if ( !this.firstTaskNavigate ) {
+                this.firstTaskNavigate = true;
+                this.pointerCurrentTask.classList.add( 'selected' );
+            } else {
+                if (this.pointerCurrentTask.nextElementSibling) {
+                    this.pointerCurrentTask = this.pointerCurrentTask.nextElementSibling;
+                    this.pointerCurrentTask.classList.add('selected');
+                }
+            }
+        }
+        if (event.keyCode === KEY_CODE.UP_ARROW) {
+            if ( !this.firstTaskNavigate ) {
+                this.firstTaskNavigate = true;
+                this.pointerCurrentTask.classList.add( 'selected' );
+            } else {
+                if ( this.pointerCurrentTask.previousElementSibling ) {
+                    this.pointerCurrentTask = this.pointerCurrentTask.previousElementSibling;
+                    this.pointerCurrentTask.classList.add('selected');
+                }
+            }
+        }
+        if (event.keyCode === KEY_CODE.SPACE_KEY || event.keyCode === KEY_CODE.ENTER_KEY ) {
+            const currentTask = this.findTaskByID( this.pointerCurrentTask.id );
+            this.activateTask( currentTask );
+        }
+        if ( event.keyCode === KEY_CODE.N_KEY ) {
+            this.addTaskInput.value = null;
+            this.addTaskInput.focus();
+        }
+    }
+
+    /**
+     * Find a task object given it's ID
+     * @param id
+     */
+    findTaskByID( id ) {
+        if ( !id ) {
+            console.warn( 'tried calling function findTaskByID without giving ID' );
+            return false;
+        }
+        id = parseInt( id, 10 );
+        let task;
+        this.data.list.forEach((todo, index, list) => {
+            if ( id === todo.id ) {
+                task = todo;
+            }
+        });
+        return task;
     }
 
     /**
@@ -50,14 +219,18 @@ export class HomeComponent implements OnInit {
      */
     getCurrentList() {
         try {
-            this.data = JSON.parse( this.fs.readFileSync(this.filePath).toString());
-            if ( !this.data ) {
-                return false;
+            this.data = JSON.parse(this.fs.readFileSync(this.filePath).toString());
+            if (!this.data) {
+                this.data = {
+                    hideOnboarding: false,
+                    list: []
+                };
+                this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
             }
-            return true;
+            return this.data;
         } catch (error) {
             // if there was some kind of error, return the passed in defaults instead.
-            console.log( 'there seems to be an issue getting the current data' );
+            console.log('there seems to be an issue getting the current data');
             return false;
         }
     }
@@ -68,12 +241,13 @@ export class HomeComponent implements OnInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        if ( !task ) {
+        if (!task || task.isTicked) {
             return false;
         }
-        clearInterval( this.currentInterval );
+        clearInterval(this.currentInterval);
         this.currentTaskID = task.id;
-        if ( task.isActive ) {
+        this.currentTask = task;
+        if (task.isActive) {
             task.isActive = false;
             this.currentTaskID = 0;
             this.updateData();
@@ -81,8 +255,26 @@ export class HomeComponent implements OnInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval( () => this.updateTaskUI(task), 60000 );
+            this.updateTaskUI( task );
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
+    }
+
+    /**
+     * Get the time to be completion displayed
+     * @param minutes
+     */
+    getDisplayTime( minutes ) {
+        minutes = parseInt( minutes, 10 );
+        const totalHrs = Math.floor(minutes / 60);
+        const totalMins = minutes % 60;
+        let displayTime = '';
+
+        displayTime += ( totalHrs > 0 ) ? totalHrs + 'h' : '';
+        displayTime += ( totalMins > 0 ) ? ' ' + totalMins + 'm' : '';
+
+        return displayTime;
+
     }
 
     /**
@@ -90,26 +282,27 @@ export class HomeComponent implements OnInit {
      * @param task
      */
     updateTaskUI(task) {
-        const timeLeft = task.time - task.elapsed;
-        const label = new this.touchBarButton ({
-            label: timeLeft + 'm | ' + task.name
-        });
-        const touchhBar = new this.electronService.remote.TouchBar({
-            items : [label]
-        });
-        this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
-        task.elapsed ++;
+        // const label = new this.touchBarButton({
+        //     label: timeLeft + 'm | ' + task.name
+        // });
+        // const touchhBar = new this.electronService.remote.TouchBar({
+        //     items: [label]
+        // });
+        // this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
+        if ( task.elapsed === task.time ) {
+            clearInterval(this.currentInterval);
+            task.isComplete = true;
+            return;
+        }
+        if (task.elapsed > task.time) {
+            task.elapsed = task.time;
+            clearInterval(this.currentInterval);
+        }
+        task.elapsed++;
+        task.displayTime = this.getDisplayTime( task.time - task.elapsed );
         this.totalTime--;
         this.updateEta();
-        if ( task.elapsed === task.time ) {
-            clearInterval( this.currentInterval );
-            task.isComplete = true;
-        }
-        if ( task.elapsed > task.time ) {
-            task.elapsed = task.time;
-            clearInterval( this.currentInterval );
-        }
-        task.progress = ( (task.elapsed)/( task.time) ) * 100;
+        task.progress = ((task.elapsed) / (task.time)) * 100;
         this.updateData();
     }
 
@@ -126,10 +319,10 @@ export class HomeComponent implements OnInit {
      * Sync data onto the file
      */
     updateData() {
-        if ( this.data.list.length <= 0 ) {
-            this.status.showEmptyState = true;
+        if (this.data.list.length <= 0) {
+            this.status.showOnboarding = true;
         } else {
-            this.status.showEmptyState = false;
+            this.status.showOnboarding = false;
         }
         this.fs.writeFileSync(this.filePath, JSON.stringify(this.data));
     }
@@ -152,9 +345,9 @@ export class HomeComponent implements OnInit {
      * Mark the item as complete
      * @param task
      */
-    markItemComplete( task ) {
+    markItemComplete(task) {
         task.isTicked = true;
-        this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        this.totalTime = this.totalTime - (task.time - task.elapsed);
         this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
@@ -164,16 +357,17 @@ export class HomeComponent implements OnInit {
      * Mark the item as complsete
      * @param task
      */
-    deleteItem( task ) {
-        this.data.list.forEach( (todo, index, list) => {
-            if ( task.id === todo.id ) {
-                list.splice( index, 1 );
+    deleteItem(task) {
+        this.data.list.forEach((todo, index, list) => {
+            if (task.id === todo.id) {
+                list.splice(index, 1);
             }
         });
-        if ( !task.isTicked ) {
-            this.totalTime = this.totalTime - ( task.time - task.elapsed );
+        if (!task.isTicked) {
+            this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
+            setTimeout( () => {this.updateUI(); }, 1);
         }
     }
 
@@ -181,37 +375,32 @@ export class HomeComponent implements OnInit {
      * Update the ETA on the top right
      */
     updateEta() {
-        const time = this.totalTime;
-        if ( this.totalTime > 0 ) {
-            this.status.showTime = true;
-        } else {
-            this.status.showTime = false;
-        }
-        this.totalHrs = Math.floor( this.totalTime/60 );
+        this.totalHrs = Math.floor(this.totalTime / 60);
         this.totalMins = this.totalTime % 60;
-        const date = new Date( new Date().getTime() + time * 60000 );
-        this.formatAMPM( date );
+        const date = new Date(new Date().getTime() + this.totalTime * 60000);
+        this.formatAMPM(date);
     }
-
 
     /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
      */
-    sanitizeData()  {
-        this.data.list.forEach( (todo, index, list) => {
-            if ( todo.elapsed === null || todo.elapsed === undefined ) {
+    sanitizeData() {
+        this.totalTime = 0;
+        this.data.list.forEach((todo, index, list) => {
+            if (todo.elapsed === null || todo.elapsed === undefined) {
                 todo.elapsed = 0;
-            } else if ( todo.elapsed > todo.time ) {
+            } else if (todo.elapsed > todo.time) {
                 todo.elapsed = todo.time;
-            } else if ( todo.elapsed < 0 ) {
+            } else if (todo.elapsed < 0) {
                 todo.elapsed = 0;
-            } else if ( todo.isTicked ) {
-                list.splice( index, 1 );
+            } else if (todo.isTicked) {
+                list.splice(index, 1);
             } else {
-                this.totalTime += ( todo.time - todo.elapsed );
+                this.totalTime += (todo.time - todo.elapsed);
                 this.updateEta();
             }
+            todo.displayTime = this.getDisplayTime( todo.time - todo.elapsed );
         });
     }
 
@@ -220,52 +409,57 @@ export class HomeComponent implements OnInit {
      * @param {String} inputString
      * @returns {boolean}
      */
-    addTask( inputString: String ) {
-        if ( !inputString ) {
+    addTask(inputString: String) {
+        if (!inputString) {
             return false;
         }
 
         const taskID = new Date().getUTCMilliseconds();
-        const breakDownString = inputString.split( '|' );
-        let timeString = breakDownString[0];
-        timeString = timeString.split( 'm' )[0];
-        const time = parseInt( timeString, 10 );
-        if ( isNaN(time)  || time === 0 ) {
+        const parsedString = this.parseTime( inputString );
+        if ( isNaN( parsedString.time) || parsedString.time <= 0) {
+            this.status.showOnboarding = false;
+            this.inputError = true;
             return false;
         }
-        this.addTaskInput = '';
-        const task = breakDownString[1];
+        const time = Math.floor( parsedString.time / 60 );
+        const task = parsedString.text;
+        this.addTaskInput.value = '';
         this.data.list.push({
             id: taskID,
-            time : time,
+            time: time,
+            displayTime : this.getDisplayTime( time ),
             elapsed: 0,
-            name : task
+            name: task,
+            isTicked: false
         });
         this.sanitizeData();
         this.updateEta();
         this.updateData();
+        this.inputError = false;
+        setTimeout( () => {this.updateUI(); }, 1);
+
     }
 
-    /**
-     * Close onboarding and save it in settings
-     */
-    closeOnboarding() {
-        this.showOnboarding = false;
-        this.data.hideOnboarding = true;
-        this.updateData();
+    updateUI() {
+        const containerElement: HTMLElement = document.querySelector('.container' );
+        const windowHeight = containerElement.offsetHeight;
+        this.window.setSize(350, windowHeight, false);
+    }
+
+    isElectron = () => {
+        return window && window.process && window.process.type;
+    }
+
+    ngAfterViewInit() {
+        this.pointerFirstTask = document.querySelector('.task-list-item');
+        this.pointerCurrentTask = this.pointerFirstTask;
+        this.addTaskInput = document.querySelector('.add-task' );
+        this.updateUI();
     }
 
     ngOnInit() {
-        if ( this.getCurrentList() ) {
-            this.sanitizeData();
-        } else {
-            this.initiateData();
-        }
+        this.getCurrentList();
+        this.sanitizeData();
         this.updateData();
-        if ( !this.data.hideOnboarding ) {
-            setTimeout(() => {
-                this.showOnboarding = true;
-            }, 1000);
-        }
     }
 }
