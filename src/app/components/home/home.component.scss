@@ -73,7 +73,10 @@ $haiti : #170139;
   overflow: hidden;
   font-family: $font-sans-serif;
   color: $pelorous;
+  color: white;
   background: transparent;
+  background: linear-gradient(270deg, darken( #F97C24, 10% ), darken( #D9497D, 10%));
+
   .message {
     font-weight: 400;
     display: inline-block;

@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -220,6 +220,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     getCurrentList() {
         try {
             this.data = JSON.parse(this.fs.readFileSync(this.filePath).toString());
+            return this.data;
+        } catch (error) {
+            // if there was some kind of error, return the passed in defaults instead.
+            console.log('there seems to be an issue getting the current data');
             if (!this.data) {
                 this.data = {
                     hideOnboarding: false,
@@ -228,10 +232,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.fs.writeFileSync(this.filePath, this.data, 'utf-8');
             }
             return this.data;
-        } catch (error) {
-            // if there was some kind of error, return the passed in defaults instead.
-            console.log('there seems to be an issue getting the current data');
-            return false;
         }
     }
 
@@ -458,7 +458,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.getCurrentList();
+        const data = this.getCurrentList();
+        console.log( 'data is' + data );
         this.sanitizeData();
         this.updateData();
     }
