@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     currentTask;
     currentTaskStartTime;
     currentInterval;
+    placeholderIterator = 0;
     addTaskInput: HTMLInputElement;
     totalTime = 0;
     pointerFirstTask: HTMLInputElement;
@@ -47,15 +48,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
     status = {
         showOnboarding: true
     };
-    timeUnits =  {
-        seconds : {
+    timeUnits = {
+        seconds: {
             patterns: ['second', 'sec', 's'],
             value: 1,
             formats: {
                 'chrono': '',
-                'micro':  's',
-                'short':  'sec',
-                'long':   'second'
+                'micro': 's',
+                'short': 'sec',
+                'long': 'second'
             }
         },
         minutes: {
@@ -63,9 +64,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 60,
             formats: {
                 'chrono': ':',
-                'micro':  'm',
-                'short':  'min',
-                'long':   'minute'
+                'micro': 'm',
+                'short': 'min',
+                'long': 'minute'
             }
         },
         hours: {
@@ -73,9 +74,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 3600,
             formats: {
                 'chrono': ':',
-                'micro':  'h',
-                'short':  'hr',
-                'long':   'hour'
+                'micro': 'h',
+                'short': 'hr',
+                'long': 'hour'
             }
         },
         days: {
@@ -83,9 +84,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 86400,
             formats: {
                 'chrono': ':',
-                'micro':  'd',
-                'short':  'day',
-                'long':   'day'
+                'micro': 'd',
+                'short': 'day',
+                'long': 'day'
             }
         },
         weeks: {
@@ -93,9 +94,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 604800,
             formats: {
                 'chrono': ':',
-                'micro':  'w',
-                'short':  'wk',
-                'long':   'week'
+                'micro': 'w',
+                'short': 'wk',
+                'long': 'week'
             }
         },
         months: {
@@ -103,9 +104,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 2628000,
             formats: {
                 'chrono': ':',
-                'micro':  'm',
-                'short':  'mth',
-                'long':   'month'
+                'micro': 'm',
+                'short': 'mth',
+                'long': 'month'
             }
         },
         years: {
@@ -113,30 +114,41 @@ export class HomeComponent implements OnInit, AfterViewInit {
             value: 31536000,
             formats: {
                 'chrono': ':',
-                'micro':  'y',
-                'short':  'yr',
-                'long':   'year'
+                'micro': 'y',
+                'short': 'yr',
+                'long': 'year'
             }
         }
     };
+    placeholders = [
+        '+ Add your task',
+        '30 mins with Sarah',
+        '1hr 15mins Working on the documentation',
+        '45 mins standup'
+    ];
+    inputPlaceholder = this.placeholders[0];
 
     @HostListener('document:keyup', ['$event'])
     keyEvent(event: KeyboardEvent) {
-        this.handleShortcuts( event );
+        this.handleShortcuts(event);
     }
 
-    parseTime( text) {
+    /**
+     * Return parsed time in 2h 4m format
+     * @param text
+     */
+    parseTime(text) {
         let parsedTime = 0;
         const parsed = {
             time: 0,
             text: ''
         };
         // returns calculated values separated by spaces
-        Object.entries(this.timeUnits).forEach( ( [ key, unit] ) => {
-            unit.patterns.forEach( (pattern) => {
+        Object.entries(this.timeUnits).forEach(([key, unit]) => {
+            unit.patterns.forEach((pattern) => {
                 const regex = new RegExp('((?:\\d+\\.\\d+)|\\d+)\\s?(' + pattern + 's?(?=\\s|\\d|\\b))', 'gi');
-                text = text.replace(regex, function(str, p1, p2) {
-                    parsedTime += parseInt(p1, 10 ) * unit.value;
+                text = text.replace(regex, function (str, p1, p2) {
+                    parsedTime += parseInt(p1, 10) * unit.value;
                     return '';
                 });
             });
@@ -150,11 +162,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Handle keyboard shortcuts
      * @param event
      */
-    handleShortcuts( event: KeyboardEvent ) {
-        this.pointerCurrentTask = ( this.pointerCurrentTask ) ? this.pointerCurrentTask : this.pointerFirstTask;
-        if ( this.addTaskInput === document.activeElement ) {
-            if ( event.keyCode === KEY_CODE.ESCAPE_KEY ) {
-                if ( this.addTaskInput === document.activeElement ) {
+    handleShortcuts(event: KeyboardEvent) {
+        if ( this.status.showOnboarding ) {
+            return false;
+        }
+        if (this.addTaskInput === document.activeElement) {
+            if (event.keyCode === KEY_CODE.ESCAPE_KEY) {
+                if (this.addTaskInput === document.activeElement) {
                     this.addTaskInput.blur();
                     this.pointerCurrentTask = this.pointerFirstTask;
                     this.firstTaskNavigate = false;
@@ -162,11 +176,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             }
             return false;
         }
-        this.pointerCurrentTask.classList.remove('selected');
+        if ( this.pointerCurrentTask !== null ) {
+            this.pointerCurrentTask.classList.remove('selected');
+        }
         if (event.keyCode === KEY_CODE.DOWN_ARROW) {
-            if ( !this.firstTaskNavigate ) {
+            if (!this.firstTaskNavigate) {
                 this.firstTaskNavigate = true;
-                this.pointerCurrentTask.classList.add( 'selected' );
+                this.pointerCurrentTask.classList.add('selected');
             } else {
                 if (this.pointerCurrentTask.nextElementSibling) {
                     this.pointerCurrentTask = this.pointerCurrentTask.nextElementSibling;
@@ -175,21 +191,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
             }
         }
         if (event.keyCode === KEY_CODE.UP_ARROW) {
-            if ( !this.firstTaskNavigate ) {
+            if (!this.firstTaskNavigate) {
                 this.firstTaskNavigate = true;
-                this.pointerCurrentTask.classList.add( 'selected' );
+                this.pointerCurrentTask.classList.add('selected');
             } else {
-                if ( this.pointerCurrentTask.previousElementSibling ) {
+                if (this.pointerCurrentTask.previousElementSibling) {
                     this.pointerCurrentTask = this.pointerCurrentTask.previousElementSibling;
                     this.pointerCurrentTask.classList.add('selected');
                 }
             }
         }
-        if (event.keyCode === KEY_CODE.SPACE_KEY || event.keyCode === KEY_CODE.ENTER_KEY ) {
-            const currentTask = this.findTaskByID( this.pointerCurrentTask.id );
-            this.activateTask( currentTask );
+        if (event.keyCode === KEY_CODE.SPACE_KEY || event.keyCode === KEY_CODE.ENTER_KEY) {
+            const currentTask = this.findTaskByID(this.pointerCurrentTask.id);
+            this.activateTask(currentTask);
         }
-        if ( event.keyCode === KEY_CODE.N_KEY ) {
+        if (event.keyCode === KEY_CODE.N_KEY) {
             this.addTaskInput.value = null;
             this.addTaskInput.focus();
         }
@@ -199,15 +215,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Find a task object given it's ID
      * @param id
      */
-    findTaskByID( id ) {
-        if ( !id ) {
-            console.warn( 'tried calling function findTaskByID without giving ID' );
+    findTaskByID(id) {
+        if (!id) {
+            console.warn('tried calling function findTaskByID without giving ID');
             return false;
         }
-        id = parseInt( id, 10 );
+        id = parseInt(id, 10);
         let task;
         this.data.list.forEach((todo, index, list) => {
-            if ( id === todo.id ) {
+            if (id === todo.id) {
                 task = todo;
             }
         });
@@ -255,7 +271,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.updateTaskUI( task );
+            this.updateTaskUI(task);
             this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
     }
@@ -264,14 +280,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Get the time to be completion displayed
      * @param minutes
      */
-    getDisplayTime( minutes ) {
-        minutes = parseInt( minutes, 10 );
+    getDisplayTime(minutes) {
+        minutes = parseInt(minutes, 10);
         const totalHrs = Math.floor(minutes / 60);
         const totalMins = minutes % 60;
         let displayTime = '';
 
-        displayTime += ( totalHrs > 0 ) ? totalHrs + 'h' : '';
-        displayTime += ( totalMins > 0 ) ? ' ' + totalMins + 'm' : '';
+        displayTime += (totalHrs > 0) ? totalHrs + 'h' : '';
+        displayTime += (totalMins > 0) ? ' ' + totalMins + 'm' : '';
 
         return displayTime;
 
@@ -289,7 +305,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         //     items: [label]
         // });
         // this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
-        if ( task.elapsed === task.time ) {
+        if (task.elapsed === task.time) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
             return;
@@ -299,7 +315,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             clearInterval(this.currentInterval);
         }
         task.elapsed++;
-        task.displayTime = this.getDisplayTime( task.time - task.elapsed );
+        task.displayTime = this.getDisplayTime(task.time - task.elapsed);
         this.totalTime--;
         this.updateEta();
         task.progress = ((task.elapsed) / (task.time)) * 100;
@@ -367,7 +383,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
-            setTimeout( () => {this.updateUI(); }, 1);
+            setTimeout(() => {
+                this.updateUI();
+            }, 1);
         }
     }
 
@@ -379,6 +397,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.totalMins = this.totalTime % 60;
         const date = new Date(new Date().getTime() + this.totalTime * 60000);
         this.formatAMPM(date);
+    }
+
+    /**
+     * A function to loop over different placeholder texts to be shown in onboarding
+     */
+    changePlaceholder() {
+        this.placeholderIterator++;
+        if (this.placeholderIterator >= this.placeholders.length) {
+            this.placeholderIterator = 0;
+        }
+        this.inputPlaceholder = this.placeholders[this.placeholderIterator];
     }
 
     /**
@@ -400,7 +429,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.totalTime += (todo.time - todo.elapsed);
                 this.updateEta();
             }
-            todo.displayTime = this.getDisplayTime( todo.time - todo.elapsed );
+            todo.displayTime = this.getDisplayTime(todo.time - todo.elapsed);
         });
     }
 
@@ -415,19 +444,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
 
         const taskID = new Date().getUTCMilliseconds();
-        const parsedString = this.parseTime( inputString );
-        if ( isNaN( parsedString.time) || parsedString.time <= 0) {
+        const parsedString = this.parseTime(inputString);
+        if (isNaN(parsedString.time) || parsedString.time <= 0) {
             this.status.showOnboarding = false;
             this.inputError = true;
             return false;
         }
-        const time = Math.floor( parsedString.time / 60 );
+        const time = Math.floor(parsedString.time / 60);
         const task = parsedString.text;
         this.addTaskInput.value = '';
         this.data.list.push({
             id: taskID,
             time: time,
-            displayTime : this.getDisplayTime( time ),
+            displayTime: this.getDisplayTime(time),
             elapsed: 0,
             name: task,
             isTicked: false
@@ -436,30 +465,31 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.updateEta();
         this.updateData();
         this.inputError = false;
-        setTimeout( () => {this.updateUI(); }, 1);
+        setTimeout(() => {
+            this.updateUI();
+        }, 1);
 
     }
 
     updateUI() {
-        const containerElement: HTMLElement = document.querySelector('.container' );
+        const containerElement: HTMLElement = document.querySelector('.container');
         const windowHeight = containerElement.offsetHeight;
         this.window.setSize(350, windowHeight, false);
     }
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    }
+    };
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
-        this.addTaskInput = document.querySelector('.add-task' );
+        this.addTaskInput = document.querySelector('.add-task');
         this.updateUI();
     }
 
     ngOnInit() {
         const data = this.getCurrentList();
-        console.log( 'data is' + data );
         this.sanitizeData();
         this.updateData();
     }

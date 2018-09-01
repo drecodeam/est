@@ -67,7 +67,7 @@ $haiti : #170139;
 }
 
 .total-time {
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -225,11 +225,13 @@ $haiti : #170139;
   cursor: pointer;
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
+
   &::placeholder {
     color : white;
     font-family: $font-sans-serif;
     font-size: 1rem;
     font-weight: 400;
+    opacity: 0.5;
   }
   &:focus {
     background: $mirage;
@@ -240,7 +242,31 @@ $haiti : #170139;
   &:hover {
     background: $mirage;
   }
+  &.showOnboarding {
+    animation: typing 3.5s steps(40, end) infinite;
+    &:hover {
+      animation: none;
+    }
+    &:focus {
+      animation: none;
+    }
+  }
 }
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: orange; }
+}
+
+
+
 .input-error {
  background: $selected;
   position: relative;
