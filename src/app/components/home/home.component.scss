@@ -104,11 +104,19 @@ $haiti : #170139;
   .task-list-item {
     position: relative;
     overflow: hidden;
-    padding: 1.5rem 2rem;
+    padding: 1.5rem 1rem;
     color: #f1f1f1;
     font-family: $font-sans-serif;
     transition: 0.2s all ease-in-out;
     line-height: 1.5rem;
+
+    .play-icon {
+      display: inline-block;
+      padding-right: 1rem;
+      opacity: 0;
+      transition: 0.4s all ease-in-out;
+    }
+
     .done-icon {
       position: absolute;
       right: 3rem;
@@ -156,9 +164,15 @@ $haiti : #170139;
       font-weight: 300;
       opacity: 0.8;
       padding-left: 0.25rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+      max-width: 220px;
     }
     .item-progress-bar {
       bottom: 15%;
+      left: 2.5rem;
       position: absolute;
       overflow: hidden;
       background: $pelorous;
@@ -171,6 +185,9 @@ $haiti : #170139;
     &.ticked {
       text-decoration: line-through;
       opacity: 0.25;
+      .play-icon {
+        display: none;
+      }
       .active-icon {
         display: none;
       }
@@ -194,6 +211,9 @@ $haiti : #170139;
       .done-icon {
         opacity: 1;
       }
+      .play-icon {
+        opacity: 1;
+      }
       .delete-icon {
         opacity: 1;
       }
@@ -208,6 +228,9 @@ $haiti : #170139;
       }
       .item-separator {
         animation: animate-progress 2s linear infinite;
+      }
+      .play-icon {
+        opacity: 1;
       }
     }
   }
