@@ -63,7 +63,7 @@ $haiti : #170139;
   overflow: hidden;
   float: left;
   width: 100%;
-  -webkit-app-region: drag;
+
 }
 
 .total-time {
@@ -248,6 +248,7 @@ $haiti : #170139;
   cursor: pointer;
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
+  -webkit-app-region: drag;
 
   &::placeholder {
     color : white;
