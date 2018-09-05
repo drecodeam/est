@@ -11,20 +11,19 @@ body {
 * {
   box-sizing: border-box;
 }
+
 /* in-flight clone */
 .gu-mirror {
   position: fixed !important;
   margin: 0 !important;
   z-index: 9999 !important;
-  opacity: 0.8;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
   pointer-events: none;
 }
 /* high-performance display:none; helper */
 .gu-hide {
   left: -9999px !important;
 }
+
 /* added to mirrorContainer (default = body) while dragging */
 .gu-unselectable {
   -webkit-user-select: none !important;
@@ -35,6 +34,4 @@ body {
 /* added to the source element while its mirror is dragged */
 .gu-transit {
   opacity: 0.2;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-  filter: alpha(opacity=20);
 }
