@@ -17,7 +17,7 @@
         <div class="error-sub">example: 1h 6m, 1 hour 15 minutes, 25 mins. Just add time in this format anywhere in the description and stors would pick it up</div>
     </div>
 
-    <div class="task-list" *ngIf="!status.showOnboarding">
+    <div class="task-list" dragula="VAMPIRES" *ngIf="!status.showOnboarding">
         <div class="task-list-item"
              *ngFor="let item of data.list"
              [id]="item.id"
@@ -25,8 +25,11 @@
              [class.ticked] = "!!item.isTicked"
              [class.active] = "(item.id === currentTaskID)"
         >
-            <div class="play-icon">
+            <div class="play-icon" *ngIf="item.id !== currentTaskID">
                 <i class="ion ion-ios-play"></i>
+            </div>
+            <div class="play-icon" *ngIf="item.id === currentTaskID">
+                <i class="ion ion-ios-pause"></i>
             </div>
             <div class="item-time">{{item.displayTime}}</div>
             <div class="item-separator"> | </div>

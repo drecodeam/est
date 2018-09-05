@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -271,7 +271,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.updateTaskUI(task);
             this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
     }
@@ -410,6 +409,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.inputPlaceholder = this.placeholders[this.placeholderIterator];
     }
 
+
     /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
@@ -442,7 +442,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (!inputString) {
             return false;
         }
-
+        this.inputPlaceholder = this.placeholders[0];
         const taskID = new Date().getUTCMilliseconds();
         const parsedString = this.parseTime(inputString);
         if (isNaN(parsedString.time) || parsedString.time <= 0) {
@@ -479,7 +479,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    };
+    }
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');

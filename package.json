@@ -33,6 +33,7 @@
     "e2e": "ng e2e"
   },
   "dependencies": {
+    "ng2-dragula": "^2.0.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.3",

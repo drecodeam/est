@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn start
+  /usr/local/bin/node /usr/local/bin/yarn
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
@@ -16,7 +16,7 @@ Platform:
 npm manifest: 
   {
     "name": "Stors",
-    "version": "0.2.2",
+    "version": "0.3.3",
     "description": "A simple task manager for a day",
     "homepage": "https://insert.black",
     "repository": "https://github.com/drecodeam/stors",
@@ -49,14 +49,6 @@ npm manifest:
       "e2e": "ng e2e"
     },
     "dependencies": {
-      "analytics-node": "^3.3.0",
-      "auto-launch": "^5.0.5",
-      "buffer": "^5.1.0",
-      "events": "^3.0.0",
-      "mousetrap": "^1.6.2",
-      "raven-js": "^3.26.4",
-      "stream": "0.0.2",
-      "timers": "^0.1.1"
     },
     "devDependencies": {
       "@angular-devkit/build-angular": "0.6.3",
@@ -8998,17 +8990,24 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"
 
 Trace: 
-  Error: Command failed.
+  Error: /Users/ankur/Documents/stors/node_modules/electron: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c npm-run-all -p ng:serve electron:serve
-  Directory: /Users/ankur/Documents/stors
+  Arguments: -c node install.js
+  Directory: /Users/ankur/Documents/stors/node_modules/electron
   Output:
+  /Users/ankur/Documents/stors/node_modules/electron/install.js:47
+    throw err
+    ^
   
+  Error: EEXIST: file already exists, symlink 'Versions/Current/Electron Framework' -> '/Users/ankur/Documents/stors/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework'
       at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
       at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
       at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
+      at Socket.stream.socket.on (internal/child_process.js:346:11)
+      at emitOne (events.js:116:13)
+      at Socket.emit (events.js:211:7)
+      at Pipe._handle.close [as _onclose] (net.js:557:12)

@@ -63,7 +63,7 @@ $haiti : #170139;
   overflow: hidden;
   float: left;
   width: 100%;
-  -webkit-app-region: drag;
+
 }
 
 .total-time {
@@ -101,141 +101,145 @@ $haiti : #170139;
   font-family: $font-sans-serif;
   clear: both;
   width: 100%;
-  .task-list-item {
-    position: relative;
-    overflow: hidden;
-    padding: 1.5rem 1rem;
-    color: #f1f1f1;
-    font-family: $font-sans-serif;
-    transition: 0.2s all ease-in-out;
-    line-height: 1.5rem;
 
-    .play-icon {
-      display: inline-block;
-      padding-right: 1rem;
-      opacity: 0;
-      transition: 0.4s all ease-in-out;
-    }
-
-    .done-icon {
-      position: absolute;
-      right: 3rem;
-      top: 0.7rem;
-      overflow: hidden;
-      font-size: 1.25rem;
-      line-height: 1.5rem;
-      transition: 0.4s all ease-in-out;
-      opacity: 0;
-      margin-top: 0.45rem;
-      z-index: 2;
-      &:hover {
-        color: greenyellow;
-        transform: scale(1.1);
-      }
-    }
-    .delete-icon {
-      position: absolute;
-      right: 1rem;
-      top: 0.7rem;
-      overflow: hidden;
-      font-size: 1.25rem;
-      line-height: 1.5rem;
-      transition: 0.4s all ease-in-out;
-      margin-top: 0.45rem;
-      color: white;
-      opacity: 0;
-      z-index: 2;
-      &:hover {
-        color: red;
-        transform: scale(1.1);
-      }
-    }
-    .item-time {
-      font-weight: 300;
-      display: inline-block;
-    }
-    .item-separator {
-      font-weight: 400;
-      display: inline-block;
-      padding: 0 0.25rem;
-    }
-    .item-title {
-      display: inline-block;
-      font-weight: 300;
-      opacity: 0.8;
-      padding-left: 0.25rem;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-      vertical-align: middle;
-      max-width: 220px;
-    }
-    .item-progress-bar {
-      bottom: 15%;
-      left: 2.5rem;
-      position: absolute;
-      overflow: hidden;
-      background: $pelorous;
-      width: 0;
-      border-radius: 2px;
-      transition: 0.4s all ease-in-out;
-      height: 1px;
-      opacity: 1;
-    }
-    &.ticked {
-      text-decoration: line-through;
-      opacity: 0.25;
-      .play-icon {
-        display: none;
-      }
-      .active-icon {
-        display: none;
-      }
-      .item-time {
-        text-decoration: line-through;
-      }
-      .item-title {
-        text-decoration: line-through;
-      }
-      .done-icon {
-        display: none;
-      }
-      .item-progress-bar {
-        display: none;
-      }
-    }
-    &:hover,
-    &.selected {
-      cursor: pointer;
-      background: darken( $mirage, 0.1 );
-      .done-icon {
-        opacity: 1;
-      }
-      .play-icon {
-        opacity: 1;
-      }
-      .delete-icon {
-        opacity: 1;
-      }
-    }
-    &.active {
-      opacity: 1;
-      .item-progress-bar {
-        opacity: 1;
-        height: 3px;
-        border-radius: 0;
-        background: linear-gradient(270deg, #F97C24, #D9497D);
-      }
-      .item-separator {
-        animation: animate-progress 2s linear infinite;
-      }
-      .play-icon {
-        opacity: 1;
-      }
-    }
-  }
 }
 
+.task-list-item {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 1rem;
+  color: #f1f1f1;
+  font-family: $font-sans-serif;
+  //transition: 0.4s all ease-in-out;
+  line-height: 1.5rem;
+
+  .play-icon {
+    display: inline-block;
+    padding-right: 1rem;
+    opacity: 0;
+    transition: 0.4s all ease-in-out;
+  }
+
+  .done-icon {
+    position: absolute;
+    right: 3rem;
+    top: 0.7rem;
+    overflow: hidden;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    transition: 0.4s all ease-in-out;
+    opacity: 0;
+    margin-top: 0.45rem;
+    z-index: 2;
+    &:hover {
+      color: greenyellow;
+      transform: scale(1.1);
+    }
+  }
+  .delete-icon {
+    position: absolute;
+    right: 1rem;
+    top: 0.7rem;
+    overflow: hidden;
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    transition: 0.4s all ease-in-out;
+    margin-top: 0.45rem;
+    color: white;
+    opacity: 0;
+    z-index: 2;
+    &:hover {
+      color: red;
+      transform: scale(1.1);
+    }
+  }
+  .item-time {
+    font-weight: 300;
+    display: inline-block;
+  }
+  .item-separator {
+    font-weight: 400;
+    display: inline-block;
+    padding: 0 0.25rem;
+  }
+  .item-title {
+    display: inline-block;
+    font-weight: 300;
+    opacity: 0.8;
+    padding-left: 0.25rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+    max-width: 220px;
+  }
+  .item-progress-bar {
+    bottom: 15%;
+    left: 2.5rem;
+    position: absolute;
+    overflow: hidden;
+    background: $pelorous;
+    width: 0;
+    transition: 0.4s all ease-in-out;
+    height: 1px;
+    opacity: 1;
+  }
+
+  &.ticked {
+    text-decoration: line-through;
+    opacity: 0.25;
+    .play-icon {
+      display: none;
+    }
+    .active-icon {
+      display: none;
+    }
+    .item-time {
+      text-decoration: line-through;
+    }
+    .item-title {
+      text-decoration: line-through;
+    }
+    .done-icon {
+      display: none;
+    }
+    .item-progress-bar {
+      display: none;
+    }
+  }
+  &:hover,
+  &.selected {
+    cursor: pointer;
+    background: darken( $mirage, 0.1 );
+    .done-icon {
+      opacity: 1;
+    }
+    .play-icon {
+      opacity: 1;
+    }
+    .delete-icon {
+      opacity: 1;
+    }
+  }
+  &.active {
+    opacity: 1;
+    .item-progress-bar {
+      opacity: 1;
+      height: 3px;
+      border-radius: 0;
+      background: linear-gradient(270deg, #F97C24, #D9497D);
+    }
+    .item-separator {
+      animation: animate-progress 2s linear infinite;
+    }
+    .play-icon {
+      opacity: 1;
+    }
+  }
+  &.gu-mirror {
+    background: $haiti;
+  }
+}
 .add-task {
   background: transparent;
   padding: 1.5rem 2rem;
@@ -248,6 +252,7 @@ $haiti : #170139;
   cursor: pointer;
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
+  -webkit-app-region: drag;
 
   &::placeholder {
     color : white;
