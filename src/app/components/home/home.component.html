@@ -25,8 +25,11 @@
              [class.ticked] = "!!item.isTicked"
              [class.active] = "(item.id === currentTaskID)"
         >
-            <div class="play-icon">
+            <div class="play-icon" *ngIf="item.id !== currentTaskID">
                 <i class="ion ion-ios-play"></i>
+            </div>
+            <div class="play-icon" *ngIf="item.id === currentTaskID">
+                <i class="ion ion-ios-pause"></i>
             </div>
             <div class="item-time">{{item.displayTime}}</div>
             <div class="item-separator"> | </div>

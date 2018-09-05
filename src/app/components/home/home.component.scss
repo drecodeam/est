@@ -180,11 +180,11 @@ $haiti : #170139;
     overflow: hidden;
     background: $pelorous;
     width: 0;
-    border-radius: 2px;
     transition: 0.4s all ease-in-out;
     height: 1px;
     opacity: 1;
   }
+
   &.ticked {
     text-decoration: line-through;
     opacity: 0.25;

@@ -271,7 +271,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.updateTaskUI(task);
             this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
         }
     }
@@ -480,7 +479,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    };
+    }
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');
