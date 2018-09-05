@@ -17,8 +17,9 @@
         <div class="error-sub">example: 1h 6m, 1 hour 15 minutes, 25 mins. Just add time in this format anywhere in the description and stors would pick it up</div>
     </div>
 
-    <div class="task-list" *ngIf="!status.showOnboarding">
+    <div class="task-list" ngxDroppable *ngIf="!status.showOnboarding">
         <div class="task-list-item"
+             ngxDraggable
              *ngFor="let item of data.list"
              [id]="item.id"
              (click)="activateTask(item)"
