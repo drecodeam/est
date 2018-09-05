@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
