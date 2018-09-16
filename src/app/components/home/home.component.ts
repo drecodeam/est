@@ -1,5 +1,7 @@
 import {Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Renderer2} from '@angular/core';
 import {ElectronService} from '../../providers/electron.service';
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
 
 export enum KEY_CODE {
     DOWN_ARROW = 40,
@@ -17,14 +19,22 @@ export enum KEY_CODE {
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
+    subs = new Subscription();
     constructor(
         private electronService: ElectronService,
-        private el: ElementRef
+        private el: ElementRef,
+        private dragulaService: DragulaService
     ) {
+        this.subs.add(this.dragulaService.drop("VAMPIRES")
+            .subscribe(({ name, el, target, source, sibling }) => {
+                this.updateData();
+                console.log( 'triggered drop' );
+            })
+        );
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -382,10 +392,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
-            setTimeout(() => {
-                this.updateUI();
-            }, 1);
         }
+        setTimeout(() => {
+            this.updateUI();
+        }, 1);
+
     }
 
     /**
@@ -453,7 +464,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const time = Math.floor(parsedString.time / 60);
         const task = parsedString.text;
         this.addTaskInput.value = '';
-        this.data.list.push({
+        this.data.list.unshift({
             id: taskID,
             time: time,
             displayTime: this.getDisplayTime(time),
@@ -473,7 +484,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     updateUI() {
         const containerElement: HTMLElement = document.querySelector('.container');
-        const windowHeight = containerElement.offsetHeight;
+        let windowHeight = containerElement.offsetHeight;
+        windowHeight = ( windowHeight > 632) ? 632 : windowHeight;
         this.window.setSize(350, windowHeight, false);
     }
 
@@ -485,7 +497,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
         this.addTaskInput = document.querySelector('.add-task');
-        this.updateUI();
+        // this.updateUI();
     }
 
     ngOnInit() {

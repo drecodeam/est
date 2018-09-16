@@ -101,6 +101,8 @@ $haiti : #170139;
   font-family: $font-sans-serif;
   clear: both;
   width: 100%;
+  max-height: 504px;
+  overflow-y: scroll;
 
 }
 
@@ -110,7 +112,6 @@ $haiti : #170139;
   padding: 1.5rem 1rem;
   color: #f1f1f1;
   font-family: $font-sans-serif;
-  //transition: 0.4s all ease-in-out;
   line-height: 1.5rem;
 
   .play-icon {
@@ -119,17 +120,15 @@ $haiti : #170139;
     opacity: 0;
     transition: 0.4s all ease-in-out;
   }
-
   .done-icon {
     position: absolute;
     right: 3rem;
-    top: 0.7rem;
+    top: 0;
     overflow: hidden;
     font-size: 1.25rem;
-    line-height: 1.5rem;
+    line-height: 4.5rem;
     transition: 0.4s all ease-in-out;
     opacity: 0;
-    margin-top: 0.45rem;
     z-index: 2;
     &:hover {
       color: greenyellow;
@@ -139,12 +138,11 @@ $haiti : #170139;
   .delete-icon {
     position: absolute;
     right: 1rem;
-    top: 0.7rem;
+    top: 0;
     overflow: hidden;
     font-size: 1.25rem;
-    line-height: 1.5rem;
+    line-height: 4.5rem;
     transition: 0.4s all ease-in-out;
-    margin-top: 0.45rem;
     color: white;
     opacity: 0;
     z-index: 2;
@@ -237,7 +235,8 @@ $haiti : #170139;
     }
   }
   &.gu-mirror {
-    background: $haiti;
+    background: rgba( $mirage, 0.9 );
+
   }
 }
 .add-task {
