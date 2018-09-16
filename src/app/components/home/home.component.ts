@@ -298,6 +298,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         displayTime += (totalHrs > 0) ? totalHrs + 'h' : '';
         displayTime += (totalMins > 0) ? ' ' + totalMins + 'm' : '';
 
+        if ( totalHrs === 0 && totalMins === 0 ) {
+            displayTime = '∞';
+        }
+
         return displayTime;
 
     }
@@ -327,7 +331,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         task.displayTime = this.getDisplayTime(task.time - task.elapsed);
         this.totalTime--;
         this.updateEta();
-        task.progress = ((task.elapsed) / (task.time)) * 100;
+        task.progress = ((task.elapsed) / (task.time)) * 100 * 0.8  ;
         this.updateData();
     }
 
@@ -420,7 +424,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.inputPlaceholder = this.placeholders[this.placeholderIterator];
     }
 
-
     /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
@@ -482,6 +485,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     }
 
+    /**
+     * Resize the UI according to the number of tasks
+     */
     updateUI() {
         const containerElement: HTMLElement = document.querySelector('.container');
         let windowHeight = containerElement.offsetHeight;
@@ -491,7 +497,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    }
+    };
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');

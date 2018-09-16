@@ -172,12 +172,13 @@ $haiti : #170139;
     max-width: 220px;
   }
   .item-progress-bar {
-    bottom: 15%;
+    bottom: 10%;
     left: 2.5rem;
     position: absolute;
     overflow: hidden;
     background: $pelorous;
     width: 0;
+    max-width: 80%;
     transition: 0.4s all ease-in-out;
     height: 1px;
     opacity: 1;
