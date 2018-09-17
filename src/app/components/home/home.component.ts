@@ -503,6 +503,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
         this.addTaskInput = document.querySelector('.add-task');
+        // let myNotification = new Notification('Foo', {
+        //     body: 'Do you want to add more time to it?'
+        // });
+        //
+        // myNotification.onclick = () => {
+        //     console.log('Notification clicked');
+        // };
         // this.updateUI();
     }
 

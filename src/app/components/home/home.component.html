@@ -44,6 +44,12 @@
             </div>
             <!--<div class="item-progress-bar-animated" [style.width.%]="item.progress" *ngIf="item.id === currentTaskID"></div>-->
             <div class="item-progress-bar" [style.width.%]="item.progress"></div>
+            <div class="add-time" *ngIf="!!item.isComplete">
+                <div class="add-time-item">+15m</div>
+                <div class="add-time-item">+30m</div>
+                <div class="add-time-item">+1hr</div>
+            </div>
+
         </div>
     </div>
     <div class="total-time" *ngIf="!status.showOnboarding">
