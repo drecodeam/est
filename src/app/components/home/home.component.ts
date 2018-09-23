@@ -28,13 +28,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.subs.add(this.dragulaService.drop("VAMPIRES")
             .subscribe(({ name, el, target, source, sibling }) => {
                 this.updateData();
-                console.log( 'triggered drop' );
             })
         );
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -267,9 +266,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        if (!task || task.isTicked) {
+        console.log( 'activate task' );
+        if (!task || task.isTicked || task.isComplete ) {
             return false;
         }
+        console.log( task );
         clearInterval(this.currentInterval);
         this.currentTaskID = task.id;
         this.currentTask = task;
@@ -433,8 +434,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.data.list.forEach((todo, index, list) => {
             if (todo.elapsed === null || todo.elapsed === undefined) {
                 todo.elapsed = 0;
-            } else if (todo.elapsed > todo.time) {
+            } else if (todo.elapsed >= todo.time) {
                 todo.elapsed = todo.time;
+                todo.isComplete = true;
             } else if (todo.elapsed < 0) {
                 todo.elapsed = 0;
             } else if (todo.isTicked) {
@@ -485,6 +487,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     }
 
+    addTime( task, time ) {
+        if ( !task || !time ) {
+            return false;
+        }
+        task.elapsed = task.time;
+        task.time = task.time + time;
+        task.isComplete = false;
+        task.isActive = false;
+        // this.activateTask( task );
+    }
     /**
      * Resize the UI according to the number of tasks
      */
@@ -497,7 +509,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     isElectron = () => {
         return window && window.process && window.process.type;
-    };
+    }
 
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');

@@ -103,7 +103,6 @@ $haiti : #170139;
   width: 100%;
   max-height: 504px;
   overflow-y: scroll;
-
 }
 
 .task-list-item {
@@ -119,35 +118,30 @@ $haiti : #170139;
     opacity: 0;
     transition: 0.4s all ease-in-out;
   }
-  .done-icon {
+  .item-toolbar {
     position: absolute;
-    right: 3rem;
     top: 0;
-    overflow: hidden;
-    font-size: 1.25rem;
-    line-height: 4.5rem;
+    right: 0;
+    line-height: 1.5rem;
+    font-size: 0.875rem;
+    padding: 1.5rem 1rem;
+    background: $mirage;
     transition: 0.4s all ease-in-out;
-    opacity: 0;
-    z-index: 2;
-    &:hover {
-      color: greenyellow;
-      transform: scale(1.1);
-    }
-  }
-  .delete-icon {
-    position: absolute;
-    right: 1rem;
-    top: 0;
-    overflow: hidden;
-    font-size: 1.25rem;
-    line-height: 4.5rem;
-    transition: 0.4s all ease-in-out;
-    color: white;
-    opacity: 0;
-    z-index: 2;
-    &:hover {
-      color: red;
-      transform: scale(1.1);
+    transform: translateX( 100% );
+    background: rgba( $magenta, 0.95 );
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    .toolbar-item {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      padding: 0 0.5rem;
+      transition: 0.4s all ease-in-out;
+      border-radius: 4px;
+      vertical-align: middle;
+      &:hover {
+        background: darken( $magenta, 20% );
+      }
     }
   }
   .item-time {
@@ -176,29 +170,13 @@ $haiti : #170139;
     position: absolute;
     overflow: hidden;
     background: $pelorous;
+    background: transparent;
+    border: 1px dashed $pelorous;
     width: 0;
     max-width: 80%;
     transition: 0.4s all ease-in-out;
     height: 1px;
     opacity: 1;
-  }
-  .add-time {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    display: block;
-    padding: 0.5rem 1rem;
-    display: none;
-    .add-time-item {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      width: 4rem;
-      margin-right: 0.5rem;
-      text-align: center;
-      font-size: 0.8rem;
-      opacity: 0.5;;
-    }
   }
 
   &.ticked {
@@ -226,7 +204,6 @@ $haiti : #170139;
   &:hover,
   &.selected {
     cursor: pointer;
-    background: darken( $mirage, 0.1 );
     .done-icon {
       opacity: 1;
     }
@@ -239,11 +216,14 @@ $haiti : #170139;
   }
   &.active {
     opacity: 1;
+    //background: darken( $mirage, 10% );
     .item-progress-bar {
       opacity: 1;
       height: 3px;
       border-radius: 0;
       background: linear-gradient(270deg, #F97C24, #D9497D);
+      //border: 1px dashed $pelorous;
+      border: none;
     }
     .item-separator {
       animation: animate-progress 2s linear infinite;
@@ -255,6 +235,12 @@ $haiti : #170139;
   &.gu-mirror {
     background: rgba( $mirage, 0.9 );
 
+  }
+  &:hover {
+    .item-toolbar {
+      transform: translateX( 0 );
+
+    }
   }
 }
 .add-task {

@@ -31,24 +31,26 @@
             <div class="play-icon" *ngIf="item.id === currentTaskID">
                 <i class="ion ion-ios-pause"></i>
             </div>
-            <div class="item-time">{{item.displayTime}}</div>
+            <div class="item-time">
+                {{item.displayTime}}
+            </div>
             <div class="item-separator"> | </div>
             <div class="item-title">{{item.name}}</div>
-            <div class="done-icon"
-                 (click)="markItemComplete( item )">
-                <i class="ion ion-ios-checkmark-circle-outline"></i>
-            </div>
-            <div class="delete-icon"
-                 (click)="deleteItem( item )">
-                <i class="ion ion-md-trash"></i>
+            <div class="item-toolbar">
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 15 )">+15m</div>
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 30 )">+30m</div>
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 60 )">+1hr</div>
+                <div class="toolbar-item"
+                     (click)="markItemComplete( item )">
+                    <i class="ion ion-ios-checkmark-circle-outline"></i>
+                </div>
+                <div class="toolbar-item"
+                     (click)="deleteItem( item )">
+                    <i class="ion ion-md-trash"></i>
+                </div>
             </div>
             <!--<div class="item-progress-bar-animated" [style.width.%]="item.progress" *ngIf="item.id === currentTaskID"></div>-->
-            <div class="item-progress-bar" [style.width.%]="item.progress"></div>
-            <div class="add-time" *ngIf="!!item.isComplete">
-                <div class="add-time-item">+15m</div>
-                <div class="add-time-item">+30m</div>
-                <div class="add-time-item">+1hr</div>
-            </div>
+            <div class="item-progress-bar" *ngIf="!item.isComplete" [style.width.%]="item.progress"></div>
 
         </div>
     </div>
