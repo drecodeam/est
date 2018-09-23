@@ -266,11 +266,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        console.log( 'activate task' );
         if (!task || task.isTicked || task.isComplete ) {
             return false;
         }
-        console.log( task );
         clearInterval(this.currentInterval);
         this.currentTaskID = task.id;
         this.currentTask = task;
@@ -282,7 +280,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 100);
         }
     }
 
@@ -322,6 +321,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (task.elapsed === task.time) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
+            this.sendCompleteTaskNotification( task );
             return;
         }
         if (task.elapsed > task.time) {
@@ -369,6 +369,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
         hours = hours ? hours : 12; // the hour '0' should be '12'
         minutes = minutes < 10 ? '0' + minutes : minutes;
         this.eta = hours + ':' + minutes + ' ' + ampm;
+    }
+
+    sendCompleteTaskNotification( task ) {
+        const myNotification = new Notification(task.name, {
+            body: 'your task is almost out of time. Click here to mark it complete or add more time to it'
+        });
+
+        task.showToolbar = true;
+
+        myNotification.onclick = ( event ) => {
+
+        };
+        this.updateUI();
+
     }
 
     /**
@@ -515,14 +529,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
         this.addTaskInput = document.querySelector('.add-task');
-        // let myNotification = new Notification('Foo', {
-        //     body: 'Do you want to add more time to it?'
-        // });
-        //
-        // myNotification.onclick = () => {
-        //     console.log('Notification clicked');
-        // };
-        // this.updateUI();
     }
 
     ngOnInit() {

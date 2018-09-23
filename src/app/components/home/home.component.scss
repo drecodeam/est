@@ -143,6 +143,9 @@ $haiti : #170139;
         background: darken( $magenta, 20% );
       }
     }
+    &.isVisible {
+      transform: translateX(0);
+    }
   }
   .item-time {
     font-weight: 300;

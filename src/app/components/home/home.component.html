@@ -36,7 +36,7 @@
             </div>
             <div class="item-separator"> | </div>
             <div class="item-title">{{item.name}}</div>
-            <div class="item-toolbar">
+            <div class="item-toolbar" [class.isVisible]="!!item.showToolbar">
                 <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 15 )">+15m</div>
                 <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 30 )">+30m</div>
                 <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 60 )">+1hr</div>
