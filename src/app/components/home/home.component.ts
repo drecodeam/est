@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -280,8 +280,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
-            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 100);
+            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task), 1000);
         }
     }
 

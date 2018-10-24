@@ -3,7 +3,6 @@
         <div class="title">Let's plan a productive day ! </div>
         <div class="description">Add your tasks. Track them and be focused through the day</div>
     </div>
-
     <input type="text"
            class="add-task"
            (keyup.enter)="addTask(todo.value)"
@@ -31,15 +30,9 @@
             <div class="play-icon" *ngIf="item.id === currentTaskID">
                 <i class="ion ion-ios-pause"></i>
             </div>
-            <div class="item-time">
-                {{item.displayTime}}
-            </div>
             <div class="item-separator"> | </div>
             <div class="item-title">{{item.name}}</div>
             <div class="item-toolbar" [class.isVisible]="!!item.showToolbar">
-                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 15 )">+15m</div>
-                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 30 )">+30m</div>
-                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 60 )">+1hr</div>
                 <div class="toolbar-item"
                      (click)="markItemComplete( item )">
                     <i class="ion ion-ios-checkmark-circle-outline"></i>
@@ -49,16 +42,22 @@
                     <i class="ion ion-md-trash"></i>
                 </div>
             </div>
-            <!--<div class="item-progress-bar-animated" [style.width.%]="item.progress" *ngIf="item.id === currentTaskID"></div>-->
+            <div class="item-add-time" *ngIf="!!item.isComplete">
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 15 )">+15m</div>
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 30 )">+30m</div>
+                <div class="toolbar-item" *ngIf="!!item.isComplete" (click)="addTime( item, 60 )">+1hr</div>
+            </div>
             <div class="item-progress-bar" *ngIf="!item.isComplete" [style.width.%]="item.progress"></div>
+            <div class="item-time" *ngIf="item.id == currentTaskID" [style.left.%]="item.progress">{{item.displayTime}} left</div>
 
         </div>
     </div>
     <div class="total-time" *ngIf="!status.showOnboarding">
         <div class="message">ETA: </div>
-        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m |</span>
-        <div class="eta">{{eta}}</div>
+        <div class="eta">{{eta}} | </div>
+        <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m </span>
     </div>
+
 </div>
 <!--<div class="help drift-open-chat">👋 Feedback</div>-->
 

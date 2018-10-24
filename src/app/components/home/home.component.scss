@@ -11,6 +11,7 @@ $magenta : #9013FE;
 $maya-blye : #72BFF9;
 $pelorous : #32ADBD;
 $haiti : #170139;
+$sand : #6F533B;
 
 .onboarding-container {
   position: relative;
@@ -67,26 +68,30 @@ $haiti : #170139;
 }
 
 .total-time {
-  padding: 1rem 2rem;
+  padding: 2rem;
   width: 100%;
   position: relative;
   overflow: hidden;
   font-family: $font-sans-serif;
-  color: $pelorous;
   color: white;
   background: transparent;
-  background: linear-gradient(270deg, darken( #F97C24, 10% ), darken( #D9497D, 10%));
-
   .message {
-    font-weight: 400;
+    font-weight: 100;
     display: inline-block;
     padding-right: 0.5rem;
     letter-spacing: 1px;
+    opacity: 0.5;
   }
   .hrs,
   .eta {
-    font-weight: 300;
+    font-weight: 400;
     display: inline-block;
+  }
+
+  .hrs,
+  .mins {
+    opacity: 0.5;
+    font-weight: 100;
   }
 }
 
@@ -108,7 +113,7 @@ $haiti : #170139;
 .task-list-item {
   position: relative;
   overflow: hidden;
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   color: #f1f1f1;
   font-family: $font-sans-serif;
   line-height: 1.5rem;
@@ -125,42 +130,41 @@ $haiti : #170139;
     line-height: 1.5rem;
     font-size: 0.875rem;
     padding: 1.5rem 1rem;
-    background: $mirage;
-    transition: 0.4s all ease-in-out;
-    transform: translateX( 100% );
-    background: rgba( $magenta, 0.95 );
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
     .toolbar-item {
       position: relative;
       overflow: hidden;
       display: inline-block;
       padding: 0 0.5rem;
       transition: 0.4s all ease-in-out;
-      border-radius: 4px;
       vertical-align: middle;
+      transform: scale(0);
       &:hover {
-        background: darken( $magenta, 20% );
+        color: white;
       }
     }
     &.isVisible {
-      transform: translateX(0);
+      .toolbar-item {
+        transform: scaleX(1);
+      }
     }
   }
   .item-time {
-    font-weight: 300;
-    display: inline-block;
+    bottom: -8%;
+    position: absolute;
+    overflow: hidden;
+    padding-left: 3rem;
+    font-size: 0.875rem;
   }
   .item-separator {
     font-weight: 400;
     display: inline-block;
     padding: 0 0.25rem;
+    display: none;
   }
   .item-title {
     display: inline-block;
     font-weight: 300;
     opacity: 0.8;
-    padding-left: 0.25rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -172,16 +176,27 @@ $haiti : #170139;
     left: 2.5rem;
     position: absolute;
     overflow: hidden;
-    background: $pelorous;
     background: transparent;
-    border: 1px dashed $pelorous;
     width: 0;
     max-width: 80%;
     transition: 0.4s all ease-in-out;
     height: 1px;
     opacity: 1;
   }
-
+  .item-add-time {
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    background: rgba( $sand, 0.5 );
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 1.5rem 0 1.5rem;
+    .toolbar-item {
+      font-size: 0.85rem;
+      display: inline-block;
+      padding-right: 1rem;
+      color: rgba( white, 0.5 );
+    }
+  }
   &.ticked {
     text-decoration: line-through;
     opacity: 0.25;
@@ -219,14 +234,12 @@ $haiti : #170139;
   }
   &.active {
     opacity: 1;
-    //background: darken( $mirage, 10% );
+    padding-bottom: 1.5rem;
     .item-progress-bar {
       opacity: 1;
       height: 3px;
       border-radius: 0;
-      background: linear-gradient(270deg, #F97C24, #D9497D);
-      //border: 1px dashed $pelorous;
-      border: none;
+      background: white;
     }
     .item-separator {
       animation: animate-progress 2s linear infinite;
@@ -241,11 +254,14 @@ $haiti : #170139;
   }
   &:hover {
     .item-toolbar {
-      transform: translateX( 0 );
+      .toolbar-item {
+        transform: scale(1);
+      }
 
     }
   }
 }
+
 .add-task {
   background: transparent;
   padding: 1.5rem 2rem;
@@ -268,13 +284,13 @@ $haiti : #170139;
     opacity: 0.5;
   }
   &:focus {
-    background: $mirage;
+    background: #2d2d2d;
     &::placeholder {
       color : transparent;
     }
   }
   &:hover {
-    background: $mirage;
+    background: #2d2d2d;
   }
   &.showOnboarding {
     animation: typing 3.5s steps(40, end) infinite;
