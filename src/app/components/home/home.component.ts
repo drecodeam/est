@@ -311,13 +311,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param task
      */
     updateTaskUI(task) {
-        // const label = new this.touchBarButton({
-        //     label: timeLeft + 'm | ' + task.name
-        // });
-        // const touchhBar = new this.electronService.remote.TouchBar({
-        //     items: [label]
-        // });
-        // this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
         if (task.elapsed === task.time) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
@@ -377,12 +370,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         });
 
         task.showToolbar = true;
-
         myNotification.onclick = ( event ) => {
-
         };
         this.updateUI();
-
     }
 
     /**
@@ -395,6 +385,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
+        this.updateUI();
+        clearInterval( this.currentInterval );
     }
 
     /**
@@ -501,6 +493,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     }
 
+    /**
+     * 
+     * @param task task for which time has to be added
+     * @param time how much time is being added
+     */
     addTime( task, time ) {
         if ( !task || !time ) {
             return false;
