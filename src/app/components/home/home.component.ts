@@ -1,5 +1,7 @@
 import {Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Renderer2} from '@angular/core';
 import {ElectronService} from '../../providers/electron.service';
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
 
 export enum KEY_CODE {
     DOWN_ARROW = 40,
@@ -17,14 +19,21 @@ export enum KEY_CODE {
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 
+    subs = new Subscription();
     constructor(
         private electronService: ElectronService,
-        private el: ElementRef
+        private el: ElementRef,
+        private dragulaService: DragulaService
     ) {
+        this.subs.add(this.dragulaService.drop("VAMPIRES")
+            .subscribe(({ name, el, target, source, sibling }) => {
+                this.updateData();
+            })
+        );
     }
 
     // COMMONLY USED ELECTRON SERVICE REFERENCES
-    filePath = this.electronService.remote.app.getPath('appData') + '/list2.json';
+    filePath = this.electronService.remote.app.getPath('appData') + '/list.json';
     fs = this.electronService.fs;
     app = this.electronService.remote.app;
     window = this.electronService.remote.getCurrentWindow();
@@ -257,7 +266,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @returns {boolean}
      */
     activateTask(task) {
-        if (!task || task.isTicked) {
+        if (!task || task.isTicked || task.isComplete ) {
             return false;
         }
         clearInterval(this.currentInterval);
@@ -272,6 +281,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
             this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 1000);
         }
     }
 
@@ -288,6 +298,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         displayTime += (totalHrs > 0) ? totalHrs + 'h' : '';
         displayTime += (totalMins > 0) ? ' ' + totalMins + 'm' : '';
 
+        if ( totalHrs === 0 && totalMins === 0 ) {
+            displayTime = '∞';
+        }
+
         return displayTime;
 
     }
@@ -297,16 +311,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param task
      */
     updateTaskUI(task) {
-        // const label = new this.touchBarButton({
-        //     label: timeLeft + 'm | ' + task.name
-        // });
-        // const touchhBar = new this.electronService.remote.TouchBar({
-        //     items: [label]
-        // });
-        // this.electronService.remote.getCurrentWindow().setTouchBar(touchhBar);
         if (task.elapsed === task.time) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
+            this.sendCompleteTaskNotification( task );
             return;
         }
         if (task.elapsed > task.time) {
@@ -317,7 +325,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         task.displayTime = this.getDisplayTime(task.time - task.elapsed);
         this.totalTime--;
         this.updateEta();
-        task.progress = ((task.elapsed) / (task.time)) * 100;
+        task.progress = ((task.elapsed) / (task.time)) * 100 * 0.8  ;
         this.updateData();
     }
 
@@ -356,6 +364,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.eta = hours + ':' + minutes + ' ' + ampm;
     }
 
+    sendCompleteTaskNotification( task ) {
+        const myNotification = new Notification(task.name, {
+            body: 'your task is almost out of time. Click here to mark it complete or add more time to it'
+        });
+
+        task.showToolbar = true;
+        myNotification.onclick = ( event ) => {
+        };
+        this.updateUI();
+    }
+
     /**
      * Mark the item as complete
      * @param task
@@ -366,6 +385,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.currentTaskID = 0;
         this.updateEta();
         this.updateData();
+        this.updateUI();
+        clearInterval( this.currentInterval );
     }
 
     /**
@@ -382,10 +403,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.totalTime = this.totalTime - (task.time - task.elapsed);
             this.updateEta();
             this.updateData();
-            setTimeout(() => {
-                this.updateUI();
-            }, 1);
         }
+        setTimeout(() => {
+            this.updateUI();
+        }, 1);
+
     }
 
     /**
@@ -409,7 +431,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.inputPlaceholder = this.placeholders[this.placeholderIterator];
     }
 
-
     /**
      * Sanitize the list whenever the app loads.
      * Basically remove bogus entries, empty entries, completed entries etc
@@ -419,8 +440,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.data.list.forEach((todo, index, list) => {
             if (todo.elapsed === null || todo.elapsed === undefined) {
                 todo.elapsed = 0;
-            } else if (todo.elapsed > todo.time) {
+            } else if (todo.elapsed >= todo.time) {
                 todo.elapsed = todo.time;
+                todo.isComplete = true;
             } else if (todo.elapsed < 0) {
                 todo.elapsed = 0;
             } else if (todo.isTicked) {
@@ -453,7 +475,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const time = Math.floor(parsedString.time / 60);
         const task = parsedString.text;
         this.addTaskInput.value = '';
-        this.data.list.push({
+        this.data.list.unshift({
             id: taskID,
             time: time,
             displayTime: this.getDisplayTime(time),
@@ -471,9 +493,28 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     }
 
+    /**
+     * 
+     * @param task task for which time has to be added
+     * @param time how much time is being added
+     */
+    addTime( task, time ) {
+        if ( !task || !time ) {
+            return false;
+        }
+        task.elapsed = task.time;
+        task.time = task.time + time;
+        task.isComplete = false;
+        task.isActive = false;
+        // this.activateTask( task );
+    }
+    /**
+     * Resize the UI according to the number of tasks
+     */
     updateUI() {
         const containerElement: HTMLElement = document.querySelector('.container');
-        const windowHeight = containerElement.offsetHeight;
+        let windowHeight = containerElement.offsetHeight;
+        windowHeight = ( windowHeight > 632) ? 632 : windowHeight;
         this.window.setSize(350, windowHeight, false);
     }
 
@@ -485,7 +526,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
         this.addTaskInput = document.querySelector('.add-task');
-        this.updateUI();
     }
 
     ngOnInit() {

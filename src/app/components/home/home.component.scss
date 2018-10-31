@@ -1,330 +1,374 @@
 @import url('https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:300,400,700');
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
-
-$font-title : 'Hammersmith One', sans-serif;
-$font-sans-serif : 'Open Sans', sans-serif;
-
-$grey : #F2F7FF;
-$selected : #D1375B;
-$mirage : #1A142F;
-$magenta : #9013FE;
-$maya-blye : #72BFF9;
-$pelorous : #32ADBD;
-$haiti : #170139;
-
+$font-title: 'Hammersmith One',
+sans-serif;
+$font-sans-serif: 'Open Sans',
+sans-serif;
+$grey: #F2F7FF;
+$selected: #D1375B;
+$mirage: #1A142F;
+$magenta: #9013FE;
+$maya-blye: #72BFF9;
+$pelorous: #32ADBD;
+$haiti: #170139;
+$sand: #6F533B;
 .onboarding-container {
-  position: relative;
-  overflow: hidden;
-  padding: 2rem;
-  background: $haiti;
-  background: linear-gradient(270deg, darken( #F97C24, 10% ), darken( #D9497D, 10%));
-  .title {
     position: relative;
     overflow: hidden;
-    font-family: $font-sans-serif;
-    letter-spacing: 2px;
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: $grey;
-  }
-  .description {
-    padding-top: 4px;
-    position: relative;
-    overflow: hidden;
-    font-family: $font-sans-serif;
-    color: $grey;
-    opacity: 1;
-    font-size: 14px;
-    line-height: 1.5;
-    font-weight: 300;
-  }
-  .eg {
-    padding-top: 8px;
-    position: relative;
-    overflow: hidden;
-    line-height: 1.5;
-    font-family: $font-sans-serif;
-    color: $grey;
-    opacity: 0.7;
-    font-size: 14px;
-    font-style: italic;
-  }
+    padding: 2rem;
+    background: $haiti;
+    background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
+    .title {
+        position: relative;
+        overflow: hidden;
+        font-family: $font-sans-serif;
+        letter-spacing: 2px;
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: $grey;
+    }
+    .description {
+        padding-top: 4px;
+        position: relative;
+        overflow: hidden;
+        font-family: $font-sans-serif;
+        color: $grey;
+        opacity: 1;
+        font-size: 14px;
+        line-height: 1.5;
+        font-weight: 300;
+    }
+    .eg {
+        padding-top: 8px;
+        position: relative;
+        overflow: hidden;
+        line-height: 1.5;
+        font-family: $font-sans-serif;
+        color: $grey;
+        opacity: 0.7;
+        font-size: 14px;
+        font-style: italic;
+    }
 }
 
 .help {
-  font-family: $font-sans-serif;
-  font-size: 1rem;
-  text-align: center;
-  color: white;
+    font-family: $font-sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    color: white;
 }
 
 .container {
-  position: relative;
-  overflow: hidden;
-  float: left;
-  width: 100%;
-
+    position: relative;
+    overflow: hidden;
+    float: left;
+    width: 100%;
 }
 
 .total-time {
-  padding: 1rem 2rem;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  font-family: $font-sans-serif;
-  color: $pelorous;
-  color: white;
-  background: transparent;
-  background: linear-gradient(270deg, darken( #F97C24, 10% ), darken( #D9497D, 10%));
-
-  .message {
-    font-weight: 400;
-    display: inline-block;
-    padding-right: 0.5rem;
-    letter-spacing: 1px;
-  }
-  .hrs,
-  .eta {
-    font-weight: 300;
-    display: inline-block;
-  }
+    padding: 2rem;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    font-family: $font-sans-serif;
+    color: white;
+    background: transparent;
+    .message {
+        font-weight: 100;
+        display: inline-block;
+        padding-right: 0.5rem;
+        letter-spacing: 1px;
+        opacity: 0.5;
+    }
+    .hrs,
+    .eta {
+        font-weight: 400;
+        display: inline-block;
+    }
+    .hrs,
+    .mins {
+        opacity: 0.5;
+        font-weight: 100;
+    }
 }
 
 [contenteditable] {
-  color: #666;
-  caret-color: red;
+    color: #666;
+    caret-color: red;
 }
 
 .task-list {
-  position: relative;
-  overflow: hidden;
-  font-family: $font-sans-serif;
-  clear: both;
-  width: 100%;
-
+    position: relative;
+    overflow: hidden;
+    font-family: $font-sans-serif;
+    clear: both;
+    width: 100%;
+    max-height: 504px;
+    overflow-y: scroll;
 }
 
 .task-list-item {
-  position: relative;
-  overflow: hidden;
-  padding: 1.5rem 1rem;
-  color: #f1f1f1;
-  font-family: $font-sans-serif;
-  //transition: 0.4s all ease-in-out;
-  line-height: 1.5rem;
-
-  .play-icon {
-    display: inline-block;
-    padding-right: 1rem;
-    opacity: 0;
-    transition: 0.4s all ease-in-out;
-  }
-
-  .done-icon {
-    position: absolute;
-    right: 3rem;
-    top: 0.7rem;
+    position: relative;
     overflow: hidden;
-    font-size: 1.25rem;
+    padding: 1rem 2rem;
+    color: #f1f1f1;
+    font-family: $font-sans-serif;
     line-height: 1.5rem;
-    transition: 0.4s all ease-in-out;
-    opacity: 0;
-    margin-top: 0.45rem;
-    z-index: 2;
-    &:hover {
-      color: greenyellow;
-      transform: scale(1.1);
-    }
-  }
-  .delete-icon {
-    position: absolute;
-    right: 1rem;
-    top: 0.7rem;
-    overflow: hidden;
-    font-size: 1.25rem;
-    line-height: 1.5rem;
-    transition: 0.4s all ease-in-out;
-    margin-top: 0.45rem;
-    color: white;
-    opacity: 0;
-    z-index: 2;
-    &:hover {
-      color: red;
-      transform: scale(1.1);
-    }
-  }
-  .item-time {
-    font-weight: 300;
-    display: inline-block;
-  }
-  .item-separator {
-    font-weight: 400;
-    display: inline-block;
-    padding: 0 0.25rem;
-  }
-  .item-title {
-    display: inline-block;
-    font-weight: 300;
-    opacity: 0.8;
-    padding-left: 0.25rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: middle;
-    max-width: 220px;
-  }
-  .item-progress-bar {
-    bottom: 15%;
-    left: 2.5rem;
-    position: absolute;
-    overflow: hidden;
-    background: $pelorous;
-    width: 0;
-    transition: 0.4s all ease-in-out;
-    height: 1px;
-    opacity: 1;
-  }
-
-  &.ticked {
-    text-decoration: line-through;
-    opacity: 0.25;
     .play-icon {
-      display: none;
+        display: inline-block;
+        display: none;
+        padding-right: 1rem;
+        opacity: 0;
+        transition: 0.4s all ease-in-out;
     }
-    .active-icon {
-      display: none;
-    }
-    .item-time {
-      text-decoration: line-through;
+    .item-toolbar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        line-height: 3.5rem;
+        font-size: 0.875rem;
+        padding: 0 1rem;
+        .toolbar-item {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            padding: 0 0.5rem;
+            transition: 0.4s all ease-in-out;
+            vertical-align: middle;
+            transform: scale(0);
+            &:hover {
+                color: white;
+            }
+        }
+        &.isVisible {
+            .toolbar-item {
+                transform: scale(1.25);
+            }
+        }
     }
     .item-title {
-      text-decoration: line-through;
+        display: block;
+        position: relative;
+        width: 100%;
+        font-weight: 300;
+        opacity: 0.8;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        vertical-align: middle;
+        padding-bottom: 0.5rem;
     }
-    .done-icon {
-      display: none;
+    .item-progress-bar-container {
+        display: block;
+        float: left;
+        position: relative;
+        width: 80%;
+        line-height: 1.5rem;
+        display: none;
+    }
+    .item-time {
+        overflow: hidden;
+        font-size: 0.875rem;
+        line-height: 1.5rem;
+        display: block;
+        float: left;
+        position: relative;
+        color: white;
+        opacity: 0.4;
+        width: 20%;
+        display: none;
     }
     .item-progress-bar {
-      display: none;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        background: transparent;
+        transition: 0.4s all ease-in-out;
+        height: 2px;
+        opacity: 0;
+        vertical-align: middle;
+        background: white;
+        width: 100%;
     }
-  }
-  &:hover,
-  &.selected {
-    cursor: pointer;
-    background: darken( $mirage, 0.1 );
-    .done-icon {
-      opacity: 1;
+    .item-add-time {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        background: $sand;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+        .toolbar-item {
+            font-size: 0.85rem;
+            display: inline-block;
+            padding-right: 1rem;
+            color: rgba( white, 0.5);
+        }
     }
-    .play-icon {
-      opacity: 1;
+    &.ticked {
+        text-decoration: line-through;
+        opacity: 0.25;
+        .play-icon {
+            // display: none;
+            opacity: 0;
+        }
+        .active-icon {
+            display: none;
+        }
+        .item-time {
+            text-decoration: line-through;
+            display: none;
+        }
+        .item-title {
+            text-decoration: line-through;
+        }
+        .done-icon {
+            display: none;
+        }
+        .item-progress-bar {
+            display: none;
+        }
     }
-    .delete-icon {
-      opacity: 1;
+    &:hover,
+    &.selected {
+        cursor: pointer;
+        background: black;
+        .done-icon {
+            opacity: 1;
+        }
+        .play-icon {
+            opacity: 1;
+        }
+        .delete-icon {
+            opacity: 1;
+        }
     }
-  }
-  &.active {
-    opacity: 1;
-    .item-progress-bar {
-      opacity: 1;
-      height: 3px;
-      border-radius: 0;
-      background: linear-gradient(270deg, #F97C24, #D9497D);
+    &.active {
+        opacity: 1;
+        padding-bottom: 1.5rem;
+        background: black;
+        .item-progress-bar {
+            opacity: 1;
+        }
+        .item-separator {
+            animation: animate-progress 2s linear infinite;
+        }
+        .play-icon {
+            opacity: 1;
+        }
+        .item-time {
+            display: block;
+        }
+        .item-progress-bar-container {
+            display: block;
+        }
     }
-    .item-separator {
-      animation: animate-progress 2s linear infinite;
+    &.gu-mirror {
+        background: rgba( $mirage, 0.9);
     }
-    .play-icon {
-      opacity: 1;
-    }
-  }
-  &.gu-mirror {
-    background: $haiti;
-  }
-}
-.add-task {
-  background: transparent;
-  padding: 1.5rem 2rem;
-  outline: none;
-  box-shadow: none;
-  border: none;
-  font-size: 1rem;
-  color: white;
-  width: 100%;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: 0.4s all ease-in-out;
-  -webkit-app-region: drag;
-
-  &::placeholder {
-    color : white;
-    font-family: $font-sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    opacity: 0.5;
-  }
-  &:focus {
-    background: $mirage;
-    &::placeholder {
-      color : transparent;
-    }
-  }
-  &:hover {
-    background: $mirage;
-  }
-  &.showOnboarding {
-    animation: typing 3.5s steps(40, end) infinite;
     &:hover {
-      animation: none;
+        .item-toolbar {
+            .toolbar-item {
+                transform: scale(1.25);
+            }
+        }
+    }
+}
+
+.add-task {
+    background: transparent;
+    padding: 1.5rem 2rem;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    font-size: 1rem;
+    color: white;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.4s all ease-in-out;
+    -webkit-app-region: drag;
+    &::placeholder {
+        color: white;
+        font-family: $font-sans-serif;
+        font-size: 1rem;
+        font-weight: 400;
+        opacity: 0.5;
     }
     &:focus {
-      animation: none;
+        background: #2d2d2d;
+        &::placeholder {
+            color: transparent;
+        }
     }
-  }
+    &:hover {
+        background: #2d2d2d;
+    }
+    &.showOnboarding {
+        animation: typing 3.5s steps(40, end) infinite;
+        &:hover {
+            animation: none;
+        }
+        &:focus {
+            animation: none;
+        }
+    }
 }
+
 
 /* The typing effect */
+
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+    from {
+        width: 0
+    }
+    to {
+        width: 100%
+    }
 }
+
 
 /* The typewriter cursor effect */
+
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: orange; }
+    from,
+    to {
+        border-color: transparent
+    }
+    50% {
+        border-color: orange;
+    }
 }
 
-
-
 .input-error {
- background: $selected;
-  position: relative;
-  overflow: hidden;
-  padding: 1.5rem 2rem;
-  .error-main {
-    color: white;
-    font-family: $font-sans-serif;
-    font-size: 14px;
-  }
-  .error-sub {
-    color: white;
-    font-family: $font-sans-serif;
-    font-size: 14px;
-    padding-top: 4px;
-    opacity: 0.5;
-    font-style: italic;
-  }
+    background: $selected;
+    position: relative;
+    overflow: hidden;
+    padding: 1.5rem 2rem;
+    .error-main {
+        color: white;
+        font-family: $font-sans-serif;
+        font-size: 14px;
+    }
+    .error-sub {
+        color: white;
+        font-family: $font-sans-serif;
+        font-size: 14px;
+        padding-top: 4px;
+        opacity: 0.5;
+        font-style: italic;
+    }
 }
 
 @keyframes onboarding-progress-bar {
-  0% {
-    width: 0;
-    opacity: 0
-  }
-  10% {
-    width: 10%;
-    opacity: 1;
-  }
-  100% {
-    width: 100%;
-  }
+    0% {
+        width: 0;
+        opacity: 0
+    }
+    10% {
+        width: 10%;
+        opacity: 1;
+    }
+    100% {
+        width: 100%;
+    }
 }

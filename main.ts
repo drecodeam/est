@@ -18,9 +18,9 @@ function createWindow() {
         x: 400,
         y: 100  ,
         width: 350,
-        height: 500,
+        height: 630,
         frame: false,
-        resizable: false,
+        resizable: true,
         movable: true,
         title: 'Stors'
     });
