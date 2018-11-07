@@ -274,42 +274,57 @@ $sand: #6F533B;
     }
 }
 
-.add-task {
-    background: transparent;
-    padding: 1.5rem 2rem;
-    outline: none;
-    box-shadow: none;
-    border: none;
-    font-size: 1rem;
-    color: white;
-    width: 100%;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: 0.4s all ease-in-out;
-    -webkit-app-region: drag;
-    &::placeholder {
+.add-task-container {
+    .settings-icon {
+        position: absolute;
+        right: 1rem;
+        line-height: 4rem;
         color: white;
-        font-family: $font-sans-serif;
-        font-size: 1rem;
-        font-weight: 400;
-        opacity: 0.5;
-    }
-    &:focus {
-        background: #2d2d2d;
-        &::placeholder {
-            color: transparent;
+        top: 0;
+        &:hover {
+            color: yellow;
         }
     }
-    &:hover {
-        background: #2d2d2d;
-    }
-    &.showOnboarding {
-        animation: typing 3.5s steps(40, end) infinite;
-        &:hover {
-            animation: none;
+    .add-task {
+        background: transparent;
+        padding: 1.5rem 2rem;
+        outline: none;
+        box-shadow: none;
+        border: none;
+        font-size: 1rem;
+        color: white;
+        width: 100%;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.4s all ease-in-out;
+        -webkit-app-region: drag;
+        &::placeholder {
+            color: white;
+            font-family: $font-sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.5;
         }
         &:focus {
-            animation: none;
+            background: #2d2d2d;
+            &::placeholder {
+                color: transparent;
+            }
+        }
+        &:hover {
+            &::placeholder {
+                opacity: 1;
+                font-weight: 500;
+            }
+        }
+        &.showOnboarding {
+            animation: typing 3.5s steps(40, end) infinite;
+            &:hover {
+                animation: none;
+            }
+            &:focus {
+                animation: none;
+            }
         }
     }
 }

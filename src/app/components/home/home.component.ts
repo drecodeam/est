@@ -54,6 +54,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     eta: any;
     firstTaskNavigate = false;
     inputError = false;
+    idleTimer = null;
+    settings = {
+        idleTime : ( 1000 * 60 * 5)
+    };
     status = {
         showOnboarding: true
     };
@@ -168,6 +172,25 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * 
+     * @param status 
+     */
+    toggleIdleTimer( status ) {
+        if ( !status ) {
+            clearInterval( this.idleTimer );
+            return false;
+        }
+        this.idleTimer = setInterval(() => {
+            const myNotification = new Notification( 'Start tracking time', {
+                body: 'You have been idle for 15m. What are you working on?'
+            });
+            myNotification.onclick = ( event ) => {
+            };
+            this.updateUI();
+        }, this.settings.idleTime );
+    }
+
+    /**
      * Handle keyboard shortcuts
      * @param event
      */
@@ -270,6 +293,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             return false;
         }
         clearInterval(this.currentInterval);
+        this.toggleIdleTimer( false );
         this.currentTaskID = task.id;
         this.currentTask = task;
         if (task.isActive) {
@@ -364,6 +388,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.eta = hours + ':' + minutes + ' ' + ampm;
     }
 
+    /**
+     * 
+     * @param task 
+     */
     sendCompleteTaskNotification( task ) {
         const myNotification = new Notification(task.name, {
             body: 'your task is almost out of time. Click here to mark it complete or add more time to it'
@@ -387,6 +415,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.updateData();
         this.updateUI();
         clearInterval( this.currentInterval );
+        this.toggleIdleTimer( true );
     }
 
     /**
@@ -518,10 +547,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.window.setSize(350, windowHeight, false);
     }
 
+    /**
+     * Check if electron 
+     */
     isElectron = () => {
         return window && window.process && window.process.type;
     }
 
+    /**
+     * 
+     */
     ngAfterViewInit() {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
@@ -532,5 +567,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         const data = this.getCurrentList();
         this.sanitizeData();
         this.updateData();
+        this.toggleIdleTimer( true );
     }
 }

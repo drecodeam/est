@@ -1,0 +1,65 @@
+$font-title: 'Hammersmith One',
+sans-serif;
+$font-sans-serif: 'Open Sans',
+sans-serif;
+$sand: #6F533B;
+$grey: #CDCDCD;
+.setting-container {
+    position: relative;
+    overflow: hidden;
+    padding: 3rem 2rem;
+    .back {
+        color: white;
+        display: inline-block;
+        padding-right: 1rem;
+        line-height: 1.5rem;
+        vertical-align: middle;
+    }
+    .header {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        font-size: 1rem;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+        line-height: 1.5rem;
+        vertical-align: middle;
+        font-family: $font-sans-serif;
+    }
+    .about {
+        font-family: $font-sans-serif;
+        position: relative;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        color: $grey;
+        overflow: hidden;
+        padding: 0.5rem 1.6rem;
+        a {
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            clear: both;
+            text-decoration: none;
+        }
+    }
+    .settings-nav {
+        position: relative;
+        overflow: hidden;
+        padding: 1rem 1.6rem;
+        .nav-item {
+            padding: 0.5rem 0;
+            position: relative;
+            overflow: hidden;
+            color: $grey;
+            font-family: $font-sans-serif;
+            transition: 0.4s all ease-in-out;
+            cursor: pointer;
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
