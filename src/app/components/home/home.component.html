@@ -23,7 +23,7 @@
             <div class="item-title">{{item.name}}</div>
             <div class="item-toolbar" [class.isVisible]="!!item.showToolbar">
                 <div class="toolbar-item" (click)="markItemComplete( item )">
-                    <i class="ion ion-ios-checkmark-circle-outline"></i>
+                    <i class="ion ion-ios-checkmark-circle"></i>
                 </div>
                 <div class="toolbar-item" (click)="deleteItem( item )">
                     <i class="ion ion-md-trash"></i>
@@ -46,6 +46,4 @@
         <div class="eta">{{eta}} | </div>
         <span class="hrs">{{totalHrs}}h  </span> <span class="mins"> {{totalMins}}m </span>
     </div>
-
 </div>
-<div class="help drift-open-chat">👋 Feedback</div>

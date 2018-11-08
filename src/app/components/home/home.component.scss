@@ -4,7 +4,7 @@ $font-title: 'Hammersmith One',
 sans-serif;
 $font-sans-serif: 'Open Sans',
 sans-serif;
-$grey: #F2F7FF;
+
 $selected: #D1375B;
 $mirage: #1A142F;
 $magenta: #9013FE;
@@ -12,6 +12,7 @@ $maya-blye: #72BFF9;
 $pelorous: #32ADBD;
 $haiti: #170139;
 $sand: #6F533B;
+$grey: #CDCDCD;
 .onboarding-container {
     position: relative;
     overflow: hidden;
@@ -245,7 +246,7 @@ $sand: #6F533B;
     &.active {
         opacity: 1;
         padding-bottom: 1.5rem;
-        background: black;
+        background: rgba($grey, 0.1 );
         .item-progress-bar {
             opacity: 1;
         }
@@ -295,7 +296,6 @@ $sand: #6F533B;
         color: white;
         width: 100%;
         cursor: pointer;
-        border-radius: 4px;
         transition: 0.4s all ease-in-out;
         -webkit-app-region: drag;
         &::placeholder {
