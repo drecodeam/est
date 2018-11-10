@@ -4,7 +4,6 @@ $font-title: 'Hammersmith One',
 sans-serif;
 $font-sans-serif: 'Open Sans',
 sans-serif;
-
 $selected: #D1375B;
 $mirage: #1A142F;
 $magenta: #9013FE;
@@ -52,43 +51,30 @@ $grey: #CDCDCD;
     }
 }
 
-.help {
-    font-family: $font-sans-serif;
-    font-size: 1rem;
-    text-align: center;
-    color: white;
-}
-
 .container {
     position: relative;
     overflow: hidden;
     float: left;
     width: 100%;
+    padding: 1rem;
 }
 
 .total-time {
-    padding: 2rem;
+    padding: 1rem;
     width: 100%;
     position: relative;
     overflow: hidden;
     font-family: $font-sans-serif;
     color: white;
-    background: transparent;
-    .message {
-        font-weight: 100;
-        display: inline-block;
-        padding-right: 0.5rem;
-        letter-spacing: 1px;
-        opacity: 0.5;
-    }
+    font-size: 1.5rem;
     .hrs,
     .eta {
-        font-weight: 400;
+        font-weight: 500;
         display: inline-block;
     }
     .hrs,
     .mins {
-        opacity: 0.5;
+        opacity: 0.7;
         font-weight: 100;
     }
 }
@@ -111,24 +97,15 @@ $grey: #CDCDCD;
 .task-list-item {
     position: relative;
     overflow: hidden;
-    padding: 1rem 2rem;
-    color: #f1f1f1;
-    font-family: $font-sans-serif;
-    line-height: 1.5rem;
-    .play-icon {
-        display: inline-block;
-        display: none;
-        padding-right: 1rem;
-        opacity: 0;
-        transition: 0.4s all ease-in-out;
-    }
+    padding: 1rem;
+    border-radius: 4px;
+    transition: 0.4s all ease-in-out;
     .item-toolbar {
         position: absolute;
         top: 0;
         right: 0;
         line-height: 3.5rem;
         font-size: 0.875rem;
-        padding: 0 1rem;
         .toolbar-item {
             position: relative;
             overflow: hidden;
@@ -152,44 +129,49 @@ $grey: #CDCDCD;
         position: relative;
         width: 100%;
         font-weight: 300;
+        color: white;
+        font-family: $font-sans-serif;
         opacity: 0.8;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        vertical-align: middle;
-        padding-bottom: 0.5rem;
-    }
-    .item-progress-bar-container {
-        display: block;
-        float: left;
-        position: relative;
-        width: 80%;
-        line-height: 1.5rem;
-        display: none;
     }
     .item-time {
         overflow: hidden;
+        position: absolute;
+        bottom: 1.25rem;
         font-size: 0.875rem;
         line-height: 1.5rem;
-        display: block;
-        float: left;
-        position: relative;
-        color: white;
-        opacity: 0.4;
-        width: 20%;
+        color:rgba( white, 0.5 );
+        padding: 0 8px 0 0;
         display: none;
+        background: black;
+        z-index: 10;
     }
     .item-progress-bar {
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-        background: transparent;
+        position: absolute;
         transition: 0.4s all ease-in-out;
         height: 2px;
-        opacity: 0;
+        bottom: 2rem;
+        margin-bottom: -2px;
         vertical-align: middle;
-        background: white;
+        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));;
         width: 100%;
+        display: none;
+        border-radius: 50%;
+    }
+    .item-progress-bar-ghost {
+        position: absolute;
+        transition: 0.4s all ease-in-out;
+        height: 2px;
+        vertical-align: middle;
+        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
+        width: 100%;
+        bottom: 2rem;
+        margin-bottom: -2px;
+        display: none;
+        border-radius: 50%;
+        animation: onboarding-progress-bar 2s ease-in-out infinite;
     }
     .item-add-time {
         position: relative;
@@ -208,10 +190,6 @@ $grey: #CDCDCD;
     &.ticked {
         text-decoration: line-through;
         opacity: 0.25;
-        .play-icon {
-            // display: none;
-            opacity: 0;
-        }
         .active-icon {
             display: none;
         }
@@ -236,28 +214,34 @@ $grey: #CDCDCD;
         .done-icon {
             opacity: 1;
         }
-        .play-icon {
-            opacity: 1;
-        }
         .delete-icon {
             opacity: 1;
         }
     }
     &.active {
         opacity: 1;
-        padding-bottom: 1.5rem;
-        background: rgba($grey, 0.1 );
+        background: white;
+        border: 1px solid rgba( white, 0.01 );
+        padding-bottom: 3rem;
+        background: black;
         .item-progress-bar {
-            opacity: 1;
+            display: block;
+        }
+        .item-progress-bar-ghost {
+            display: block;
         }
         .item-separator {
             animation: animate-progress 2s linear infinite;
         }
-        .play-icon {
-            opacity: 1;
+        .item-toolbar {
+            display: none;
         }
         .item-time {
             display: block;
+        }
+        .item-title {
+            // color:black;
+            font-weight: 500;
         }
         .item-progress-bar-container {
             display: block;
@@ -288,12 +272,13 @@ $grey: #CDCDCD;
     }
     .add-task {
         background: transparent;
-        padding: 1.5rem 2rem;
+        padding: 1rem;
         outline: none;
         box-shadow: none;
         border: none;
         font-size: 1rem;
-        color: white;
+        color:black;
+        font-weight: 500;
         width: 100%;
         cursor: pointer;
         transition: 0.4s all ease-in-out;
@@ -306,7 +291,7 @@ $grey: #CDCDCD;
             opacity: 0.5;
         }
         &:focus {
-            background: #2d2d2d;
+            background:white;
             &::placeholder {
                 color: transparent;
             }
@@ -330,29 +315,6 @@ $grey: #CDCDCD;
 }
 
 
-/* The typing effect */
-
-@keyframes typing {
-    from {
-        width: 0
-    }
-    to {
-        width: 100%
-    }
-}
-
-
-/* The typewriter cursor effect */
-
-@keyframes blink-caret {
-    from,
-    to {
-        border-color: transparent
-    }
-    50% {
-        border-color: orange;
-    }
-}
 
 .input-error {
     background: $selected;
@@ -376,14 +338,36 @@ $grey: #CDCDCD;
 
 @keyframes onboarding-progress-bar {
     0% {
-        width: 0;
-        opacity: 0
+        opacity: 1
     }
-    10% {
-        width: 10%;
-        opacity: 1;
+    50% {
+        opacity: 0.5;
     }
     100% {
-        width: 100%;
+        opacity: 1;
+    }
+}
+
+/* The typing effect */
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+    to {
+        width: 100%
+    }
+}
+
+
+/* The typewriter cursor effect */
+
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent
+    }
+    50% {
+        border-color: orange;
     }
 }
