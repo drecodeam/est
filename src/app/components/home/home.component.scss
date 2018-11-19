@@ -114,6 +114,7 @@ $grey: #CDCDCD;
             transition: 0.4s all ease-in-out;
             vertical-align: middle;
             transform: scale(0);
+            color: white;
             &:hover {
                 color: white;
             }
@@ -178,13 +179,27 @@ $grey: #CDCDCD;
         overflow: hidden;
         width: 100%;
         background: $sand;
-        padding: 0.5rem 1rem;
+        background: white;
+        background: transparent;
+        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));;
+        padding: 0 1rem;
         margin: 0.5rem 0;
-        .toolbar-item {
+        .item-add-time-title {
             font-size: 0.85rem;
             display: inline-block;
-            padding-right: 1rem;
-            color: rgba( white, 0.5);
+            padding: 0.5rem 1rem 0.5rem 0;
+            color: white;
+            font-weight: 700;
+        }
+        .toolbar-item {
+            font-size: 0.85rem;
+            padding: 0.5rem 0.5rem;
+            display: inline-block;
+            color: white;
+            transition: 0.4s all ease-in-out;
+            &:hover {
+                background: rgba( black, 0.25 );
+            }
         }
     }
     &.ticked {
@@ -203,7 +218,11 @@ $grey: #CDCDCD;
         .done-icon {
             display: none;
         }
-        .item-progress-bar {
+        .item-progress-bar,
+        .item-progress-bar-ghost {
+            display: none;
+        }
+        .item-toolbar {
             display: none;
         }
     }
@@ -241,6 +260,7 @@ $grey: #CDCDCD;
         }
         .item-title {
             // color:black;
+            opacity: 1;
             font-weight: 500;
         }
         .item-progress-bar-container {
@@ -256,6 +276,9 @@ $grey: #CDCDCD;
                 transform: scale(1.25);
             }
         }
+    }
+    &.complete {
+      padding-bottom: 1rem;  
     }
 }
 

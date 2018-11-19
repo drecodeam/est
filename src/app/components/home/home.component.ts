@@ -134,7 +134,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
     };
     placeholders = [
-        '+ Add your task',
+        '+ Add new task',
         '30 mins with Sarah',
         '1hr 15mins Working on the documentation',
         '45 mins standup'
@@ -176,6 +176,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param status 
      */
     toggleIdleTimer( status ) {
+        console.log( status );
         if ( !status ) {
             clearInterval( this.idleTimer );
             return false;
@@ -184,8 +185,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             const myNotification = new Notification( 'Start tracking time', {
                 body: 'You have been idle for 15m. What are you working on?'
             });
-            myNotification.onclick = ( event ) => {
-            };
             this.updateUI();
         }, this.settings.idleTime );
     }
@@ -304,8 +303,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
-            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 1000);
+            // this.currentInterval = setInterval(() => this.updateTaskUI(task), 60000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task, true), 1000);
         }
     }
 
@@ -334,7 +333,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * Update the UI of the active task
      * @param task
      */
-    updateTaskUI(task) {
+    updateTaskUI(task, isAddTime ) {
         if (task.elapsed === task.time) {
             clearInterval(this.currentInterval);
             task.isComplete = true;
@@ -345,9 +344,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.elapsed = task.time;
             clearInterval(this.currentInterval);
         }
-        task.elapsed++;
+
+        if ( isAddTime ) {
+            task.elapsed++;
+            this.totalTime--;
+        }
         task.displayTime = this.getDisplayTime(task.time - task.elapsed);
-        this.totalTime--;
         this.updateEta();
         task.progress = ((task.elapsed) / (task.time)) * 100 * 0.8  ;
         this.updateData();
@@ -535,6 +537,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         task.time = task.time + time;
         task.isComplete = false;
         task.isActive = false;
+        this.updateTaskUI( task, false );
         // this.activateTask( task );
     }
     /**
@@ -561,6 +564,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.pointerFirstTask = document.querySelector('.task-list-item');
         this.pointerCurrentTask = this.pointerFirstTask;
         this.addTaskInput = document.querySelector('.add-task');
+        this.updateUI();
     }
 
     ngOnInit() {

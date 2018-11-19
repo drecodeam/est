@@ -41,6 +41,7 @@
       (click)="activateTask(item)"
       [class.ticked]="!!item.isTicked"
       [class.active]="item.id === currentTaskID"
+      [class.complete] = "!!item.isComplete"
     >
       <div class="item-title">{{ item.name }}</div>
       <div class="item-toolbar" [class.isVisible]="!!item.showToolbar">
@@ -52,6 +53,7 @@
         </div>
       </div>
       <div class="item-add-time" *ngIf="!!item.isComplete && !item.isTicked">
+        <div class="item-add-time-title">Add time | </div>
         <div
           class="toolbar-item"
           *ngIf="!!item.isComplete"
