@@ -252,9 +252,6 @@ $grey: #CDCDCD;
         .item-separator {
             animation: animate-progress 2s linear infinite;
         }
-        .item-toolbar {
-            display: none;
-        }
         .item-time {
             display: block;
         }
@@ -275,6 +272,10 @@ $grey: #CDCDCD;
             .toolbar-item {
                 transform: scale(1.25);
             }
+        }
+        .item-title {
+            transition: 0.4s all ease-in-out;
+            padding-right: 2rem;
         }
     }
     &.complete {
