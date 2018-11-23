@@ -45,7 +45,7 @@
     >
       <div class="item-title">{{ item.name }}</div>
       <div class="item-toolbar">
-        <div class="toolbar-item" (click)="markItemComplete(item)">
+        <div class="toolbar-item" *ngIf="!item.isComplete" (click)="markItemComplete(item)">
           <i class="ion ion-ios-checkmark-circle"></i>
         </div>
         <div class="toolbar-item" (click)="deleteItem(item)">

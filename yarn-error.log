@@ -15,84 +15,84 @@ Platform:
 
 npm manifest: 
   {
-    "name": "Stors",
-    "version": "0.3.3",
-    "description": "A simple task manager for a day",
-    "homepage": "https://insert.black",
-    "repository": "https://github.com/drecodeam/stors",
-    "browser": {
-      "child_process": false
-    },
-    "author": {
-      "name": "Drecode Feil",
-      "email": "drecodeam@gmail.com"
-    },
-    "keywords": [],
-    "main": "main.js",
-    "private": true,
-    "scripts": {
-      "postinstall": "npx electron-builder install-app-deps",
-      "ng": "ng",
-      "start": "npm-run-all -p ng:serve electron:serve",
-      "build": "npm run electron:tsc && ng build",
-      "build:dev": "npm run build -- -c dev",
-      "build:prod": "npm run build -- -c production",
-      "ng:serve": "ng serve -o",
-      "electron:tsc": "tsc main.ts",
-      "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:tsc && electron . --serve",
-      "electron:local": "npm run build:prod && electron .",
-      "electron:linux": "npm run build:prod && npx electron-builder build --linux",
-      "electron:windows": "npm run build:prod && npx electron-builder build --windows",
-      "electron:mac": "npm run build:prod && npx electron-builder build --mac",
-      "release:mac": "npm run build:prod && npx electron-builder build --mac --p always",
-      "test": "ng test",
-      "e2e": "ng e2e"
-    },
-    "dependencies": {
-    },
-    "devDependencies": {
-      "@angular-devkit/build-angular": "0.6.3",
-      "@angular/cli": "6.0.3",
-      "@angular/common": "6.0.3",
-      "@angular/compiler": "6.0.3",
-      "@angular/compiler-cli": "6.0.3",
-      "@angular/core": "6.0.3",
-      "@angular/forms": "6.0.3",
-      "@angular/http": "6.0.3",
-      "@angular/language-service": "6.0.3",
-      "@angular/platform-browser": "6.0.3",
-      "@angular/platform-browser-dynamic": "6.0.3",
-      "@angular/router": "6.0.3",
-      "@ngx-translate/core": "10.0.1",
-      "@ngx-translate/http-loader": "3.0.1",
-      "@types/es6-collections": "^0.5.31",
-      "@types/jasmine": "2.8.7",
-      "@types/jasminewd2": "2.0.3",
-      "@types/node": "8.9.4",
-      "airtable": "^0.5.6",
-      "codelyzer": "4.2.1",
-      "core-js": "2.5.6",
-      "electron": "^2.0.2",
-      "electron-builder": "20.14.7",
-      "electron-reload": "1.2.2",
-      "jasmine-core": "3.1.0",
-      "jasmine-spec-reporter": "4.2.1",
-      "karma": "2.0.2",
-      "karma-chrome-launcher": "2.2.0",
-      "karma-coverage-istanbul-reporter": "2.0.0",
-      "karma-jasmine": "1.1.2",
-      "karma-jasmine-html-reporter": "1.1.0",
-      "npm-run-all": "4.1.3",
-      "npx": "10.2.0",
-      "protractor": "5.3.2",
-      "rxjs": "6.1.0",
-      "ts-node": "6.0.3",
-      "tslint": "5.10.0",
-      "typescript": "2.7.2",
-      "wait-on": "2.1.0",
-      "webdriver-manager": "12.0.6",
-      "zone.js": "0.8.26"
-    }
+      "name": "Est",
+      "version": "0.4.1",
+      "description": "Estimate your day better",
+      "homepage": "https://insert.black",
+      "repository": "https://github.com/drecodeam/stors",
+      "browser": {
+          "child_process": false
+      },
+      "author": {
+          "name": "Drecode Feil",
+          "email": "drecodeam@gmail.com"
+      },
+      "keywords": [],
+      "main": "main.js",
+      "private": true,
+      "scripts": {
+          "postinstall": "npx electron-builder install-app-deps",
+          "ng": "ng",
+          "start": "npm-run-all -p ng:serve electron:serve",
+          "build": "npm run electron:tsc && ng build",
+          "build:dev": "npm run build -- -c dev",
+          "build:prod": "npm run build -- -c production",
+          "ng:serve": "ng serve -o",
+          "electron:tsc": "tsc main.ts",
+          "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:tsc && electron . --serve",
+          "electron:local": "npm run build:prod && electron .",
+          "electron:linux": "npm run build:prod && npx electron-builder build --linux",
+          "electron:windows": "npm run build:prod && npx electron-builder build --windows",
+          "electron:mac": "npm run build:prod && npx electron-builder build --mac",
+          "release:mac": "npm run build:prod && npx electron-builder build --mac --p always",
+          "test": "ng test",
+          "e2e": "ng e2e"
+      },
+      "dependencies": {
+          "ng2-dragula": "^2.0.4"
+      },
+      "devDependencies": {
+          "@angular-devkit/build-angular": "0.6.3",
+          "@angular/cli": "6.0.3",
+          "@angular/common": "6.0.3",
+          "@angular/compiler": "6.0.3",
+          "@angular/compiler-cli": "6.0.3",
+          "@angular/core": "6.0.3",
+          "@angular/forms": "6.0.3",
+          "@angular/http": "6.0.3",
+          "@angular/language-service": "6.0.3",
+          "@angular/platform-browser": "6.0.3",
+          "@angular/platform-browser-dynamic": "6.0.3",
+          "@angular/router": "6.0.3",
+          "@ngx-translate/core": "10.0.1",
+          "@ngx-translate/http-loader": "3.0.1",
+          "@types/es6-collections": "^0.5.31",
+          "@types/jasmine": "2.8.7",
+          "@types/jasminewd2": "2.0.3",
+          "@types/node": "8.9.4",
+          "codelyzer": "4.2.1",
+          "core-js": "2.5.6",
+          "electron": "^2.0.2",
+          "electron-builder": "20.14.7",
+          "electron-reload": "1.2.2",
+          "jasmine-core": "3.1.0",
+          "jasmine-spec-reporter": "4.2.1",
+          "karma": "2.0.2",
+          "karma-chrome-launcher": "2.2.0",
+          "karma-coverage-istanbul-reporter": "2.0.0",
+          "karma-jasmine": "1.1.2",
+          "karma-jasmine-html-reporter": "1.1.0",
+          "npm-run-all": "4.1.3",
+          "npx": "10.2.0",
+          "protractor": "5.3.2",
+          "rxjs": "6.1.0",
+          "ts-node": "6.0.3",
+          "tslint": "5.10.0",
+          "typescript": "2.7.2",
+          "wait-on": "2.1.0",
+          "webdriver-manager": "12.0.6",
+          "zone.js": "0.8.26"
+      }
   }
 
 yarn manifest: 
@@ -313,12 +313,9 @@ Lockfile:
       semver "^5.3.0"
       semver-intersect "^1.1.2"
   
-  "@segment/loosely-validate-event@^2.0.0":
-    version "2.0.0"
-    resolved "https://registry.yarnpkg.com/@segment/loosely-validate-event/-/loosely-validate-event-2.0.0.tgz#87dfc979e5b4e7b82c5f1d8b722dfd5d77644681"
-    dependencies:
-      component-type "^1.2.1"
-      join-component "^1.1.0"
+  "@types/dragula@^2.1.33":
+    version "2.1.33"
+    resolved "https://registry.yarnpkg.com/@types/dragula/-/dragula-2.1.33.tgz#63a694bd8a5fb7bfa570778a12a069be98462919"
   
   "@types/es6-collections@^0.5.31":
     version "0.5.31"
@@ -614,20 +611,6 @@ Lockfile:
       readable-stream "1.x >=1.1.9"
       safe-buffer "^5.0.1"
   
-  analytics-node@^3.3.0:
-    version "3.3.0"
-    resolved "https://registry.yarnpkg.com/analytics-node/-/analytics-node-3.3.0.tgz#7fb4be288c253d00857e840bf9ef642b64313ac0"
-    dependencies:
-      "@segment/loosely-validate-event" "^2.0.0"
-      axios "^0.17.1"
-      axios-retry "^3.0.2"
-      commander "^2.9.0"
-      lodash.isstring "^4.0.1"
-      md5 "^2.2.1"
-      ms "^2.0.0"
-      remove-trailing-slash "^0.1.0"
-      uuid "^3.2.1"
-  
   ansi-align@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -695,10 +678,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/append-transform/-/append-transform-1.0.0.tgz#046a52ae582a228bd72f58acfbe2967c678759ab"
     dependencies:
       default-require-extensions "^2.0.0"
-  
-  applescript@^1.0.0:
-    version "1.0.0"
-    resolved "https://registry.yarnpkg.com/applescript/-/applescript-1.0.0.tgz#bb87af568cad034a4e48c4bdaf6067a3a2701317"
   
   aproba@^1.0.3, aproba@^1.1.1:
     version "1.2.0"
@@ -872,19 +851,13 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   
+  atoa@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/atoa/-/atoa-1.0.0.tgz#0cc0e91a480e738f923ebc103676471779b34a49"
+  
   atob@^2.1.1:
     version "2.1.1"
     resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
-  
-  auto-launch@^5.0.5:
-    version "5.0.5"
-    resolved "https://registry.yarnpkg.com/auto-launch/-/auto-launch-5.0.5.tgz#d14bd002b1ef642f85e991a6195ff5300c8ad3c0"
-    dependencies:
-      applescript "^1.0.0"
-      mkdirp "^0.5.1"
-      path-is-absolute "^1.0.0"
-      untildify "^3.0.2"
-      winreg "1.2.4"
   
   autoprefixer@^8.4.1:
     version "8.6.5"
@@ -909,24 +882,11 @@ Lockfile:
     version "1.7.0"
     resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.7.0.tgz#d4d0e9b9dbfca77bf08eeb0a8a471550fe39e289"
   
-  axios-retry@^3.0.2:
-    version "3.1.1"
-    resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.1.1.tgz#88d2971f671a9023b21d887c5dcac6c54f332cde"
-    dependencies:
-      is-retry-allowed "^1.1.0"
-  
   axios@^0.15.3:
     version "0.15.3"
     resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.3.tgz#2c9d638b2e191a08ea1d6cc988eadd6ba5bdc053"
     dependencies:
       follow-redirects "1.0.0"
-  
-  axios@^0.17.1:
-    version "0.17.1"
-    resolved "https://registry.yarnpkg.com/axios/-/axios-0.17.1.tgz#2d8e3e5d0bdbd7327f91bc814f5c57660f81824d"
-    dependencies:
-      follow-redirects "^1.2.5"
-      is-buffer "^1.1.5"
   
   babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     version "6.26.0"
@@ -1322,13 +1282,6 @@ Lockfile:
       ieee754 "^1.1.4"
       isarray "^1.0.0"
   
-  buffer@^5.1.0:
-    version "5.1.0"
-    resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.1.0.tgz#c913e43678c7cb7c8bd16afbcddb6c5505e8f9fe"
-    dependencies:
-      base64-js "^1.0.2"
-      ieee754 "^1.1.4"
-  
   builder-util-runtime@4.2.1:
     version "4.2.1"
     resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.2.1.tgz#0caa358f1331d70680010141ca591952b69b35bc"
@@ -1577,10 +1530,6 @@ Lockfile:
       escape-string-regexp "^1.0.5"
       supports-color "^4.0.0"
   
-  charenc@~0.0.1:
-    version "0.0.2"
-    resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
-  
   chokidar@^1.4.1, chokidar@^1.4.2, chokidar@^1.5.1:
     version "1.7.0"
     resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
@@ -1812,10 +1761,6 @@ Lockfile:
     version "0.0.3"
     resolved "https://registry.yarnpkg.com/component-inherit/-/component-inherit-0.0.3.tgz#645fc4adf58b72b649d5cae65135619db26ff143"
   
-  component-type@^1.2.1:
-    version "1.2.1"
-    resolved "https://registry.yarnpkg.com/component-type/-/component-type-1.2.1.tgz#8a47901700238e4fc32269771230226f24b415a9"
-  
   compressible@~2.0.14:
     version "2.0.14"
     resolved "https://registry.yarnpkg.com/compressible/-/compressible-2.0.14.tgz#326c5f507fbb055f54116782b969a81b67a29da7"
@@ -1899,6 +1844,13 @@ Lockfile:
   content-type@~1.0.4:
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
+  
+  contra@1.9.4:
+    version "1.9.4"
+    resolved "https://registry.yarnpkg.com/contra/-/contra-1.9.4.tgz#f53bde42d7e5b5985cae4d99a8d610526de8f28d"
+    dependencies:
+      atoa "1.0.0"
+      ticky "1.0.1"
   
   convert-source-map@^1.5.0:
     version "1.5.1"
@@ -2024,9 +1976,11 @@ Lockfile:
       shebang-command "^1.2.0"
       which "^1.2.9"
   
-  crypt@~0.0.1:
-    version "0.0.2"
-    resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  crossvent@1.5.4:
+    version "1.5.4"
+    resolved "https://registry.yarnpkg.com/crossvent/-/crossvent-1.5.4.tgz#da2c4f8f40c94782517bf2beec1044148194ab92"
+    dependencies:
+      custom-event "1.0.0"
   
   cryptiles@2.x.x:
     version "2.0.5"
@@ -2104,6 +2058,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
     dependencies:
       array-find-index "^1.0.1"
+  
+  custom-event@1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/custom-event/-/custom-event-1.0.0.tgz#2e4628be19dc4b214b5c02630c5971e811618062"
   
   custom-event@~1.0.0:
     version "1.0.1"
@@ -2422,6 +2380,13 @@ Lockfile:
     version "2.1.0-0"
     resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
   
+  dragula@^3.7.2:
+    version "3.7.2"
+    resolved "https://registry.yarnpkg.com/dragula/-/dragula-3.7.2.tgz#4a35c9d3981ffac1a949c29ca7285058e87393ce"
+    dependencies:
+      contra "1.9.4"
+      crossvent "1.5.4"
+  
   duplexer3@^0.1.4:
     version "0.1.4"
     resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -2586,10 +2551,6 @@ Lockfile:
       inherits "^2.0.1"
       minimalistic-assert "^1.0.0"
       minimalistic-crypto-utils "^1.0.0"
-  
-  emitter-component@^1.1.1:
-    version "1.1.1"
-    resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.1.tgz#065e2dbed6959bf470679edabeaf7981d1003ab6"
   
   emojis-list@^2.0.0:
     version "2.1.0"
@@ -2831,10 +2792,6 @@ Lockfile:
   events@^1.0.0:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
-  
-  events@^3.0.0:
-    version "3.0.0"
-    resolved "https://registry.yarnpkg.com/events/-/events-3.0.0.tgz#9a0a0dfaf62893d92b875b8f2698ca4114973e88"
   
   eventsource@0.1.6:
     version "0.1.6"
@@ -3129,7 +3086,7 @@ Lockfile:
     dependencies:
       debug "^2.2.0"
   
-  follow-redirects@^1.0.0, follow-redirects@^1.2.5:
+  follow-redirects@^1.0.0:
     version "1.5.1"
     resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.1.tgz#67a8f14f5a1f67f962c2c46469c79eaec0a90291"
     dependencies:
@@ -4038,7 +3995,7 @@ Lockfile:
     dependencies:
       binary-extensions "^1.0.0"
   
-  is-buffer@^1.1.5, is-buffer@~1.1.1:
+  is-buffer@^1.1.5:
     version "1.1.6"
     resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
   
@@ -4253,7 +4210,7 @@ Lockfile:
     dependencies:
       has "^1.0.1"
   
-  is-retry-allowed@^1.0.0, is-retry-allowed@^1.1.0:
+  is-retry-allowed@^1.0.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.1.0.tgz#11a060568b67339444033d0125a61a20d564fb34"
   
@@ -4450,10 +4407,6 @@ Lockfile:
       items "2.x.x"
       moment "2.x.x"
       topo "2.x.x"
-  
-  join-component@^1.1.0:
-    version "1.1.0"
-    resolved "https://registry.yarnpkg.com/join-component/-/join-component-1.1.0.tgz#b8417b750661a392bee2c2537c68b2a9d4977cd5"
   
   js-base64@^2.1.8:
     version "2.4.8"
@@ -4836,10 +4789,6 @@ Lockfile:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   
-  lodash.isstring@^4.0.1:
-    version "4.0.1"
-    resolved "https://registry.yarnpkg.com/lodash.isstring/-/lodash.isstring-4.0.1.tgz#d527dfb5456eca7cc9bb95d5daeaf88ba54a5451"
-  
   lodash.mergewith@^4.6.0:
     version "4.6.1"
     resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
@@ -5023,14 +4972,6 @@ Lockfile:
     dependencies:
       hash-base "^3.0.0"
       inherits "^2.0.1"
-  
-  md5@^2.2.1:
-    version "2.2.1"
-    resolved "https://registry.yarnpkg.com/md5/-/md5-2.2.1.tgz#53ab38d5fe3c8891ba465329ea23fac0540126f9"
-    dependencies:
-      charenc "~0.0.1"
-      crypt "~0.0.1"
-      is-buffer "~1.1.1"
   
   media-typer@0.3.0:
     version "0.3.0"
@@ -5252,10 +5193,6 @@ Lockfile:
     version "2.22.2"
     resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
   
-  mousetrap@^1.6.2:
-    version "1.6.2"
-    resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.2.tgz#caadd9cf886db0986fb2fee59a82f6bd37527587"
-  
   move-concurrently@^1.0.1, move-concurrently@~1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -5333,6 +5270,13 @@ Lockfile:
   next-tick@1:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
+  
+  ng2-dragula@^2.0.4:
+    version "2.0.4"
+    resolved "https://registry.yarnpkg.com/ng2-dragula/-/ng2-dragula-2.0.4.tgz#7bdb62f53ee8ed771196aa895b7ae6bd5899e22d"
+    dependencies:
+      "@types/dragula" "^2.1.33"
+      dragula "^3.7.2"
   
   nice-try@^1.0.4:
     version "1.0.4"
@@ -6552,10 +6496,6 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   
-  raven-js@^3.26.4:
-    version "3.26.4"
-    resolved "https://registry.yarnpkg.com/raven-js/-/raven-js-3.26.4.tgz#32aae3a63a9314467a453c94c89a364ea43707be"
-  
   raw-body@2.3.2:
     version "2.3.2"
     resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.3.2.tgz#bcd60c77d3eb93cde0050295c3f379389bc88f89"
@@ -6821,10 +6761,6 @@ Lockfile:
   remove-trailing-separator@^1.0.1:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/remove-trailing-separator/-/remove-trailing-separator-1.1.0.tgz#c24bce2a283adad5bc3f58e0d48249b92379d8ef"
-  
-  remove-trailing-slash@^0.1.0:
-    version "0.1.0"
-    resolved "https://registry.yarnpkg.com/remove-trailing-slash/-/remove-trailing-slash-0.1.0.tgz#1498e5df0984c27e49b76ebf06887ca2d01150d2"
   
   renderkid@^2.0.1:
     version "2.0.1"
@@ -7743,12 +7679,6 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
   
-  stream@0.0.2:
-    version "0.0.2"
-    resolved "https://registry.yarnpkg.com/stream/-/stream-0.0.2.tgz#7f5363f057f6592c5595f00bc80a27f5cec1f0ef"
-    dependencies:
-      emitter-component "^1.1.1"
-  
   streamroller@0.7.0:
     version "0.7.0"
     resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-0.7.0.tgz#a1d1b7cf83d39afb0d63049a5acbf93493bdf64b"
@@ -7990,6 +7920,10 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.0.2.tgz#a862e018e3fb1ea2ec3fce5d55605cf57f247371"
   
+  ticky@1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/ticky/-/ticky-1.0.1.tgz#b7cfa71e768f1c9000c497b9151b30947c50e46d"
+  
   timed-out@^4.0.0:
     version "4.0.1"
     resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
@@ -7999,10 +7933,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.10.tgz#1d28e3d2aadf1d5a5996c4e9f95601cd053480ae"
     dependencies:
       setimmediate "^1.0.4"
-  
-  timers@^0.1.1:
-    version "0.1.1"
-    resolved "https://registry.yarnpkg.com/timers/-/timers-0.1.1.tgz#86ac5c78c1ee419694f35a58de4fd4183cfb9c1e"
   
   timespan@2.3.x:
     version "2.3.0"
@@ -8300,10 +8230,6 @@ Lockfile:
       has-value "^0.3.1"
       isobject "^3.0.0"
   
-  untildify@^3.0.2:
-    version "3.0.3"
-    resolved "https://registry.yarnpkg.com/untildify/-/untildify-3.0.3.tgz#1e7b42b140bcfd922b22e70ca1265bfe3634c7c9"
-  
   unzip-response@^2.0.1:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/unzip-response/-/unzip-response-2.0.1.tgz#d2f0f737d16b0615e72a6935ed04214572d56f97"
@@ -8446,7 +8372,7 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   
-  uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0, uuid@^3.2.1:
+  uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
     version "3.3.2"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   
@@ -8734,10 +8660,6 @@ Lockfile:
     version "0.1.0"
     resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
   
-  winreg@1.2.4:
-    version "1.2.4"
-    resolved "https://registry.yarnpkg.com/winreg/-/winreg-1.2.4.tgz#ba065629b7a925130e15779108cf540990e98d1b"
-  
   with-callback@^1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/with-callback/-/with-callback-1.0.2.tgz#a09629b9a920028d721404fb435bdcff5c91bc21"
@@ -8990,24 +8912,21 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.26.tgz#7bdd72f7668c5a7ad6b118148b4ea39c59d08d2d"
 
 Trace: 
-  Error: /Users/ankur/Documents/stors/node_modules/electron: Command failed.
+  Error: /Users/ankur/Documents/est/node_modules/electron: Command failed.
   Exit code: 1
   Command: sh
   Arguments: -c node install.js
-  Directory: /Users/ankur/Documents/stors/node_modules/electron
+  Directory: /Users/ankur/Documents/est/node_modules/electron
   Output:
-  /Users/ankur/Documents/stors/node_modules/electron/install.js:47
+  /Users/ankur/Documents/est/node_modules/electron/install.js:47
     throw err
     ^
   
-  Error: EEXIST: file already exists, symlink 'Versions/Current/Electron Framework' -> '/Users/ankur/Documents/stors/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework'
+  Error: EEXIST: file already exists, symlink 'Versions/Current/Electron Framework' -> '/Users/ankur/Documents/est/node_modules/electron/dist/Electron.app/Contents/Frameworks/Electron Framework.framework/Electron Framework'
       at ProcessTermError.MessageError (/usr/local/lib/node_modules/yarn/lib/cli.js:186:110)
       at new ProcessTermError (/usr/local/lib/node_modules/yarn/lib/cli.js:226:113)
       at ChildProcess.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:30281:17)
       at emitTwo (events.js:126:13)
       at ChildProcess.emit (events.js:214:7)
       at maybeClose (internal/child_process.js:925:16)
-      at Socket.stream.socket.on (internal/child_process.js:346:11)
-      at emitOne (events.js:116:13)
-      at Socket.emit (events.js:211:7)
-      at Pipe._handle.close [as _onclose] (net.js:557:12)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

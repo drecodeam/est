@@ -204,7 +204,6 @@ $grey: #CDCDCD;
     }
     &.ticked {
         text-decoration: line-through;
-        opacity: 0.25;
         .active-icon {
             display: none;
         }
@@ -214,15 +213,13 @@ $grey: #CDCDCD;
         }
         .item-title {
             text-decoration: line-through;
+            opacity: 0.25;
         }
         .done-icon {
             display: none;
         }
         .item-progress-bar,
         .item-progress-bar-ghost {
-            display: none;
-        }
-        .item-toolbar {
             display: none;
         }
     }
