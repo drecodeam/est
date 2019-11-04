@@ -43,7 +43,7 @@
       [class.active]="item.id === currentTaskID"
       [class.complete] = "!!item.isComplete"
     >
-      <div class="item-title">{{ item.name }}</div>
+      <div class="item-title">{{ item.displayTime}} | {{ item.name }}</div>
       <div class="item-toolbar">
         <div class="toolbar-item" *ngIf="!item.isComplete" (click)="markItemComplete(item)">
           <i class="ion ion-ios-checkmark-circle"></i>
@@ -77,13 +77,13 @@
         </div>
       </div>
       <div class="item-time" *ngIf="!item.isComplete && !item.isTicked">
-        {{ item.displayTime }} left
+        <!-- {{ item.displayTime }} left -->
       </div>
-      <div
+      <!-- <div
         class="item-progress-bar-ghost"
         *ngIf="!item.isComplete"
         [style.width.%]="100 - item.progress + 2"
-      ></div>
+      ></div> -->
 
       <div
         class="item-progress-bar"

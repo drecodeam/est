@@ -16,8 +16,8 @@ $grey: #CDCDCD;
     position: relative;
     overflow: hidden;
     padding: 2rem;
-    background: $haiti;
-    background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
+    background: $mirage;
+    // background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
     .title {
         position: relative;
         overflow: hidden;
@@ -153,13 +153,12 @@ $grey: #CDCDCD;
         position: absolute;
         transition: 0.4s all ease-in-out;
         height: 2px;
-        bottom: 2rem;
+        bottom: 2px;
         margin-bottom: -2px;
         vertical-align: middle;
         background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));;
         width: 100%;
         display: none;
-        border-radius: 50%;
     }
     .item-progress-bar-ghost {
         position: absolute;
@@ -238,7 +237,7 @@ $grey: #CDCDCD;
         opacity: 1;
         background: white;
         border: 1px solid rgba( white, 0.01 );
-        padding-bottom: 3rem;
+        // padding-bottom: 3rem;
         background: black;
         .item-progress-bar {
             display: block;
