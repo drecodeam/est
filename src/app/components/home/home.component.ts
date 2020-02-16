@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     firstTaskNavigate = false;
     inputError = false;
     idleTimer = null;
-    interval = 100;
+    interval = 60000;
     settings = {
         idleTime : ( 1000 * 60 * 5)
     };
