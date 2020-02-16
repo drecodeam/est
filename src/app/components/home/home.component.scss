@@ -1,393 +1,412 @@
-@import url('https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:300,400,700');
+@import url("https://fonts.googleapis.com/css?family=Hammersmith+One|Open+Sans:300,400,700");
 @import "https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css";
-$font-title: 'Hammersmith One',
-sans-serif;
-$font-sans-serif: 'Open Sans',
-sans-serif;
-$selected: #D1375B;
-$mirage: #1A142F;
-$magenta: #9013FE;
-$maya-blye: #72BFF9;
-$pelorous: #32ADBD;
+$font-title: "Hammersmith One", sans-serif;
+$font-sans-serif: "Open Sans", sans-serif;
+$selected: #d1375b;
+$mirage: #1a142f;
+$magenta: #9013fe;
+$maya-blye: #72bff9;
+$pelorous: #32adbd;
 $haiti: #170139;
-$sand: #6F533B;
-$grey: #CDCDCD;
+$sand: #6f533b;
+$grey: #cdcdcd;
 .onboarding-container {
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+  background: $mirage;
+  // background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
+  .title {
     position: relative;
     overflow: hidden;
-    padding: 2rem;
-    background: $mirage;
-    // background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
-    .title {
-        position: relative;
-        overflow: hidden;
-        font-family: $font-sans-serif;
-        letter-spacing: 2px;
-        font-size: 0.875rem;
-        font-weight: 700;
-        color: $grey;
-    }
-    .description {
-        padding-top: 4px;
-        position: relative;
-        overflow: hidden;
-        font-family: $font-sans-serif;
-        color: $grey;
-        opacity: 1;
-        font-size: 14px;
-        line-height: 1.5;
-        font-weight: 300;
-    }
-    .eg {
-        padding-top: 8px;
-        position: relative;
-        overflow: hidden;
-        line-height: 1.5;
-        font-family: $font-sans-serif;
-        color: $grey;
-        opacity: 0.7;
-        font-size: 14px;
-        font-style: italic;
-    }
+    font-family: $font-sans-serif;
+    letter-spacing: 2px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: $grey;
+  }
+  .description {
+    padding-top: 4px;
+    position: relative;
+    overflow: hidden;
+    font-family: $font-sans-serif;
+    color: $grey;
+    opacity: 1;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+  .eg {
+    padding-top: 8px;
+    position: relative;
+    overflow: hidden;
+    line-height: 1.5;
+    font-family: $font-sans-serif;
+    color: $grey;
+    opacity: 0.7;
+    font-size: 14px;
+    font-style: italic;
+  }
 }
 
 .container {
-    position: relative;
-    overflow: hidden;
-    float: left;
-    width: 100%;
-    // padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  float: left;
+  width: 100%;
+  // padding: 1rem;
 }
 
 .total-time {
-    padding: 1rem;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    font-family: $font-sans-serif;
-    color: white;
-    font-size: 1.5rem;
-    .hrs,
-    .eta {
-        font-weight: 500;
-        display: inline-block;
-    }
-    .hrs,
-    .mins {
-        opacity: 0.7;
-        font-weight: 100;
-    }
+  padding: 1rem;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  font-family: $font-sans-serif;
+  color: white;
+  font-size: 1.5rem;
+  .hrs,
+  .eta {
+    font-weight: 500;
+    display: inline-block;
+  }
+  .hrs,
+  .mins {
+    opacity: 0.7;
+    font-weight: 100;
+  }
 }
 
 [contenteditable] {
-    color: #666;
-    caret-color: red;
+  color: #666;
+  caret-color: red;
 }
 
 .task-list {
-    position: relative;
-    overflow: hidden;
-    font-family: $font-sans-serif;
-    clear: both;
-    width: 100%;
-    max-height: 504px;
-    overflow-y: scroll;
+  position: relative;
+  overflow: hidden;
+  font-family: $font-sans-serif;
+  clear: both;
+  width: 100%;
+  max-height: 504px;
+  overflow-y: scroll;
 }
 
 .task-list-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: 0.4s all ease-in-out;
+  .item-toolbar {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    line-height: 3.5rem;
+    font-size: 0.875rem;
+    .toolbar-item {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      padding: 0 0.5rem;
+      transition: 0.4s all ease-in-out;
+      vertical-align: middle;
+      transform: scale(0);
+      color: white;
+      &:hover {
+        color: white;
+      }
+    }
+    &.isVisible {
+      .toolbar-item {
+        transform: scale(1.25);
+      }
+    }
+  }
+  .item-title {
+    display: block;
     position: relative;
+    width: 100%;
+    font-weight: 300;
+    color: white;
+    font-family: $font-sans-serif;
+    opacity: 0.8;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
     padding: 1rem;
-    border-radius: 4px;
+  }
+  .item-time {
+    overflow: hidden;
+    position: absolute;
+    bottom: 1.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    color: rgba(white, 0.5);
+    padding: 0 8px 0 0;
+    display: none;
+    background: black;
+    z-index: 10;
+  }
+  .item-progress-bar {
+    position: absolute;
     transition: 0.4s all ease-in-out;
-    .item-toolbar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        line-height: 3.5rem;
-        font-size: 0.875rem;
-        .toolbar-item {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            padding: 0 0.5rem;
-            transition: 0.4s all ease-in-out;
-            vertical-align: middle;
-            transform: scale(0);
-            color: white;
-            &:hover {
-                color: white;
-            }
-        }
-        &.isVisible {
-            .toolbar-item {
-                transform: scale(1.25);
-            }
-        }
+    height: 2px;
+    bottom: 2px;
+    margin-bottom: -2px;
+    vertical-align: middle;
+    background: linear-gradient(
+      270deg,
+      darken(#f97c24, 10%),
+      darken(#d9497d, 10%)
+    );
+    width: 100%;
+    width: 90%;
+    left: 1rem;
+    display: none;
+  }
+  .item-progress-bar-ghost {
+    position: absolute;
+    transition: 0.4s all ease-in-out;
+    height: 2px;
+    vertical-align: middle;
+    background: linear-gradient(
+      270deg,
+      darken(#f97c24, 10%),
+      darken(#d9497d, 10%)
+    );
+    width: 100%;
+    bottom: 2rem;
+    margin-bottom: -2px;
+    display: none;
+    border-radius: 50%;
+    animation: onboarding-progress-bar 2s ease-in-out infinite;
+  }
+  .item-add-time {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background: $sand;
+    background: white;
+    background: transparent;
+    background: linear-gradient(
+      270deg,
+      darken(#f97c24, 10%),
+      darken(#d9497d, 10%)
+    );
+    padding: 0 1rem;
+    .item-add-time-title {
+      font-size: 0.85rem;
+      display: inline-block;
+      padding: 0.5rem 1rem 0.5rem 0;
+      color: white;
+      font-weight: 700;
     }
-    .item-title {
-        display: block;
-        position: relative;
-        width: 100%;
-        font-weight: 300;
-        color: white;
-        font-family: $font-sans-serif;
-        opacity: 0.8;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
+    .toolbar-item {
+      font-size: 0.85rem;
+      padding: 0.5rem 0.5rem;
+      display: inline-block;
+      color: white;
+      transition: 0.4s all ease-in-out;
+      &:hover {
+        background: rgba(black, 0.25);
+      }
+    }
+  }
+  &.ticked {
+    text-decoration: line-through;
+    .active-icon {
+      display: none;
     }
     .item-time {
-        overflow: hidden;
-        position: absolute;
-        bottom: 1.25rem;
-        font-size: 0.875rem;
-        line-height: 1.5rem;
-        color:rgba( white, 0.5 );
-        padding: 0 8px 0 0;
-        display: none;
-        background: black;
-        z-index: 10;
+      text-decoration: line-through;
+      display: none;
     }
+    .item-title {
+      text-decoration: line-through;
+      opacity: 0.25;
+    }
+    .done-icon {
+      display: none;
+    }
+    .item-progress-bar,
+    .item-progress-bar-ghost {
+      display: none;
+    }
+  }
+  &:hover,
+  &.selected {
+    cursor: pointer;
+    background: black;
+    .done-icon {
+      opacity: 1;
+    }
+    .delete-icon {
+      opacity: 1;
+    }
+  }
+  &.active {
+    opacity: 1;
+    background: white;
+    border: 1px solid rgba(white, 0.01);
+    // padding-bottom: 3rem;
+    background: black;
     .item-progress-bar {
-        position: absolute;
-        transition: 0.4s all ease-in-out;
-        height: 2px;
-        bottom: 2px;
-        margin-bottom: -2px;
-        vertical-align: middle;
-        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));;
-        width: 100%;
-        display: none;
+      display: block;
     }
     .item-progress-bar-ghost {
-        position: absolute;
-        transition: 0.4s all ease-in-out;
-        height: 2px;
-        vertical-align: middle;
-        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));
-        width: 100%;
-        bottom: 2rem;
-        margin-bottom: -2px;
-        display: none;
-        border-radius: 50%;
-        animation: onboarding-progress-bar 2s ease-in-out infinite;
+      display: block;
     }
-    .item-add-time {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        background: $sand;
-        background: white;
-        background: transparent;
-        background: linear-gradient(270deg, darken( #F97C24, 10%), darken( #D9497D, 10%));;
-        padding: 0 1rem;
-        margin: 0.5rem 0;
-        .item-add-time-title {
-            font-size: 0.85rem;
-            display: inline-block;
-            padding: 0.5rem 1rem 0.5rem 0;
-            color: white;
-            font-weight: 700;
-        }
-        .toolbar-item {
-            font-size: 0.85rem;
-            padding: 0.5rem 0.5rem;
-            display: inline-block;
-            color: white;
-            transition: 0.4s all ease-in-out;
-            &:hover {
-                background: rgba( black, 0.25 );
-            }
-        }
+    .item-separator {
+      animation: animate-progress 2s linear infinite;
     }
-    &.ticked {
-        text-decoration: line-through;
-        .active-icon {
-            display: none;
-        }
-        .item-time {
-            text-decoration: line-through;
-            display: none;
-        }
-        .item-title {
-            text-decoration: line-through;
-            opacity: 0.25;
-        }
-        .done-icon {
-            display: none;
-        }
-        .item-progress-bar,
-        .item-progress-bar-ghost {
-            display: none;
-        }
+    .item-time {
+      display: block;
     }
-    &:hover,
-    &.selected {
-        cursor: pointer;
-        background: black;
-        .done-icon {
-            opacity: 1;
-        }
-        .delete-icon {
-            opacity: 1;
-        }
+    .item-title {
+      // color:black;
+      opacity: 1;
+      font-weight: 500;
     }
-    &.active {
-        opacity: 1;
-        background: white;
-        border: 1px solid rgba( white, 0.01 );
-        // padding-bottom: 3rem;
-        background: black;
-        .item-progress-bar {
-            display: block;
-        }
-        .item-progress-bar-ghost {
-            display: block;
-        }
-        .item-separator {
-            animation: animate-progress 2s linear infinite;
-        }
-        .item-time {
-            display: block;
-        }
-        .item-title {
-            // color:black;
-            opacity: 1;
-            font-weight: 500;
-        }
-        .item-progress-bar-container {
-            display: block;
-        }
+    .item-progress-bar-container {
+      display: block;
     }
-    &.gu-mirror {
-        background: rgba( $mirage, 0.9);
+  }
+  &.gu-mirror {
+    background: rgba($mirage, 0.9);
+  }
+  &:hover {
+    .item-toolbar {
+      .toolbar-item {
+        transform: scale(1.25);
+      }
     }
-    &:hover {
-        .item-toolbar {
-            .toolbar-item {
-                transform: scale(1.25);
-            }
-        }
-        .item-title {
-            transition: 0.4s all ease-in-out;
-            padding-right: 2rem;
-        }
+    .item-title {
+      transition: 0.4s all ease-in-out;
+      padding-right: 2rem;
     }
-    &.complete {
-      padding-bottom: 1rem;  
+  }
+  &.complete {
+    //   padding-bottom: 1rem;
+    .item-toolbar {
+        .toolbar-item { 
+            transform: scale(1.2);
+        }    
     }
+    .done-icon {
+      opacity: 1;
+    }
+    .delete-icon {
+      opacity: 1;
+    }
+  }
 }
 
 .add-task-container {
-    .settings-icon {
-        position: absolute;
-        right: 1rem;
-        line-height: 4rem;
-        color: white;
-        top: 0;
-        &:hover {
-            color: yellow;
-        }
+  .settings-icon {
+    position: absolute;
+    right: 1rem;
+    line-height: 4rem;
+    color: white;
+    top: 0;
+    &:hover {
+      color: yellow;
     }
-    .add-task {
-        background: transparent;
-        padding: 1rem;
-        outline: none;
-        box-shadow: none;
-        border: none;
-        font-size: 1rem;
-        color:black;
+  }
+  .add-task {
+    background: transparent;
+    padding: 1rem;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.4s all ease-in-out;
+    -webkit-app-region: drag;
+    &::placeholder {
+      color: white;
+      font-family: $font-sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      opacity: 0.5;
+    }
+    &:focus {
+      background: white;
+      &::placeholder {
+        color: transparent;
+      }
+    }
+    &:hover {
+      &::placeholder {
+        opacity: 1;
         font-weight: 500;
-        width: 100%;
-        cursor: pointer;
-        transition: 0.4s all ease-in-out;
-        -webkit-app-region: drag;
-        &::placeholder {
-            color: white;
-            font-family: $font-sans-serif;
-            font-size: 1rem;
-            font-weight: 400;
-            opacity: 0.5;
-        }
-        &:focus {
-            background:white;
-            &::placeholder {
-                color: transparent;
-            }
-        }
-        &:hover {
-            &::placeholder {
-                opacity: 1;
-                font-weight: 500;
-            }
-        }
-        &.showOnboarding {
-            animation: typing 3.5s steps(40, end) infinite;
-            &:hover {
-                animation: none;
-            }
-            &:focus {
-                animation: none;
-            }
-        }
+      }
     }
+    &.showOnboarding {
+      animation: typing 3.5s steps(40, end) infinite;
+      &:hover {
+        animation: none;
+      }
+      &:focus {
+        animation: none;
+      }
+    }
+  }
 }
 
-
-
 .input-error {
-    background: $selected;
-    position: relative;
-    overflow: hidden;
-    padding: 1.5rem 2rem;
-    .error-main {
-        color: white;
-        font-family: $font-sans-serif;
-        font-size: 14px;
-    }
-    .error-sub {
-        color: white;
-        font-family: $font-sans-serif;
-        font-size: 14px;
-        padding-top: 4px;
-        opacity: 0.5;
-        font-style: italic;
-    }
+  background: $selected;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  .error-main {
+    color: white;
+    font-family: $font-sans-serif;
+    font-size: 14px;
+  }
+  .error-sub {
+    color: white;
+    font-family: $font-sans-serif;
+    font-size: 14px;
+    padding-top: 4px;
+    opacity: 0.5;
+    font-style: italic;
+  }
 }
 
 @keyframes onboarding-progress-bar {
-    0% {
-        opacity: 1
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* The typing effect */
 
 @keyframes typing {
-    from {
-        width: 0
-    }
-    to {
-        width: 100%
-    }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
-
 
 /* The typewriter cursor effect */
 
 @keyframes blink-caret {
-    from,
-    to {
-        border-color: transparent
-    }
-    50% {
-        border-color: orange;
-    }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: orange;
+  }
 }

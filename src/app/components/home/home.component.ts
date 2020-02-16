@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     firstTaskNavigate = false;
     inputError = false;
     idleTimer = null;
+    interval = 100;
     settings = {
         idleTime : ( 1000 * 60 * 5)
     };
@@ -303,7 +304,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             task.isActive = true;
             this.currentTaskStartTime = new Date();
             task.startTime = this.currentTaskStartTime;
-            this.currentInterval = setInterval(() => this.updateTaskUI(task, true), 60000);
+            this.currentInterval = setInterval(() => this.updateTaskUI(task, true), this.interval);
             // this.currentInterval = setInterval(() => this.updateTaskUI(task, true), 1000);
         }
     }

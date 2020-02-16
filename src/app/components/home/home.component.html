@@ -45,7 +45,7 @@
     >
       <div class="item-title">{{ item.displayTime}} | {{ item.name }}</div>
       <div class="item-toolbar">
-        <div class="toolbar-item" *ngIf="!item.isComplete" (click)="markItemComplete(item)">
+        <div class="toolbar-item"  (click)="markItemComplete(item)">
           <i class="ion ion-ios-checkmark-circle"></i>
         </div>
         <div class="toolbar-item" (click)="deleteItem(item)">
@@ -88,7 +88,7 @@
       <div
         class="item-progress-bar"
         *ngIf="!item.isComplete"
-        [style.width.%]="100 - item.progress"
+        [style.width.%]="90 - item.progress"
       ></div>
     </div>
   </div>
