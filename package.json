@@ -34,7 +34,7 @@
     },
     "dependencies": {
         "ng2-dragula": "^2.0.4",
-        "node-sass": "^4.13.0"
+        "node-sass": "^4.13.1"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "0.6.3",
