@@ -1,6 +1,6 @@
 ### Stors 
 
-*Work In progress*
+*NO LONGER MAINTAINED*
 
 A simple app to plan your day while giving time to each task. Don't take up too much on your plate and know when you are gonna be free. 
 
